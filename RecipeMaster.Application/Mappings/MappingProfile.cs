@@ -1,5 +1,5 @@
 ﻿namespace RecipeMaster.Application.Mappings;
 
-internal class MappingProfile
+public class MappingProfile
 {
 }
