@@ -1,5 +1,8 @@
-﻿namespace RecipeMaster.Application.Commands.Recipes;
+﻿using MediatR;
 
-internal class DeleteRecipeCommand
+namespace RecipeMaster.Application.Commands.Recipes;
+
+public class DeleteRecipeCommand : IRequest<Unit>
 {
+    public Guid Id { get; set; }
 }

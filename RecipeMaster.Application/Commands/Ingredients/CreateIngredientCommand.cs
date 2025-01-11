@@ -1,5 +1,10 @@
-﻿namespace RecipeMaster.Application.Commands.Ingredients;
+﻿using MediatR;
 
-internal class CreateIngredientCommand
+namespace RecipeMaster.Application.Commands.Ingredients;
+
+public class CreateIngredientCommand : IRequest<Guid>
 {
+    public string Name { get; set; }
+    public string Unit { get; set; }
+    public decimal Cost { get; set; }
 }
