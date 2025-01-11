@@ -1,5 +1,9 @@
 ﻿namespace RecipeMaster.Application.DTOs;
 
-internal class RecipeDTO
+public class RecipeDTO
 {
+    public Guid Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public List<RecipeIngredientDTO> Ingredients { get; set; }
 }

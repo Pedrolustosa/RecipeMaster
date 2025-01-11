@@ -1,5 +1,8 @@
-﻿namespace RecipeMaster.Application.Queries.Ingredients;
+﻿using MediatR;
+using RecipeMaster.Application.DTOs;
 
-internal class GetAllIngredientsQuery
+namespace RecipeMaster.Application.Queries.Ingredients;
+
+public class GetAllIngredientsQuery : IRequest<IEnumerable<IngredientDTO>>
 {
 }

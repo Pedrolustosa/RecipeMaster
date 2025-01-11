@@ -1,5 +1,9 @@
-﻿namespace RecipeMaster.Application.Queries.Ingredients;
+﻿using MediatR;
+using RecipeMaster.Application.DTOs;
 
-internal class GetIngredientByIdQuery
+namespace RecipeMaster.Application.Queries.Ingredients;
+
+public class GetIngredientByIdQuery : IRequest<IngredientDTO>
 {
+    public Guid Id { get; set; }
 }
