@@ -4,6 +4,8 @@ public class IngredientCost
 {
     public decimal Value { get; private set; }
 
+    public IngredientCost() { }
+
     public IngredientCost(decimal value)
     {
         if (value < 0) throw new ArgumentException("Cost cannot be negative", nameof(value));

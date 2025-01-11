@@ -2,16 +2,22 @@
 
 namespace RecipeMaster.Core.Entities;
 
-public class Ingredient(string name, MeasurementUnit unit, IngredientCost cost)
+public class Ingredient
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
-    public string Name { get; private set; } = name;
-    public MeasurementUnit Unit { get; private set; } = unit;
-    public IngredientCost Cost { get; private set; } = cost;
+    public Guid Id { get; private set; }
+    public string Name { get; private set; }
+    public MeasurementUnit Unit { get; private set; }
+    public IngredientCost Cost { get; private set; }
 
-    public void UpdateCost(IngredientCost newCost)
+    public Ingredient() { }
+
+    public Ingredient(string name, MeasurementUnit unit, IngredientCost cost)
     {
-        if (newCost == null) throw new ArgumentNullException(nameof(newCost));
-        Cost = newCost;
+        Id = Guid.NewGuid();
+        Name = name;
+        Unit = unit;
+        Cost = cost;
     }
+
+    public void UpdateCost(IngredientCost newCost) => Cost = newCost ?? throw new ArgumentNullException(nameof(newCost));
 }

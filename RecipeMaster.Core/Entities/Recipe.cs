@@ -7,6 +7,8 @@ public class Recipe
     public string Description { get; private set; }
     public IReadOnlyCollection<RecipeIngredient> Ingredients { get; private set; }
 
+    public Recipe() { }
+
     public Recipe(string name, string description)
     {
         Id = Guid.NewGuid();
