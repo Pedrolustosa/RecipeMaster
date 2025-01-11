@@ -8,7 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.11" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RecipeMaster.Application\RecipeMaster.Application.csproj" />
+    <ProjectReference Include="..\RecipeMaster.Core\RecipeMaster.Core.csproj" />
+    <ProjectReference Include="..\RecipeMaster.Infra.IoC\RecipeMaster.Infra.IoC.csproj" />
   </ItemGroup>
 
 </Project>
