@@ -5,6 +5,14 @@ VisualStudioVersion = 17.8.34309.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMaster.API", "RecipeMaster.API\RecipeMaster.API.csproj", "{441AC5E9-CE5F-4741-A675-E31563DF4E17}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMaster.Application", "RecipeMaster.Application\RecipeMaster.Application.csproj", "{412378A5-A270-4A9C-886E-D6479F203C72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMaster.Core", "RecipeMaster.Core\RecipeMaster.Core.csproj", "{FBAB78CE-1CA0-4D0D-B86F-4A5FFC7D1DB1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMaster.Infra", "RecipeMaster.Infra\RecipeMaster.Infra.csproj", "{FA618986-4D1B-49FB-8626-9F934F71FE27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RecipeMaster.Infra.IoC", "RecipeMaster.Infra.IoC\RecipeMaster.Infra.IoC.csproj", "{B4F310D7-EDC2-43A4-AA1A-234077103CC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +23,22 @@ Global
 		{441AC5E9-CE5F-4741-A675-E31563DF4E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{441AC5E9-CE5F-4741-A675-E31563DF4E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{441AC5E9-CE5F-4741-A675-E31563DF4E17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{412378A5-A270-4A9C-886E-D6479F203C72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{412378A5-A270-4A9C-886E-D6479F203C72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{412378A5-A270-4A9C-886E-D6479F203C72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{412378A5-A270-4A9C-886E-D6479F203C72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBAB78CE-1CA0-4D0D-B86F-4A5FFC7D1DB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBAB78CE-1CA0-4D0D-B86F-4A5FFC7D1DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBAB78CE-1CA0-4D0D-B86F-4A5FFC7D1DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBAB78CE-1CA0-4D0D-B86F-4A5FFC7D1DB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA618986-4D1B-49FB-8626-9F934F71FE27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA618986-4D1B-49FB-8626-9F934F71FE27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA618986-4D1B-49FB-8626-9F934F71FE27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA618986-4D1B-49FB-8626-9F934F71FE27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4F310D7-EDC2-43A4-AA1A-234077103CC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4F310D7-EDC2-43A4-AA1A-234077103CC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4F310D7-EDC2-43A4-AA1A-234077103CC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4F310D7-EDC2-43A4-AA1A-234077103CC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
