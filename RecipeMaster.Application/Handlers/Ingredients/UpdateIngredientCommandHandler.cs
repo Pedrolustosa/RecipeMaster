@@ -1,18 +1,21 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using RecipeMaster.Application.Commands.Ingredients;
+using RecipeMaster.Application.DTOs;
 using RecipeMaster.Core.Entities;
 using RecipeMaster.Core.Interfaces.Repositories;
-using RecipeMaster.Core.ValueObjects;
 
 namespace RecipeMaster.Application.Handlers.Ingredients;
 
 public class UpdateIngredientCommandHandler : IRequestHandler<UpdateIngredientCommand, Unit>
 {
     private readonly IIngredientRepository _repository;
+    private readonly IMapper _mapper;
 
-    public UpdateIngredientCommandHandler(IIngredientRepository repository)
+    public UpdateIngredientCommandHandler(IIngredientRepository repository, IMapper mapper)
     {
         _repository = repository;
+        _mapper = mapper;
     }
 
     public async Task<Unit> Handle(UpdateIngredientCommand request, CancellationToken cancellationToken)
@@ -24,7 +27,10 @@ public class UpdateIngredientCommandHandler : IRequestHandler<UpdateIngredientCo
             throw new KeyNotFoundException("Ingredient not found");
         }
 
-        ingredient = new Ingredient(request.Name, Enum.Parse<MeasurementUnit>(request.Unit), new IngredientCost(request.Cost));
+        // Mapeia as mudanças do comando para a entidade existente
+        _mapper.Map(request, ingredient);
+
+        // Atualiza no repositório
         await _repository.UpdateAsync(ingredient);
 
         return Unit.Value;

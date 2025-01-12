@@ -13,7 +13,7 @@ public class RecipeRepository(RecipeMasterDbContext context) : IRecipeRepository
     {
         return await _context.Recipes
             .Include(r => r.Ingredients)
-            .ThenInclude(ri => ri.IngredientId)
+                .ThenInclude(ri => ri.Ingredient)
             .FirstOrDefaultAsync(r => r.Id == id);
     }
 

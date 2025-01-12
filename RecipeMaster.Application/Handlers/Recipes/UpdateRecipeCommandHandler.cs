@@ -1,37 +1,27 @@
 ﻿using MediatR;
+using AutoMapper;
 using RecipeMaster.Application.Commands.Recipes;
-using RecipeMaster.Core.Entities;
 using RecipeMaster.Core.Interfaces.Repositories;
 
-namespace RecipeMaster.Application.Handlers.Recipes;
-
-public class UpdateRecipeCommandHandler : IRequestHandler<UpdateRecipeCommand, Unit>
+namespace RecipeMaster.Application.Handlers.Recipes
 {
-    private readonly IRecipeRepository _repository;
-
-    public UpdateRecipeCommandHandler(IRecipeRepository repository)
+    public class UpdateRecipeCommandHandler : IRequestHandler<UpdateRecipeCommand, Unit>
     {
-        _repository = repository;
-    }
+        private readonly IRecipeRepository _repository;
+        private readonly IMapper _mapper;
 
-    public async Task<Unit> Handle(UpdateRecipeCommand request, CancellationToken cancellationToken)
-    {
-        var recipe = await _repository.GetByIdAsync(request.Id);
-
-        if (recipe == null)
+        public UpdateRecipeCommandHandler(IRecipeRepository repository, IMapper mapper)
         {
-            throw new KeyNotFoundException("Recipe not found");
+            _repository = repository;
+            _mapper = mapper;
         }
 
-        recipe = new Recipe(request.Name, request.Description);
-
-        foreach (var ingredient in request.Ingredients)
+        public async Task<Unit> Handle(UpdateRecipeCommand request, CancellationToken cancellationToken)
         {
-            recipe.AddIngredient(new RecipeIngredient(recipe.Id, ingredient.IngredientId, ingredient.Quantity));
+            var recipe = await _repository.GetByIdAsync(request.Id) ?? throw new KeyNotFoundException("Recipe not found");
+            _mapper.Map(request, recipe);
+            await _repository.UpdateAsync(recipe);
+            return Unit.Value;
         }
-
-        await _repository.UpdateAsync(recipe);
-
-        return Unit.Value;
     }
 }
