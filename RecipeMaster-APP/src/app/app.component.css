@@ -1,0 +1,46 @@
+/* Navbar fixo no topo */
+app-navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1050;
+  height: 56px; /* Altura padrão do Navbar */
+}
+
+/* Ajusta o espaço abaixo do Navbar */
+.container-fluid {
+  margin-top: 56px; /* Altura do Navbar */
+}
+
+/* Sidebar */
+.sidebar {
+  min-height: calc(100vh - 56px); /* Altura total menos o Navbar */
+  background-color: #f8f9fa;
+  padding: 0;
+  transition: width 0.3s;
+  overflow: hidden;
+}
+
+/* Sidebar expandida */
+.sidebar:not(.collapsed) {
+  width: 200px;
+}
+
+/* Sidebar retraída */
+.sidebar.collapsed {
+  width: 60px;
+}
+
+/* Conteúdo principal */
+.content {
+  transition: margin-left 0.3s, width 0.3s;
+}
+
+/* Ajusta o espaço do conteúdo para acompanhar o estado da Sidebar */
+.content:not(.collapsed) {
+  margin-left: 200px;
+}
+
+.content.collapsed {
+  margin-left: 60px;
+}
