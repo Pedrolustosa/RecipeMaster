@@ -1,13 +1,20 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [NavbarComponent, SidebarComponent, RouterModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'RecipeMaster-APP';
+  isSidebarCollapsed = false; // Estado inicial da Sidebar
+  username = 'John Doe'; // Simulação do nome do usuário logado
+
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed; // Alterna entre colapsado/expandido
+  }
 }

@@ -1,0 +1,22 @@
+<div class="sidebar d-flex flex-column" [class.collapsed]="isCollapsed">
+  <ul class="nav flex-column">
+    <li class="nav-item" routerLinkActive="active">
+      <a class="nav-link" routerLink="/dashboard">
+        <i class="fas fa-home"></i>
+        <span *ngIf="!isCollapsed">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item" routerLinkActive="active">
+      <a class="nav-link" routerLink="/recipes">
+        <i class="fas fa-utensils"></i>
+        <span *ngIf="!isCollapsed">Receitas</span>
+      </a>
+    </li>
+    <li class="nav-item" routerLinkActive="active">
+      <a class="nav-link" routerLink="/profile">
+        <i class="fas fa-user"></i>
+        <span *ngIf="!isCollapsed">Perfil</span>
+      </a>
+    </li>
+  </ul>
+</div>
