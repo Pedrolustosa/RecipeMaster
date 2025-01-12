@@ -1,17 +1,19 @@
-﻿using RecipeMaster.API.Models;
+﻿using System.Text;
+using System.Security.Claims;
+using RecipeMaster.API.Models;
 using Microsoft.AspNetCore.Mvc;
+using RecipeMaster.Infra.IoC.JWT;
+using RecipeMaster.API.Exceptions;
 using RecipeMaster.Infra.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using RecipeMaster.Infra.IoC.JWT;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace RecipeMaster.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+
 public class AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, JwtSettings jwtSettings) : ControllerBase
 {
     private readonly JwtSettings _jwtSettings = jwtSettings;
@@ -21,47 +23,62 @@ public class AuthController(UserManager<ApplicationUser> userManager, SignInMana
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest model)
     {
-        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-        var result = await _userManager.CreateAsync(user, model.Password);
-
-        if (!result.Succeeded)
+        try
         {
-            return BadRequest(result.Errors);
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                throw new ValidationException(result.Errors.ToDictionary(
+                    e => e.Code,
+                    e => new[] { e.Description }));
+            }
+            return Ok("User registered successfully");
         }
-
-        return Ok("User registered successfully");
+        catch (ValidationException ex)
+        {
+            return UnprocessableEntity(new { error = ex.Message, details = ex.Errors });
+        }
+        catch (Exception ex)
+        {
+            throw new InternalServerException("An error occurred while registering the user.", ex.Message);
+        }
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest model)
     {
-        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
-
-        if (!result.Succeeded)
+        try
         {
-            return Unauthorized("Invalid credentials");
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, lockoutOnFailure: false);
+            if (!result.Succeeded) throw new UnauthorizedException("Invalid credentials");
+            var user = await _userManager.FindByEmailAsync(model.Email) ?? throw new NotFoundException("User", model.Email);
+            var token = GenerateJwtToken(user);
+            return Ok(new TokenResponse { Token = token });
         }
-
-        var user = await _userManager.FindByEmailAsync(model.Email);
-        if (user == null)
+        catch (UnauthorizedException ex)
         {
-            return Unauthorized("User not found");
+            return Unauthorized(new { error = ex.Message });
         }
-
-        var token = GenerateJwtToken(user);
-        return Ok(new TokenResponse { Token = token });
+        catch (NotFoundException ex)
+        {
+            return NotFound(new { error = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            throw new InternalServerException("An error occurred while logging in.", ex.Message);
+        }
     }
 
     private string GenerateJwtToken(ApplicationUser user)
     {
         var claims = new[]
         {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
             new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var token = new JwtSecurityToken(
@@ -70,7 +87,6 @@ public class AuthController(UserManager<ApplicationUser> userManager, SignInMana
             claims: claims,
             expires: DateTime.Now.AddMinutes(_jwtSettings.ExpirationInMinutes),
             signingCredentials: creds);
-
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

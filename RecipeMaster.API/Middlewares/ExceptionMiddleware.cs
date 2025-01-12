@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Net;
+﻿using System.Text.Json;
+using RecipeMaster.API.Exceptions;
 
 namespace RecipeMaster.API.Middlewares;
 
-public class ExceptionMiddleware
+public class ExceptionMiddleware(RequestDelegate next)
 {
-    private readonly RequestDelegate _next;
-
-    public ExceptionMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
+    private readonly RequestDelegate _next = next;
 
     public async Task InvokeAsync(HttpContext context)
     {
@@ -18,10 +13,32 @@ public class ExceptionMiddleware
         {
             await _next(context);
         }
+        catch (BaseException ex)
+        {
+            await HandleExceptionAsync(context, ex);
+        }
         catch (Exception ex)
         {
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-            await context.Response.WriteAsJsonAsync(new { Error = ex.Message });
+            await HandleExceptionAsync(context, ex);
         }
+    }
+
+    private static Task HandleExceptionAsync(HttpContext context, Exception exception)
+    {
+        context.Response.ContentType = "application/json";
+        context.Response.StatusCode = exception is BaseException baseEx
+            ? (int)baseEx.StatusCode
+            : StatusCodes.Status500InternalServerError;
+
+        var response = new
+        {
+            error = exception.Message,
+            statusCode = context.Response.StatusCode,
+            details = exception is ValidationException validationEx
+                ? validationEx.Errors
+                : null
+        };
+
+        return context.Response.WriteAsync(JsonSerializer.Serialize(response));
     }
 }
