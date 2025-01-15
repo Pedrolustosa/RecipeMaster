@@ -1,0 +1,112 @@
+<div class="container-fluid">
+  <!-- Header Section -->
+  <div class="row mb-4">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="display-6 mb-0">Add New Ingredient</h1>
+          <p class="text-muted mt-2">Create a new ingredient for your recipes</p>
+        </div>
+        <div>
+          <button class="btn btn-outline-secondary shadow-sm-hover" routerLink="/ingredients">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back to List
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Section -->
+  <div class="row">
+    <div class="col-12 col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
+            <div class="mb-4">
+              <label for="name" class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                placeholder="Enter ingredient name"
+                [ngClass]="{'is-invalid': submitted && f['name'].errors}"
+              >
+              <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                <div *ngIf="f['name'].errors['required']">Name is required</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="unit" class="form-label">Unit</label>
+              <select
+                class="form-select"
+                id="unit"
+                formControlName="unit"
+                [ngClass]="{'is-invalid': submitted && f['unit'].errors}"
+              >
+                <option value="">Select a unit</option>
+                <option value="kg">Kilogram (kg)</option>
+                <option value="g">Gram (g)</option>
+                <option value="l">Liter (l)</option>
+                <option value="ml">Milliliter (ml)</option>
+                <option value="unit">Unit (un)</option>
+              </select>
+              <div *ngIf="submitted && f['unit'].errors" class="invalid-feedback">
+                <div *ngIf="f['unit'].errors['required']">Unit is required</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="cost" class="form-label">Cost (R$)</label>
+              <div class="input-group">
+                <span class="input-group-text">R$</span>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="cost"
+                  formControlName="cost"
+                  placeholder="0.00"
+                  step="0.01"
+                  [ngClass]="{'is-invalid': submitted && f['cost'].errors}"
+                >
+                <div *ngIf="submitted && f['cost'].errors" class="invalid-feedback">
+                  <div *ngIf="f['cost'].errors['required']">Cost is required</div>
+                  <div *ngIf="f['cost'].errors['min']">Cost must be greater than 0</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary shadow-sm-hover">
+                <i class="fas fa-save me-2"></i>
+                Save Ingredient
+              </button>
+              <button type="button" class="btn btn-outline-secondary" routerLink="/ingredients">
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-4">Tips</h5>
+          <div class="alert alert-info mb-0">
+            <i class="fas fa-info-circle me-2"></i>
+            <span>Make sure to:</span>
+            <ul class="mb-0 mt-2">
+              <li>Use clear, descriptive names</li>
+              <li>Select the appropriate unit of measurement</li>
+              <li>Enter the cost per unit</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
