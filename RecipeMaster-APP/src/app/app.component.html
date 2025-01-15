@@ -1,14 +1,1 @@
-<app-navbar [username]="username" (toggleSidebar)="toggleSidebar()"></app-navbar>
-<div class="container-fluid">
-  <div class="row">
-    <!-- Sidebar -->
-    <div class="col-auto sidebar" [class.collapsed]="isSidebarCollapsed">
-      <app-sidebar [isCollapsed]="isSidebarCollapsed"></app-sidebar>
-    </div>
-
-    <!-- Conteúdo principal -->
-    <div class="col content" [class.collapsed]="isSidebarCollapsed">
-      <router-outlet></router-outlet>
-    </div>
-  </div>
-</div>
+<router-outlet></router-outlet>
