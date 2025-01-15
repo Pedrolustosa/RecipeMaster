@@ -6,6 +6,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Ingredient } from '../../../models/ingredient.model';
 import { IngredientService } from '../../../services/ingredient.service';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-ingredient-list',
@@ -22,6 +23,8 @@ export class IngredientListComponent implements OnInit {
   currentPage = 1;
   pageSize = 10;
   loading = false;
+  private deleteModal: any;
+  private ingredientToDelete: string | null = null;
 
   constructor(
     private ingredientService: IngredientService,
@@ -30,6 +33,7 @@ export class IngredientListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadIngredients();
+    this.deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmationModal'));
   }
 
   private loadIngredients(): void {
@@ -48,20 +52,27 @@ export class IngredientListComponent implements OnInit {
   }
 
   deleteIngredient(id: string): void {
-    if (confirm('Are you sure you want to delete this ingredient?')) {
-      this.loading = true;
-      this.ingredientService.delete(id).subscribe({
-        next: () => {
-          this.toastr.success('Ingredient deleted successfully', 'Success');
-          this.loading = false;
-        },
-        error: (error: Error) => {
-          this.toastr.error('Failed to delete ingredient', 'Error');
-          console.error('Error deleting ingredient:', error);
-          this.loading = false;
-        }
-      });
-    }
+    this.ingredientToDelete = id;
+    this.deleteModal.show();
+  }
+
+  confirmDelete(): void {
+    if (!this.ingredientToDelete) return;
+
+    this.loading = true;
+    this.ingredientService.delete(this.ingredientToDelete).subscribe({
+      next: () => {
+        this.toastr.success('Ingredient deleted successfully', 'Success');
+        this.loadIngredients();
+        this.deleteModal.hide();
+        this.ingredientToDelete = null;
+      },
+      error: (error: Error) => {
+        this.toastr.error('Failed to delete ingredient', 'Error');
+        console.error('Error deleting ingredient:', error);
+        this.loading = false;
+      }
+    });
   }
 
   sortIngredients(column: keyof Ingredient): void {
