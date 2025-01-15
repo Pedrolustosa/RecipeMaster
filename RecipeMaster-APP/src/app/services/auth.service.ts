@@ -33,8 +33,10 @@ export class AuthService {
       );
   }
 
-  register(userData: RegisterRequest): Observable<any> {
-    return this.http.post(`${this.API_URL}/register`, userData);
+  register(userData: RegisterRequest): Observable<string> {
+    return this.http.post(`${this.API_URL}/register`, userData, {
+      responseType: 'text'
+    });
   }
 
   logout(): void {
