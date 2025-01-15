@@ -1,0 +1,54 @@
+<div class="dashboard-container">
+  <app-sidebar 
+    [isExpanded]="isSidebarExpanded"
+    (toggleSidebar)="onSidebarToggle($event)">
+  </app-sidebar>
+
+  <!-- Main Content -->
+  <main class="main-content" [class.expanded]="!isSidebarExpanded">
+    <header class="content-header">
+      <h1>Welcome to RecipeMaster</h1>
+      <div class="header-actions">
+        <button class="btn-primary">
+          <i class="fas fa-plus"></i>
+          New Recipe
+        </button>
+      </div>
+    </header>
+
+    <div class="dashboard-stats">
+      <div class="stat-card">
+        <i class="fas fa-book"></i>
+        <div class="stat-info">
+          <h3>Total Recipes</h3>
+          <p>0</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-heart"></i>
+        <div class="stat-info">
+          <h3>Favorites</h3>
+          <p>0</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-clock"></i>
+        <div class="stat-info">
+          <h3>Recent</h3>
+          <p>0</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="recent-recipes">
+      <h2>Recent Recipes</h2>
+      <div class="recipes-grid">
+        <div class="empty-state">
+          <i class="fas fa-book-open"></i>
+          <p>No recipes yet. Start by adding your first recipe!</p>
+          <button class="btn-primary">Add Recipe</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
