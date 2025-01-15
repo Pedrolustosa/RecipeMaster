@@ -51,14 +51,17 @@
           </small>
         </div>
 
-        <button
-          type="submit"
-          class="btn btn-primary"
-          [disabled]="loginForm.invalid || isLoading"
-        >
-          <span *ngIf="!isLoading">Entrar</span>
-          <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid || isLoading">
+          {{ isLoading ? 'Entrando...' : 'Entrar' }}
         </button>
+
+        <div class="text-center mt-3">
+          <p>Não tem uma conta? 
+            <button type="button" class="btn btn-link p-0" (click)="navigateToRegister()">
+              Cadastre-se aqui
+            </button>
+          </p>
+        </div>
       </form>
     </div>
   </div>
