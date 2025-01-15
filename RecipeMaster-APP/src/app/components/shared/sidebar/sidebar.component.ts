@@ -20,8 +20,14 @@ export class SidebarComponent {
     { 
       icon: 'fas fa-th-large', 
       label: 'Dashboard', 
-      route: '/dashboard',
-      description: 'Overview of your recipes'
+      route: '/',
+      description: 'Overview and statistics'
+    },
+    {
+      icon: 'fas fa-carrot',
+      label: 'Ingredients',
+      route: '/ingredients',
+      description: 'Manage ingredients'
     }
   ];
 

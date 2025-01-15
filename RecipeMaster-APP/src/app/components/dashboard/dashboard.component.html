@@ -1,54 +1,111 @@
-<div class="dashboard-container">
-  <app-sidebar 
-    [isExpanded]="isSidebarExpanded"
-    (toggleSidebar)="onSidebarToggle($event)">
-  </app-sidebar>
-
-  <!-- Main Content -->
-  <main class="main-content" [class.expanded]="!isSidebarExpanded">
-    <header class="content-header">
-      <h1>Welcome to RecipeMaster</h1>
-      <div class="header-actions">
-        <button class="btn-primary">
-          <i class="fas fa-plus"></i>
-          New Recipe
-        </button>
-      </div>
-    </header>
-
-    <div class="dashboard-stats">
-      <div class="stat-card">
-        <i class="fas fa-book"></i>
-        <div class="stat-info">
-          <h3>Total Recipes</h3>
-          <p>0</p>
+<div class="container-fluid">
+  <!-- Header Section -->
+  <div class="row mb-4">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="display-6 mb-0">Welcome to RecipeMaster</h1>
+          <p class="text-muted mt-2">Manage your recipes and ingredients efficiently</p>
+        </div>
+        <div>
+          <button class="btn btn-primary shadow-sm-hover">
+            <i class="fas fa-plus me-2"></i>
+            New Recipe
+          </button>
         </div>
       </div>
-      <div class="stat-card">
-        <i class="fas fa-heart"></i>
-        <div class="stat-info">
-          <h3>Favorites</h3>
-          <p>0</p>
-        </div>
-      </div>
-      <div class="stat-card">
-        <i class="fas fa-clock"></i>
-        <div class="stat-info">
-          <h3>Recent</h3>
-          <p>0</p>
+    </div>
+  </div>
+
+  <!-- Stats Section -->
+  <div class="row g-4 mb-4">
+    <div class="col-12 col-md-4">
+      <div class="card h-100 shadow-sm-hover">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="rounded-circle bg-primary bg-opacity-10 p-3 me-3">
+              <i class="fas fa-book fs-2 text-primary"></i>
+            </div>
+            <div>
+              <h6 class="text-muted mb-1">Total Recipes</h6>
+              <h2 class="mb-0 fw-bold">0</h2>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="recent-recipes">
-      <h2>Recent Recipes</h2>
-      <div class="recipes-grid">
-        <div class="empty-state">
-          <i class="fas fa-book-open"></i>
-          <p>No recipes yet. Start by adding your first recipe!</p>
-          <button class="btn-primary">Add Recipe</button>
+    <div class="col-12 col-md-4">
+      <div class="card h-100 shadow-sm-hover">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="rounded-circle bg-warning bg-opacity-10 p-3 me-3">
+              <i class="fas fa-carrot fs-2 text-warning"></i>
+            </div>
+            <div>
+              <h6 class="text-muted mb-1">Total Ingredients</h6>
+              <h2 class="mb-0 fw-bold">0</h2>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </main>
+
+    <div class="col-12 col-md-4">
+      <div class="card h-100 shadow-sm-hover">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+              <i class="fas fa-users fs-2 text-success"></i>
+            </div>
+            <div>
+              <h6 class="text-muted mb-1">Active Users</h6>
+              <h2 class="mb-0 fw-bold">1</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Activity Section -->
+  <div class="row">
+    <div class="col-12 col-lg-8 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-4">Recent Recipes</h5>
+          <div class="text-center py-5">
+            <i class="fas fa-book-open fs-1 text-muted mb-3"></i>
+            <p class="text-muted mb-4">No recipes yet. Start by creating your first recipe!</p>
+            <button class="btn btn-primary">
+              <i class="fas fa-plus me-2"></i>
+              Create Recipe
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4 mb-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title mb-4">Quick Actions</h5>
+          <div class="d-grid gap-2">
+            <button class="btn btn-outline-primary">
+              <i class="fas fa-plus me-2"></i>
+              Add New Ingredient
+            </button>
+            <button class="btn btn-outline-primary">
+              <i class="fas fa-search me-2"></i>
+              Search Recipes
+            </button>
+            <button class="btn btn-outline-primary">
+              <i class="fas fa-cog me-2"></i>
+              Settings
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

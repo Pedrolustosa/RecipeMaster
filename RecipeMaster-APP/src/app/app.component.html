@@ -1,1 +1,26 @@
-<router-outlet></router-outlet>
+<div class="app-wrapper">
+  <div class="container-fluid p-0">
+    <div class="row g-0">
+      <!-- Sidebar -->
+      <div *ngIf="shouldShowSidebar()" class="col-auto sidebar-wrapper">
+        <app-sidebar 
+          [isExpanded]="isSidebarExpanded"
+          (toggleSidebar)="onSidebarToggle($event)">
+        </app-sidebar>
+      </div>
+
+      <!-- Main Content -->
+      <div class="col" [ngClass]="{'ms-auto': !shouldShowSidebar()}">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+  <ngx-spinner
+    bdColor="rgba(0, 0, 0, 0.8)"
+    size="medium"
+    color="#fff"
+    type="ball-clip-rotate"
+    [fullScreen]="true">
+    <p style="color: white">Loading...</p>
+  </ngx-spinner>
+</div>

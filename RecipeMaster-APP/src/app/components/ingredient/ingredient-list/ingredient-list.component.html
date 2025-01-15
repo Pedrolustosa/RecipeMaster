@@ -1,0 +1,137 @@
+<div class="container-fluid">
+  <!-- Header Section -->
+  <div class="row mb-4">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="display-6 mb-0">Ingredients</h1>
+          <p class="text-muted mt-2">Manage your recipe ingredients</p>
+        </div>
+        <div>
+          <button class="btn btn-primary shadow-sm-hover" routerLink="create">
+            <i class="fas fa-plus me-2"></i>
+            Add Ingredient
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Filter Section -->
+  <div class="row mb-4">
+    <div class="col-12 col-md-6">
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="fas fa-search text-muted"></i>
+        </span>
+        <input
+          type="text"
+          class="form-control border-start-0 ps-0"
+          [(ngModel)]="searchTerm"
+          placeholder="Search ingredients..."
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow-sm">
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead>
+                <tr>
+                  <th class="cursor-pointer" (click)="sortIngredients('name')">
+                    Name
+                    <i class="fas ms-1" [ngClass]="{
+                      'fa-sort': sortColumn !== 'name',
+                      'fa-sort-up': sortColumn === 'name' && sortDirection === 'asc',
+                      'fa-sort-down': sortColumn === 'name' && sortDirection === 'desc'
+                    }"></i>
+                  </th>
+                  <th class="cursor-pointer" (click)="sortIngredients('unit')">
+                    Unit
+                    <i class="fas ms-1" [ngClass]="{
+                      'fa-sort': sortColumn !== 'unit',
+                      'fa-sort-up': sortColumn === 'unit' && sortDirection === 'asc',
+                      'fa-sort-down': sortColumn === 'unit' && sortDirection === 'desc'
+                    }"></i>
+                  </th>
+                  <th class="cursor-pointer" (click)="sortIngredients('cost')">
+                    Cost
+                    <i class="fas ms-1" [ngClass]="{
+                      'fa-sort': sortColumn !== 'cost',
+                      'fa-sort-up': sortColumn === 'cost' && sortDirection === 'asc',
+                      'fa-sort-down': sortColumn === 'cost' && sortDirection === 'desc'
+                    }"></i>
+                  </th>
+                  <th class="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let ingredient of paginatedIngredients">
+                  <td>{{ ingredient.name }}</td>
+                  <td>{{ ingredient.unit }}</td>
+                  <td>{{ ingredient.cost | currency:'BRL' }}</td>
+                  <td>
+                    <div class="d-flex gap-2 justify-content-end">
+                      <button 
+                        class="btn btn-warning btn-sm shadow-sm-hover" 
+                        [routerLink]="['edit', ingredient.id]"
+                        title="Edit">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button 
+                        class="btn btn-danger btn-sm shadow-sm-hover" 
+                        (click)="deleteIngredient(ingredient.id)"
+                        title="Delete">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="filteredIngredients.length === 0">
+                  <td colspan="4" class="text-center py-5">
+                    <i class="fas fa-box-open fs-1 text-muted mb-3 d-block"></i>
+                    <p class="text-muted mb-4">No ingredients found. Start by adding one!</p>
+                    <button class="btn btn-primary shadow-sm-hover" routerLink="create">
+                      <i class="fas fa-plus me-2"></i>
+                      Add Ingredient
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination Section -->
+  <div class="row mt-4" *ngIf="filteredIngredients.length > pageSize">
+    <div class="col">
+      <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" [class.disabled]="currentPage === 1">
+            <button class="page-link" (click)="changePage(currentPage - 1)">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+          </li>
+          <li class="page-item">
+            <span class="page-link">
+              Page {{ currentPage }} of {{ totalPages }}
+            </span>
+          </li>
+          <li class="page-item" [class.disabled]="currentPage === totalPages">
+            <button class="page-link" (click)="changePage(currentPage + 1)">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
