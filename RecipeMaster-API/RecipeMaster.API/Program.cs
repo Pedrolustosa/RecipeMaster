@@ -16,8 +16,16 @@ builder.Services.AddJwtSetup(builder.Configuration);
 builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+
+
 var app = builder.Build();
 
+// Configure CORS
+app.UseCors(opt => opt.AllowAnyHeader()
+                      .AllowAnyMethod()
+                      .AllowCredentials()
+                      .WithOrigins("http://localhost:4200", "https://localhost:4200"));
 // Use seed data
 app.UseSeedData();
 

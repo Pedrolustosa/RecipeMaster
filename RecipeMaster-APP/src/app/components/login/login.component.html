@@ -1,0 +1,87 @@
+<div class="container-fluid">
+  <div class="row vh-100">
+    <div class="col-md-6 d-none d-md-flex bg-primary align-items-center justify-content-center">
+      <div class="text-center text-white">
+        <h1 class="display-4">Welcome to RecipeMaster</h1>
+        <p class="lead">Your personal culinary assistant</p>
+      </div>
+    </div>
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+      <div class="card shadow-lg border-0" style="min-width: 300px; max-width: 400px;">
+        <div class="card-body p-5">
+          <div class="text-center mb-4">
+            <i class="fas fa-utensils fa-3x text-primary mb-3"></i>
+            <h2 class="fw-bold">Login</h2>
+            <p class="text-muted">Access your account to continue</p>
+          </div>
+
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fas fa-envelope"></i>
+                </span>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  formControlName="email"
+                  [ngClass]="{'is-invalid': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}"
+                  placeholder="your@email.com"
+                >
+                <div class="invalid-feedback">
+                  {{ getErrorMessage('email') }}
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <i class="fas fa-lock"></i>
+                </span>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  formControlName="password"
+                  [ngClass]="{'is-invalid': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
+                  placeholder="******"
+                >
+                <div class="invalid-feedback">
+                  {{ getErrorMessage('password') }}
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100 mb-3"
+              [disabled]="loginForm.invalid || isLoading"
+            >
+              <span *ngIf="!isLoading">Sign In</span>
+              <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              <span *ngIf="isLoading">Loading...</span>
+            </button>
+
+            <div class="text-center">
+              <a href="#" class="text-muted text-decoration-none">Forgot your password?</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-scale-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
