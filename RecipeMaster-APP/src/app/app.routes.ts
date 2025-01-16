@@ -4,10 +4,12 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { IngredientListComponent } from './components/ingredient/ingredient-list/ingredient-list.component';
 import { IngredientCreateComponent } from './components/ingredient/ingredient-create/ingredient-create.component';
 import { IngredientEditComponent } from './components/ingredient/ingredient-edit/ingredient-edit.component';
+import { RegisterComponent } from './components/register/register.component';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { 
     path: '', 
     component: DashboardComponent,

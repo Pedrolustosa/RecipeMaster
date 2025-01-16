@@ -22,6 +22,7 @@ export class AppComponent {
   }
 
   shouldShowSidebar(): boolean {
-    return !this.router.url.includes('/login');
+    const publicRoutes = ['/login', '/register'];
+    return !publicRoutes.some(route => this.router.url.includes(route));
   }
 }
