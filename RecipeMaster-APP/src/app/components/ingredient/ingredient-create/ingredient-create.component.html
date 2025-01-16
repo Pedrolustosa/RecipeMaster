@@ -4,11 +4,11 @@
     <div class="col">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h1 class="display-6 mb-0">Add New Ingredient</h1>
-          <p class="text-muted mt-2">Create a new ingredient for your recipes</p>
+          <h1 class="display-6 mb-0">Create Ingredient</h1>
+          <p class="text-muted mt-2">Add a new ingredient</p>
         </div>
         <div>
-          <button class="btn btn-outline-secondary shadow-sm-hover" routerLink="/ingredients">
+          <button type="button" class="btn btn-outline-secondary shadow-sm-hover" [routerLink]="['/ingredients']">
             <i class="fas fa-arrow-left me-2"></i>
             Back to List
           </button>
@@ -22,7 +22,7 @@
     <div class="col-12 col-lg-8">
       <div class="card shadow-sm">
         <div class="card-body">
-          <form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
+          <form *ngIf="ingredientForm" [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
             <div class="mb-4">
               <label for="name" class="form-label">Name</label>
               <input
@@ -40,19 +40,14 @@
 
             <div class="mb-4">
               <label for="unit" class="form-label">Unit</label>
-              <select
-                class="form-select"
+              <input
+                type="text"
+                class="form-control"
                 id="unit"
                 formControlName="unit"
+                placeholder="Enter unit (e.g., kg, g, l, ml, unit)"
                 [ngClass]="{'is-invalid': submitted && f['unit'].errors}"
               >
-                <option value="">Select a unit</option>
-                <option value="kg">Kilogram (kg)</option>
-                <option value="g">Gram (g)</option>
-                <option value="l">Liter (l)</option>
-                <option value="ml">Milliliter (ml)</option>
-                <option value="unit">Unit (un)</option>
-              </select>
               <div *ngIf="submitted && f['unit'].errors" class="invalid-feedback">
                 <div *ngIf="f['unit'].errors['required']">Unit is required</div>
               </div>
@@ -81,9 +76,9 @@
             <div class="d-flex gap-2">
               <button type="submit" class="btn btn-primary shadow-sm-hover">
                 <i class="fas fa-save me-2"></i>
-                Save Ingredient
+                Create Ingredient
               </button>
-              <button type="button" class="btn btn-outline-secondary" routerLink="/ingredients">
+              <button type="button" class="btn btn-outline-secondary" [routerLink]="['/ingredients']">
                 Cancel
               </button>
             </div>
@@ -92,21 +87,43 @@
       </div>
     </div>
 
-    <div class="col-12 col-lg-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5 class="card-title mb-4">Tips</h5>
-          <div class="alert alert-info mb-0">
-            <i class="fas fa-info-circle me-2"></i>
-            <span>Make sure to:</span>
-            <ul class="mb-0 mt-2">
-              <li>Use clear, descriptive names</li>
-              <li>Select the appropriate unit of measurement</li>
-              <li>Enter the cost per unit</li>
-            </ul>
-          </div>
+    <!-- Tips Section -->
+    <div class="col-12 col-lg-4 mt-4 mt-lg-0">
+      <div class="card shadow-sm border-0 bg-light">
+        <div class="card-body p-4">
+          <h5 class="card-title mb-3">
+            <i class="fas fa-lightbulb text-warning me-2"></i>
+            Tips for Creating Ingredients
+          </h5>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-2">
+              <i class="fas fa-check-circle text-success me-2"></i>
+              Use clear, descriptive names for ingredients
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-check-circle text-success me-2"></i>
+              Specify standard units (e.g., kg, g, l, ml, unit)
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-check-circle text-success me-2"></i>
+              Enter accurate cost information for better recipe pricing
+            </li>
+            <li>
+              <i class="fas fa-check-circle text-success me-2"></i>
+              Double-check all information before saving
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate"
+  [fullScreen]="true">
+  <p style="color: white">Creating ingredient...</p>
+</ngx-spinner>

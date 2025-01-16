@@ -8,7 +8,7 @@
           <p class="text-muted mt-2">Update ingredient details</p>
         </div>
         <div>
-          <button class="btn btn-outline-secondary shadow-sm-hover" routerLink="/ingredients">
+          <button type="button" class="btn btn-outline-secondary shadow-sm-hover" [routerLink]="['/ingredients']">
             <i class="fas fa-arrow-left me-2"></i>
             Back to List
           </button>
@@ -40,19 +40,14 @@
 
             <div class="mb-4">
               <label for="unit" class="form-label">Unit</label>
-              <select
-                class="form-select"
+              <input
+                type="text"
+                class="form-control"
                 id="unit"
                 formControlName="unit"
+                placeholder="Enter unit (e.g., kg, g, l, ml, unit)"
                 [ngClass]="{'is-invalid': submitted && f['unit'].errors}"
               >
-                <option value="">Select a unit</option>
-                <option value="kg">Kilogram (kg)</option>
-                <option value="g">Gram (g)</option>
-                <option value="l">Liter (l)</option>
-                <option value="ml">Milliliter (ml)</option>
-                <option value="unit">Unit (un)</option>
-              </select>
               <div *ngIf="submitted && f['unit'].errors" class="invalid-feedback">
                 <div *ngIf="f['unit'].errors['required']">Unit is required</div>
               </div>
@@ -83,7 +78,7 @@
                 <i class="fas fa-save me-2"></i>
                 Update Ingredient
               </button>
-              <button type="button" class="btn btn-outline-secondary" routerLink="/ingredients">
+              <button type="button" class="btn btn-outline-secondary" [routerLink]="['/ingredients']">
                 Cancel
               </button>
             </div>

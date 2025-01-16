@@ -25,6 +25,7 @@ export class IngredientListComponent implements OnInit {
   loading = false;
   private deleteModal: any;
   private ingredientToDelete: string | null = null;
+  selectedIngredient: Ingredient | null = null;
 
   constructor(
     private ingredientService: IngredientService,
@@ -51,7 +52,13 @@ export class IngredientListComponent implements OnInit {
     });
   }
 
+  selectIngredient(ingredient: Ingredient): void {
+    this.selectedIngredient = ingredient;
+  }
+
   deleteIngredient(id: string): void {
+    if (!id) return;
+
     this.ingredientToDelete = id;
     this.deleteModal.show();
   }
@@ -66,6 +73,7 @@ export class IngredientListComponent implements OnInit {
         this.loadIngredients();
         this.deleteModal.hide();
         this.ingredientToDelete = null;
+        this.selectedIngredient = null;
       },
       error: (error: Error) => {
         this.toastr.error('Failed to delete ingredient', 'Error');

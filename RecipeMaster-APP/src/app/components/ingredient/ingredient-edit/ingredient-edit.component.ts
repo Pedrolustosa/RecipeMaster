@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { IngredientService } from '../../../services/ingredient.service';
 import { Ingredient } from '../../../models/ingredient.model';
@@ -11,7 +12,7 @@ import { Ingredient } from '../../../models/ingredient.model';
   templateUrl: './ingredient-edit.component.html',
   styleUrls: ['./ingredient-edit.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, NgxSpinnerModule]
 })
 export class IngredientEditComponent implements OnInit {
   ingredientForm: FormGroup;

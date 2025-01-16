@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 import { Router } from '@angular/router';
 import { NgxSpinnerModule } from 'ngx-spinner';
@@ -10,7 +10,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterModule, SidebarComponent, NgxSpinnerModule]
+  imports: [CommonModule, RouterModule, RouterOutlet, SidebarComponent, NgxSpinnerModule]
 })
 export class AppComponent {
   isSidebarExpanded = true;

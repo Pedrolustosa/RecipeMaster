@@ -1,0 +1,149 @@
+<div class="container-fluid">
+  <!-- Header Section -->
+  <div class="row mb-4">
+    <div class="col">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="display-6 mb-0">Edit Recipe</h1>
+          <p class="text-muted mt-2">Update your recipe details</p>
+        </div>
+        <div>
+          <button class="btn btn-outline-secondary" routerLink="/recipes">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back to Recipes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Section -->
+  <div class="row">
+    <div class="col-12 col-lg-8">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+            <!-- Recipe Details -->
+            <div class="mb-4">
+              <label for="name" class="form-label fw-bold">Recipe Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                formControlName="name"
+                [ngClass]="{'is-invalid': submitted && f['name'].errors}"
+              >
+              <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                <div *ngIf="f['name'].errors['required']">Recipe name is required</div>
+                <div *ngIf="f['name'].errors['minlength']">Recipe name must be at least 3 characters long</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="description" class="form-label fw-bold">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                rows="3"
+                formControlName="description"
+                [ngClass]="{'is-invalid': submitted && f['description'].errors}"
+              ></textarea>
+              <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+                <div *ngIf="f['description'].errors['required']">Description is required</div>
+                <div *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters long</div>
+              </div>
+            </div>
+
+            <!-- Ingredients Section -->
+            <div class="mb-4" formArrayName="ingredients">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <label class="form-label fw-bold mb-0">Ingredients</label>
+                <button type="button" class="btn btn-outline-primary btn-sm" (click)="addIngredient()">
+                  <i class="fas fa-plus me-1"></i> Add Ingredient
+                </button>
+              </div>
+
+              <div *ngFor="let ingredient of ingredients.controls; let i=index" 
+                   [formGroupName]="i" 
+                   class="row mb-3 align-items-center">
+                <div class="col">
+                  <select class="form-select"
+                          formControlName="ingredientId"
+                          [ngClass]="{'is-invalid': submitted && ingredient.get('ingredientId')?.errors}">
+                    <option value="">Select ingredient</option>
+                    <!-- We'll need to populate this with actual ingredients -->
+                  </select>
+                  <div *ngIf="submitted && ingredient.get('ingredientId')?.errors" class="invalid-feedback">
+                    <div *ngIf="ingredient.get('ingredientId')?.errors?.['required']">Please select an ingredient</div>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <input type="number" 
+                         class="form-control" 
+                         formControlName="quantity"
+                         placeholder="Quantity"
+                         [ngClass]="{'is-invalid': submitted && ingredient.get('quantity')?.errors}">
+                  <div *ngIf="submitted && ingredient.get('quantity')?.errors" class="invalid-feedback">
+                    <div *ngIf="ingredient.get('quantity')?.errors?.['required']">Quantity is required</div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <button type="button" 
+                          class="btn btn-outline-danger btn-sm" 
+                          (click)="removeIngredient(i)"
+                          [disabled]="ingredients.length === 1">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="d-flex justify-content-end gap-2">
+              <button type="button" class="btn btn-secondary" routerLink="/recipes">Cancel</button>
+              <button type="submit" class="btn btn-primary" [disabled]="loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-1"></span>
+                Update Recipe
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tips Section -->
+    <div class="col-12 col-lg-4 mt-4 mt-lg-0">
+      <div class="card shadow-sm border-0 bg-light">
+        <div class="card-body p-4">
+          <h5 class="card-title mb-3">
+            <i class="fas fa-lightbulb text-warning me-2"></i>
+            Tips for Editing Recipes
+          </h5>
+          <ul class="list-unstyled mb-0">
+            <li class="mb-2">
+              <i class="fas fa-check-circle text-success me-2"></i>
+              Keep the recipe name clear and descriptive
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-check-circle text-success me-2"></i>
+              Update the description to reflect any changes
+            </li>
+            <li>
+              <i class="fas fa-check-circle text-success me-2"></i>
+              Double-check ingredient quantities for accuracy
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="ball-clip-rotate"
+  [fullScreen]="true">
+  <p style="color: white">Updating recipe...</p>
+</ngx-spinner>
