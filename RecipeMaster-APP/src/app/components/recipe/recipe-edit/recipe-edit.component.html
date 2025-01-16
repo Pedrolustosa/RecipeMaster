@@ -68,6 +68,7 @@
                    class="row mb-3 align-items-center">
                 <div class="col">
                   <select class="form-select"
+                          placeholder="Ingredient"
                           formControlName="ingredientId"
                           [ngClass]="{'is-invalid': submitted && ingredient.get('ingredientId')?.errors}">
                     <option value="">Select ingredient</option>
@@ -138,12 +139,3 @@
     </div>
   </div>
 </div>
-
-<ngx-spinner
-  bdColor="rgba(0, 0, 0, 0.8)"
-  size="medium"
-  color="#fff"
-  type="ball-clip-rotate"
-  [fullScreen]="true">
-  <p style="color: white">Updating recipe...</p>
-</ngx-spinner>
