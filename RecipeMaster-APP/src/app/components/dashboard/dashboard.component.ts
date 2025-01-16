@@ -1,28 +1,162 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { User } from '../../models/auth.models';
+import { RouterModule } from '@angular/router';
+import { NgChartsModule, BaseChartDirective } from 'ng2-charts';
+import { ChartData, ChartOptions } from 'chart.js';
+import { DashboardService } from '../../services/dashboard.service';
+import { 
+  IngredientCostDTO, 
+  IngredientUsageDTO
+} from '../../models/dashboard.models';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, RouterModule, NgChartsModule],
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  currentUser: User | null = null;
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
 
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  totalRecipes: number = 0;
+  totalIngredients: number = 0;
+  totalRecipeCost: number = 0;
+  averageRecipeCost: number = 0;
+  topExpensiveIngredients: IngredientCostDTO[] = [];
+  mostUsedIngredients: IngredientUsageDTO[] = [];
+
+  // Cost Chart Configuration
+  costChartData: ChartData<'bar'> = {
+    labels: [],
+    datasets: [{
+      data: [],
+      label: 'Cost R($)',
+      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
+    }]
+  };
+
+  costChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: (value) => `R$${value}`
+        }
+      }
+    },
+    plugins: {
+      legend: { 
+        display: false 
+      },
+      title: { 
+        display: true, 
+        text: 'Top 5 Most Expensive Ingredients',
+        padding: 20
+      }
+    }
+  };
+
+  // Usage Chart Configuration
+  usageChartData: ChartData<'bar'> = {
+    labels: [],
+    datasets: [{
+      data: [],
+      backgroundColor: ['#4BC0C0', '#FFCE56', '#36A2EB', '#FF6384', '#9966FF'],
+      borderColor: ['#4BC0C0', '#FFCE56', '#36A2EB', '#FF6384', '#9966FF'],
+      borderWidth: 1,
+      barThickness: 25,
+      borderRadius: 4
+    }]
+  };
+
+  usageChartOptions: ChartOptions<'bar'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    indexAxis: 'y',
+    layout: {
+      padding: {
+        left: 10,
+        right: 25,
+        top: 0,
+        bottom: 0
+      }
+    },
+    plugins: {
+      legend: { 
+        display: false
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => `${context.formattedValue} recipes`
+        }
+      }
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        grid: {
+          display: false
+        },
+        ticks: {
+          stepSize: 1
+        }
+      },
+      y: {
+        grid: {
+          display: false
+        }
+      }
+    }
+  };
+
+  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    this.currentUser = this.authService.currentUserValue;
-    if (!this.currentUser) {
-      this.router.navigate(['/login']);
-    }
+    this.loadDashboardData();
+  }
+
+  private loadDashboardData(): void {
+    forkJoin({
+      totalRecipes: this.dashboardService.getTotalRecipes(),
+      totalIngredients: this.dashboardService.getTotalIngredients(),
+      averageRecipeCost: this.dashboardService.getAverageRecipeCost(),
+      totalRecipeCost: this.dashboardService.getTotalRecipeCost(),
+      expensiveIngredients: this.dashboardService.getMostExpensiveIngredients(),
+      usedIngredients: this.dashboardService.getMostUsedIngredients()
+    }).subscribe({
+      next: (data) => {
+        this.totalRecipes = data.totalRecipes;
+        this.totalIngredients = data.totalIngredients;
+        this.averageRecipeCost = data.averageRecipeCost;
+        this.totalRecipeCost = data.totalRecipeCost;
+        this.topExpensiveIngredients = data.expensiveIngredients;
+        this.mostUsedIngredients = data.usedIngredients;
+        this.updateCharts();
+      },
+      error: (error) => {
+        console.error('Error loading dashboard data:', error);
+      }
+    });
+  }
+
+  private updateCharts(): void {
+    // Update cost chart
+    this.costChartData.labels = this.topExpensiveIngredients.map(ing => ing.name);
+    this.costChartData.datasets[0].data = this.topExpensiveIngredients.map(ing => ing.cost);
+
+    // Update usage chart
+    this.usageChartData.labels = this.mostUsedIngredients.map(ing => ing.name);
+    this.usageChartData.datasets[0].data = this.mostUsedIngredients.map(ing => ing.recipeCount);
+
+    // Force chart update
+    setTimeout(() => {
+      if (this.chart) {
+        this.chart.update();
+      }
+    });
   }
 }

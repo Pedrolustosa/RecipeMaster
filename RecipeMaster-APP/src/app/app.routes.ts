@@ -6,6 +6,9 @@ import { IngredientCreateComponent } from './components/ingredient/ingredient-cr
 import { IngredientEditComponent } from './components/ingredient/ingredient-edit/ingredient-edit.component';
 import { RegisterComponent } from './components/register/register.component';
 import { authGuard } from './guards/auth.guard';
+import { RecipeListComponent } from './components/recipe/recipe-list/recipe-list.component';
+import { RecipeCreateComponent } from './components/recipe/recipe-create/recipe-create.component';
+import { RecipeEditComponent } from './components/recipe/recipe-edit/recipe-edit.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -22,6 +25,15 @@ export const routes: Routes = [
       { path: '', component: IngredientListComponent },
       { path: 'create', component: IngredientCreateComponent },
       { path: 'edit/:id', component: IngredientEditComponent }
+    ]
+  },
+  {
+    path: 'recipes',
+    canActivate: [authGuard],
+    children: [
+      { path: '', component: RecipeListComponent },
+      { path: 'create', component: RecipeCreateComponent },
+      { path: 'edit/:id', component: RecipeEditComponent }
     ]
   },
   { path: '**', redirectTo: '' }

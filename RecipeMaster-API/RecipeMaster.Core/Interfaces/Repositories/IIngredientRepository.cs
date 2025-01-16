@@ -9,4 +9,6 @@ public interface IIngredientRepository
     Task AddAsync(Ingredient ingredient);
     Task UpdateAsync(Ingredient ingredient);
     Task DeleteAsync(Guid id);
+    Task<int> CountAsync();
+    Task<List<(string Name, decimal Cost)>> GetMostExpensiveIngredientsAsync();
 }

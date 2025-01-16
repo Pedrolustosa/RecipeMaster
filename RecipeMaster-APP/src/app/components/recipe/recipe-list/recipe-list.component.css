@@ -1,0 +1,34 @@
+.recipe-image {
+    height: 200px;
+    object-fit: cover;
+}
+
+.recipe-info {
+    font-size: 0.9rem;
+    color: #6c757d;
+}
+
+.recipe-info i {
+    margin-right: 0.25rem;
+}
+
+.card {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.btn-group {
+    width: 100%;
+}
+
+.btn-group .btn {
+    flex: 1;
+}
+
+.badge {
+    font-size: 0.8rem;
+    padding: 0.5em 0.75em;
+}

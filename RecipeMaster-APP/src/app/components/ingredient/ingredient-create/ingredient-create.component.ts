@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { IngredientService } from '../../../services/ingredient.service';
 import { CreateIngredientCommand } from '../../../models/ingredient.model';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
   selector: 'app-ingredient-create',
   templateUrl: './ingredient-create.component.html',
   styleUrls: ['./ingredient-create.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, NgxSpinnerModule]
 })
 export class IngredientCreateComponent implements OnInit {
   ingredientForm: FormGroup;

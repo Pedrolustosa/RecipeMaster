@@ -28,6 +28,12 @@ export class SidebarComponent {
       label: 'Ingredients',
       route: '/ingredients',
       description: 'Manage ingredients'
+    },
+    {
+      icon: 'fa-solid fa-scroll',
+      label: 'Recipes',
+      route: '/recipes',
+      description: 'Manage recipes'
     }
   ];
 

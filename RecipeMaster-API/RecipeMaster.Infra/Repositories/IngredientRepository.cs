@@ -40,4 +40,19 @@ public class IngredientRepository(RecipeMasterDbContext context) : IIngredientRe
             await _context.SaveChangesAsync();
         }
     }
+
+    public async Task<int> CountAsync()
+    {
+        return await _context.Ingredients.CountAsync();
+    }
+
+    public async Task<List<(string Name, decimal Cost)>> GetMostExpensiveIngredientsAsync()
+    {
+        return await _context.Ingredients
+            .OrderByDescending(i => (double)i.Cost.Value)
+            .Take(5)
+            .Select(i => new { i.Name, i.Cost.Value })
+            .ToListAsync()
+            .ContinueWith(t => t.Result.Select(i => (i.Name, (decimal)i.Value)).ToList());
+    }
 }
