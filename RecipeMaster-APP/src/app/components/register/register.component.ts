@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
@@ -16,13 +16,15 @@ import { RegisterRequest } from '../../models/auth.models';
     CommonModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    ToastrModule
+    ToastrModule,
+    RouterModule
   ]
 })
 export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
   loading: boolean = false;
+  showPassword: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,6 +37,10 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 
   onSubmit() {
