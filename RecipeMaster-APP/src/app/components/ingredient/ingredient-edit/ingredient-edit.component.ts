@@ -31,7 +31,14 @@ export class IngredientEditComponent implements OnInit {
       id: [''],
       name: ['', [Validators.required, Validators.minLength(2)]],
       unit: ['', Validators.required],
-      cost: [0, [Validators.required, Validators.min(0)]]
+      cost: [0, [Validators.required, Validators.min(0)]],
+      stockQuantity: [0, [Validators.required, Validators.min(0)]],
+      minimumStockLevel: [0, [Validators.required, Validators.min(0)]],
+      supplierName: ['', Validators.required],
+      isPerishable: [false],
+      originCountry: ['', Validators.required],
+      storageInstructions: [''],
+      isActive: [true]
     });
   }
 

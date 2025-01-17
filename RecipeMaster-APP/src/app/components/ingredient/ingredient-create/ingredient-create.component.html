@@ -35,6 +35,7 @@
               >
               <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
                 <div *ngIf="f['name'].errors['required']">Name is required</div>
+                <div *ngIf="f['name'].errors['minlength']">Name must be at least 2 characters</div>
               </div>
             </div>
 
@@ -70,6 +71,103 @@
                   <div *ngIf="f['cost'].errors['required']">Cost is required</div>
                   <div *ngIf="f['cost'].errors['min']">Cost must be greater than 0</div>
                 </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="StockQuantity" class="form-label">Stock Quantity</label>
+              <input
+                type="number"
+                class="form-control"
+                id="StockQuantity"
+                formControlName="StockQuantity"
+                placeholder="Enter current stock quantity"
+                [ngClass]="{'is-invalid': submitted && f['StockQuantity'].errors}"
+              >
+              <div *ngIf="submitted && f['StockQuantity'].errors" class="invalid-feedback">
+                <div *ngIf="f['StockQuantity'].errors['required']">Stock quantity is required</div>
+                <div *ngIf="f['StockQuantity'].errors['min']">Stock quantity must be greater than or equal to 0</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="MinimumStockLevel" class="form-label">Minimum Stock Level</label>
+              <input
+                type="number"
+                class="form-control"
+                id="MinimumStockLevel"
+                formControlName="MinimumStockLevel"
+                placeholder="Enter minimum stock level"
+                [ngClass]="{'is-invalid': submitted && f['MinimumStockLevel'].errors}"
+              >
+              <div *ngIf="submitted && f['MinimumStockLevel'].errors" class="invalid-feedback">
+                <div *ngIf="f['MinimumStockLevel'].errors['required']">Minimum stock level is required</div>
+                <div *ngIf="f['MinimumStockLevel'].errors['min']">Minimum stock level must be greater than or equal to 0</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="SupplierName" class="form-label">Supplier Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="SupplierName"
+                formControlName="SupplierName"
+                placeholder="Enter supplier name"
+                [ngClass]="{'is-invalid': submitted && f['SupplierName'].errors}"
+              >
+              <div *ngIf="submitted && f['SupplierName'].errors" class="invalid-feedback">
+                <div *ngIf="f['SupplierName'].errors['required']">Supplier name is required</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="IsPerishable"
+                  formControlName="IsPerishable"
+                >
+                <label class="form-check-label" for="IsPerishable">Is Perishable</label>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="OriginCountry" class="form-label">Origin Country</label>
+              <input
+                type="text"
+                class="form-control"
+                id="OriginCountry"
+                formControlName="OriginCountry"
+                placeholder="Enter country of origin"
+                [ngClass]="{'is-invalid': submitted && f['OriginCountry'].errors}"
+              >
+              <div *ngIf="submitted && f['OriginCountry'].errors" class="invalid-feedback">
+                <div *ngIf="f['OriginCountry'].errors['required']">Origin country is required</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="StorageInstructions" class="form-label">Storage Instructions</label>
+              <textarea
+                class="form-control"
+                id="StorageInstructions"
+                formControlName="StorageInstructions"
+                placeholder="Enter storage instructions"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="mb-4">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="IsActive"
+                  formControlName="IsActive"
+                >
+                <label class="form-check-label" for="IsActive">Is Active</label>
               </div>
             </div>
 
