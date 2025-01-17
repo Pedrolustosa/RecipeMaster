@@ -1,8 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { StorageService } from '../services/storage.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('token');
-  
+  const storageService = inject(StorageService);
+  const token = storageService.get('token');
+
   if (token) {
     req = req.clone({
       setHeaders: {
@@ -10,6 +13,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       }
     });
   }
-  
+
   return next(req);
 };
