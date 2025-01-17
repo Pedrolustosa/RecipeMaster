@@ -78,11 +78,21 @@ namespace RecipeMaster.Infra.Persistence
             // Seed Ingredients
             var ingredients = new[]
             {
-                new Ingredient("Salt", MeasurementUnit.Gram, new IngredientCost(0.05m)),
-                new Ingredient("Sugar", MeasurementUnit.Gram, new IngredientCost(0.10m)),
-                new Ingredient("Flour", MeasurementUnit.Kilogram, new IngredientCost(1.50m)),
-                new Ingredient("Butter", MeasurementUnit.Kilogram, new IngredientCost(3.00m)),
-                new Ingredient("Milk", MeasurementUnit.Liter, new IngredientCost(0.80m))
+                new Ingredient("Salt", "Fine table salt.", MeasurementUnit.Gram, new IngredientCost(0.05m),
+                    stockQuantity: 1000, minimumStockLevel: 100, supplierName: "Salt Co.", isPerishable: false,
+                    originCountry: "USA", storageInstructions: "Store in a cool, dry place.", isActive: true),
+                new Ingredient("Sugar", "Granulated white sugar.", MeasurementUnit.Gram, new IngredientCost(0.10m),
+                    stockQuantity: 2000, minimumStockLevel: 200, supplierName: "Sweet Supplies", isPerishable: false,
+                    originCountry: "Brazil", storageInstructions: "Keep in an airtight container.", isActive: true),
+                new Ingredient("Flour", "All-purpose flour.", MeasurementUnit.Kilogram, new IngredientCost(1.50m),
+                    stockQuantity: 500, minimumStockLevel: 50, supplierName: "Flour Mills", isPerishable: false,
+                    originCountry: "Canada", storageInstructions: "Store in a sealed container.", isActive: true),
+                new Ingredient("Butter", "Unsalted butter.", MeasurementUnit.Kilogram, new IngredientCost(3.00m),
+                    stockQuantity: 100, minimumStockLevel: 20, supplierName: "DairyBest", isPerishable: true,
+                    originCountry: "France", storageInstructions: "Refrigerate at 4°C.", isActive: true),
+                new Ingredient("Milk", "Whole milk.", MeasurementUnit.Liter, new IngredientCost(0.80m),
+                    stockQuantity: 300, minimumStockLevel: 50, supplierName: "DairyFresh", isPerishable: true,
+                    originCountry: "Germany", storageInstructions: "Keep refrigerated at 4°C.", isActive: true)
             };
 
             foreach (var ingredient in ingredients)

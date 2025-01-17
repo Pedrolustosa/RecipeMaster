@@ -17,7 +17,18 @@ public class CreateIngredientCommandHandler : IRequestHandler<CreateIngredientCo
 
     public async Task<Guid> Handle(CreateIngredientCommand request, CancellationToken cancellationToken)
     {
-        var ingredient = new Ingredient(request.Name, Enum.Parse<MeasurementUnit>(request.Unit), new IngredientCost(request.Cost));
+        var ingredient = new Ingredient(
+                request.Name,
+                request.Description,
+                Enum.Parse<MeasurementUnit>(request.Unit),
+                new IngredientCost(request.Cost),
+                request.StockQuantity,
+                request.MinimumStockLevel,
+                request.SupplierName,
+                request.IsPerishable,
+                request.OriginCountry,
+                request.StorageInstructions,
+                request.IsActive);
         await _repository.AddAsync(ingredient);
         return ingredient.Id;
     }

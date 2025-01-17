@@ -35,6 +35,7 @@
               >
               <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
                 <div *ngIf="f['name'].errors['required']">Name is required</div>
+                <div *ngIf="f['name'].errors['minlength']">Name must be at least 2 characters</div>
               </div>
             </div>
 
@@ -73,6 +74,103 @@
               </div>
             </div>
 
+            <div class="mb-4">
+              <label for="stockQuantity" class="form-label">Stock Quantity</label>
+              <input
+                type="number"
+                class="form-control"
+                id="stockQuantity"
+                formControlName="stockQuantity"
+                placeholder="Enter current stock quantity"
+                [ngClass]="{'is-invalid': submitted && f['stockQuantity'].errors}"
+              >
+              <div *ngIf="submitted && f['stockQuantity'].errors" class="invalid-feedback">
+                <div *ngIf="f['stockQuantity'].errors['required']">Stock quantity is required</div>
+                <div *ngIf="f['stockQuantity'].errors['min']">Stock quantity must be greater than or equal to 0</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="minimumStockLevel" class="form-label">Minimum Stock Level</label>
+              <input
+                type="number"
+                class="form-control"
+                id="minimumStockLevel"
+                formControlName="minimumStockLevel"
+                placeholder="Enter minimum stock level"
+                [ngClass]="{'is-invalid': submitted && f['minimumStockLevel'].errors}"
+              >
+              <div *ngIf="submitted && f['minimumStockLevel'].errors" class="invalid-feedback">
+                <div *ngIf="f['minimumStockLevel'].errors['required']">Minimum stock level is required</div>
+                <div *ngIf="f['minimumStockLevel'].errors['min']">Minimum stock level must be greater than or equal to 0</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="supplierName" class="form-label">Supplier Name</label>
+              <input
+                type="text"
+                class="form-control"
+                id="supplierName"
+                formControlName="supplierName"
+                placeholder="Enter supplier name"
+                [ngClass]="{'is-invalid': submitted && f['supplierName'].errors}"
+              >
+              <div *ngIf="submitted && f['supplierName'].errors" class="invalid-feedback">
+                <div *ngIf="f['supplierName'].errors['required']">Supplier name is required</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="isPerishable"
+                  formControlName="isPerishable"
+                >
+                <label class="form-check-label" for="isPerishable">Is Perishable</label>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="originCountry" class="form-label">Origin Country</label>
+              <input
+                type="text"
+                class="form-control"
+                id="originCountry"
+                formControlName="originCountry"
+                placeholder="Enter country of origin"
+                [ngClass]="{'is-invalid': submitted && f['originCountry'].errors}"
+              >
+              <div *ngIf="submitted && f['originCountry'].errors" class="invalid-feedback">
+                <div *ngIf="f['originCountry'].errors['required']">Origin country is required</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="storageInstructions" class="form-label">Storage Instructions</label>
+              <textarea
+                class="form-control"
+                id="storageInstructions"
+                formControlName="storageInstructions"
+                placeholder="Enter storage instructions"
+                rows="3"
+              ></textarea>
+            </div>
+
+            <div class="mb-4">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="isActive"
+                  formControlName="isActive"
+                >
+                <label class="form-check-label" for="isActive">Is Active</label>
+              </div>
+            </div>
+
             <div class="d-flex gap-2">
               <button type="submit" class="btn btn-primary shadow-sm-hover">
                 <i class="fas fa-save me-2"></i>
@@ -98,6 +196,13 @@
               <li><strong>Name:</strong> {{ originalIngredient.name }}</li>
               <li><strong>Unit:</strong> {{ originalIngredient.unit }}</li>
               <li><strong>Cost:</strong> {{ originalIngredient.cost | currency:'BRL' }}</li>
+              <li><strong>Stock Quantity:</strong> {{ originalIngredient.stockQuantity }}</li>
+              <li><strong>Minimum Stock Level:</strong> {{ originalIngredient.minimumStockLevel }}</li>
+              <li><strong>Supplier Name:</strong> {{ originalIngredient.supplierName }}</li>
+              <li><strong>Is Perishable:</strong> {{ originalIngredient.isPerishable ? 'Yes' : 'No' }}</li>
+              <li><strong>Origin Country:</strong> {{ originalIngredient.originCountry }}</li>
+              <li><strong>Storage Instructions:</strong> {{ originalIngredient.storageInstructions }}</li>
+              <li><strong>Is Active:</strong> {{ originalIngredient.isActive ? 'Yes' : 'No' }}</li>
             </ul>
           </div>
           <div class="alert alert-warning mb-0">

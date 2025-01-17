@@ -28,7 +28,14 @@ export class IngredientCreateComponent implements OnInit {
     this.ingredientForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       unit: ['', Validators.required],
-      cost: [0, [Validators.required, Validators.min(0)]]
+      cost: [0, [Validators.required, Validators.min(0)]],
+      StockQuantity: [0, [Validators.required, Validators.min(0)]],
+      MinimumStockLevel: [0, [Validators.required, Validators.min(0)]],
+      SupplierName: ['', Validators.required],
+      IsPerishable: [false],
+      OriginCountry: ['', Validators.required],
+      StorageInstructions: [''],
+      IsActive: [true]
     });
   }
 

@@ -16,9 +16,6 @@ builder.Services.AddJwtSetup(builder.Configuration);
 builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-
-
 var app = builder.Build();
 
 // Configure CORS
@@ -33,11 +30,8 @@ app.UseSeedData();
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Swagger
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 // Pipeline
 app.UseHttpsRedirection();
