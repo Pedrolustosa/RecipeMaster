@@ -1,8 +1,0 @@
-{
-    "appService.zipIgnorePattern": [
-        "node_modules{,/**}",
-        ".vscode{,/**}"
-    ],
-    "appService.defaultWebAppToDeploy": "/subscriptions/315762d5-9a87-4653-a803-4d6705dfe39c/resourceGroups/RecipeMaster/providers/Microsoft.Web/sites/RecipeMasterWeb-APP",
-    "appService.deploySubpath": "dist"
-}
