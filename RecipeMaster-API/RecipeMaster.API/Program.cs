@@ -22,7 +22,8 @@ var app = builder.Build();
 app.UseCors(opt => opt.AllowAnyHeader()
                       .AllowAnyMethod()
                       .AllowCredentials()
-                      .WithOrigins("http://localhost:4200", "https://localhost:4200"));
+                      .WithOrigins("http://localhost:4200", "https://localhost:4200", 
+                                   "https://recipe-master-app.vercel.app", "http://recipe-master-app.vercel.app"));
 // Use seed data
 app.UseSeedData();
 
