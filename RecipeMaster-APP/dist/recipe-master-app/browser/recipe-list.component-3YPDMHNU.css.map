@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/components/recipe/recipe-list/recipe-list.component.css"],
+  "sourcesContent": [".recipe-image {\n    height: 200px;\n    object-fit: cover;\n}\n\n.recipe-info {\n    font-size: 0.9rem;\n    color: #6c757d;\n}\n\n.recipe-info i {\n    margin-right: 0.25rem;\n}\n\n.card {\n    transition: transform 0.2s ease-in-out;\n}\n\n.card:hover {\n    transform: translateY(-5px);\n}\n\n.btn-group {\n    width: 100%;\n}\n\n.btn-group .btn {\n    flex: 1;\n}\n\n.badge {\n    font-size: 0.8rem;\n    padding: 0.5em 0.75em;\n}\n"],
+  "mappings": "AAAA,CAAC,aACG,OAAQ,MACR,WAAY,KAChB,CAEA,CAAC,YACG,UAAW,MACX,MAAO,OACX,CAEA,CALC,YAKY,EACT,aAAc,MAClB,CAEA,CAAC,KACG,WAAY,UAAU,IAAK,WAC/B,CAEA,CAJC,IAII,OACD,UAAW,WAAW,KAC1B,CAEA,CAAC,UACG,MAAO,IACX,CAEA,CAJC,UAIU,CAAC,IACR,KAAM,CACV,CAEA,CAAC,MACG,UAAW,MA/Bf,QAgCa,KAAM,KACnB",
+  "names": []
+}
