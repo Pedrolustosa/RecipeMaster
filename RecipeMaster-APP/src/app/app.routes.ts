@@ -36,5 +36,5 @@ export const routes: Routes = [
       { path: 'edit/:id', component: RecipeEditComponent }
     ]
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'login' }
 ];
