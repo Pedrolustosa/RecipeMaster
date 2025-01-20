@@ -33,210 +33,103 @@ RecipeMaster is a full-stack application for managing culinary recipes, offering
 
 ## 🚀 Technologies
 
-### Backend (.NET 8.0)
+### Backend (.NET 8.0.11)
 
-```csharp
-RecipeMaster.API/                  // Presentation Layer
-├── Controllers/                   // API Controllers
-│   ├── AuthController.cs
-│   ├── IngredientController.cs
-│   └── RecipeController.cs
-├── Exceptions/                    // Exception Handling
-│   ├── BadRequestException.cs
-│   ├── BaseException.cs
-│   ├── InternalServerException.cs
-│   ├── NotFoundException.cs
-│   ├── UnauthorizedException.cs
-│   └── ValidationException.cs
-├── Middlewares/                   // API Middlewares
-│   └── ExceptionMiddleware.cs
-├── Models/                        // API Models
-│   ├── LoginRequest.cs
-│   ├── RegisterRequest.cs
-│   └── TokenResponse.cs
-├── Properties/
-│   └── launchSettings.json
-├── appsettings.json
-├── appsettings.Development.json
-└── Program.cs
-
-RecipeMaster.Application/          // Application Layer
-├── Commands/                      // CQRS Commands
-│   ├── Ingredient/
-│   │   ├── CreateIngredientCommand.cs
-│   │   ├── DeleteIngredientCommand.cs
-│   │   └── UpdateIngredientCommand.cs
-│   └── Recipe/
-│       ├── CreateRecipeCommand.cs
-│       ├── DeleteRecipeCommand.cs
-│       └── UpdateRecipeCommand.cs
-├── DTOs/                         // Data Transfer Objects
-│   ├── IngredientDTO.cs
-│   ├── RecipeDTO.cs
-│   ├── RecipeIngredientDTO.cs
-│   ├── UpdateIngredientDTO.cs
-│   ├── UpdateRecipeDTO.cs
-│   └── UpdateRecipeIngredientDTO.cs
-├── Handlers/                     // CQRS Handlers
-│   ├── Ingredient/
-│   │   ├── CreateIngredientHandler.cs
-│   │   ├── DeleteIngredientHandler.cs
-│   │   ├── GetIngredientHandler.cs
-│   │   ├── GetIngredientsHandler.cs
-│   │   └── UpdateIngredientHandler.cs
-│   └── Recipe/
-│       ├── CreateRecipeHandler.cs
-│       ├── DeleteRecipeHandler.cs
-│       ├── GetRecipeHandler.cs
-│       ├── GetRecipesHandler.cs
-│       └── UpdateRecipeHandler.cs
-├── Queries/                      // CQRS Queries
-│   ├── Ingredient/
-│   │   ├── GetIngredientQuery.cs
-│   │   └── GetIngredientsQuery.cs
-│   └── Recipe/
-│       ├── GetRecipeQuery.cs
-│       └── GetRecipesQuery.cs
-├── Mappings/                     // AutoMapper Profiles
-│   └── MappingProfile.cs
-└── Services/                     // Application Services
-    └── CostCalculationService.cs
-
-RecipeMaster.Core/                // Domain Layer
-├── Entities/                     // Entities
-│   ├── Ingredient.cs            // Ingredient Entity
-│   ├── Recipe.cs                // Recipe Entity
-│   └── RecipeIngredient.cs      // M:N Relationship
-├── Interfaces/                   // Interfaces
-│   ├── Repositories/            // Repositories
-│   │   ├── IIngredientRepository.cs
-│   │   └── IRecipeRepository.cs
-│   └── Services/                // Services
-│       └── ICostCalculationService.cs
-└── ValueObjects/                 // Value Objects
-    ├── IngredientCost.cs        // Ingredient Cost
-    └── MeasurementUnit.cs       // Measurement Unit
-
-RecipeMaster.Infra/               // Infrastructure Layer
-├── Identity/                     // Identity
-│   ├── ApplicationRole.cs
-│   ├── ApplicationUser.cs
-│   └── IdentitySetup.cs
-├── Migrations/                   // Migrations
-├── Persistence/                  // Persistence
-│   ├── RecipeMasterDbContext.cs
-│   └── SeedData.cs
-└── Repositories/                 // Repositories
-    ├── IngredientRepository.cs
-    └── RecipeRepository.cs
-
-RecipeMaster.Infra.IoC/           // Dependency Injection
-├── Configurations/               // Configurations
-│   ├── AddBearerTokenDefaultValueFilter.cs
-│   ├── AutoMapperSetup.cs
-│   ├── DependencyInjection.cs
-│   ├── SeedDataSetup.cs
-│   └── SwaggerSetup.cs
-└── JWT/                         // JWT Configuration
-    ├── JwtSettings.cs
-    └── JwtSetup.cs
-```
+| Package | Version |
+|---------|---------|
+| Microsoft.AspNetCore.Authentication.JwtBearer | 8.0.11 |
+| Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore | 8.0.11 |
+| Microsoft.AspNetCore.Identity | 2.1.39 |
+| Microsoft.AspNetCore.Identity.EntityFrameworkCore | 8.0.11 |
+| Microsoft.EntityFrameworkCore | 8.0.11 |
+| Microsoft.EntityFrameworkCore.Design | 8.0.11 |
+| Microsoft.EntityFrameworkCore.Sqlite | 8.0.11 |
+| Microsoft.EntityFrameworkCore.Tools | 8.0.11 |
+| AutoMapper | 13.0.1 |
+| FluentValidation | 11.11.0 |
+| MediatR | 12.4.1 |
+| Serilog.AspNetCore | 8.0.3 |
+| Serilog.Extensions.Logging | 8.0.0 |
+| Swashbuckle.AspNetCore | 7.2.0 |
 
 ### Frontend (Angular 18.2)
 
-```typescript
-// Main Structure
-src/
-├── app/
-│   ├── components/
-│   │   ├── dashboard/           // Main Dashboard
-│   │   │   ├── dashboard.component.ts
-│   │   │   ├── dashboard.component.html
-│   │   │   └── dashboard.component.css
-│   │   ├── ingredient/          // Ingredient Management
-│   │   │   ├── ingredient-list/
-│   │   │   ├── ingredient-form/
-│   │   │   └── ingredient-detail/
-│   │   ├── login/              // Authentication
-│   │   │   ├── login.component.ts
-│   │   │   ├── login.component.html
-│   │   │   └── login.component.css
-│   │   └── shared/             // Shared Components
-│   │       └── sidebar/        // Sidebar Menu
-│   │           ├── sidebar.component.ts
-│   │           ├── sidebar.component.html
-│   │           └── sidebar.component.css
-│   ├── guards/                 // Route Protection
-│   │   └── auth.guard.ts
-│   ├── interceptors/          // HTTP Interceptors
-│   │   └── token.interceptor.ts
-│   ├── models/               // Interfaces
-│   │   ├── ingredient.model.ts
-│   │   └── user.model.ts
-│   ├── services/            // Services
-│   │   ├── auth.service.ts
-│   │   └── ingredient.service.ts
-│   └── app.routes.ts        // Application Routes
-```
-
-#### Main Dependencies
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| @angular/* | 18.2.13 | Framework Core |
-| bootstrap | 5.3.3 | UI Framework |
-| @fortawesome/fontawesome-free | 6.5.1 | Icons |
-| ngx-bootstrap | 18.1.3 | Components |
-| ngx-toastr | 19.0.0 | Notifications |
+| Package | Version |
+|---------|---------|
+| @angular/animations | 18.2.13 |
+| @angular/common | 18.2.13 |
+| @angular/compiler | 18.2.13 |
+| @angular/core | 18.2.13 |
+| @angular/cdk | 18.2.13 |
+| @angular/forms | 18.2.13 |
+| @angular/platform-browser | 18.2.13 |
+| @angular/platform-browser-dynamic | 18.2.13 |
+| @angular/platform-server | 18.2.13 |
+| @angular/router | 18.2.13 |
+| @angular/ssr | 18.2.2 |
+| @fortawesome/fontawesome-free | 6.5.1 |
+| bootstrap | 5.3.3 |
+| chart.js | 4.4.1 |
+| ng2-charts | 4.0.0 |
+| ngx-bootstrap | 18.1.3 |
+| ngx-spinner | 17.0.0 |
+| ngx-toastr | 19.0.0 |
+| rxjs | 7.8.0 |
+| zone.js | 0.14.10 |
 
 ## 🛠️ Installation
 
-### Requirements
+### Prerequisites
+- .NET SDK 8.0 or higher
+- Node.js 18.0 LTS or higher
+- SQL Server 2022
+- Angular CLI 18.2
+- Git
 
-```bash
-# Required Versions
-.NET SDK >= 8.0
-Node.js >= 18.0 LTS
-SQL Server >= 2019
-Angular CLI >= 18.2
-```
-
-### Configuration
-
+### Backend Setup
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/RecipeMaster.git
-cd RecipeMaster
+git clone https://github.com/Pedrolustosa/RecipeMaster.git
 
-# Backend
-cd RecipeMaster-API
+# Navigate to the API directory
+cd RecipeMaster/RecipeMaster-API
+
+# Restore dependencies
 dotnet restore
-dotnet ef database update
-dotnet run
 
-# Frontend
+# Update database
+dotnet ef database update
+
+# Run the API
+dotnet run --project RecipeMaster.API
+```
+
+### Frontend Setup
+```bash
+# Navigate to the Angular app directory
 cd ../RecipeMaster-APP
+
+# Install dependencies
 npm install
+
+# Start the development server
 ng serve
 ```
 
-Access `http://localhost:4200`
+The application will be available at:
+- API: http://localhost:5000
+- Frontend: http://localhost:4200
+- Swagger Documentation: http://localhost:5000/swagger
 
 ## 🤝 How to Contribute
 
-```bash
-# Contribution Process
-1. Fork (https://github.com/your-username/RecipeMaster/fork)
-2. git checkout -b feature/MyFeature
-3. git commit -m 'Add new feature'
-4. git push origin feature/MyFeature
-5. Create Pull Request
-```
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## 📄 License
+## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-<div align="center">
-
 </div>
