@@ -97,6 +97,45 @@ tr:hover {
   background-color: #c82333;
 }
 
+.progress {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  transition: width 0.3s ease-in-out;
+}
+
+.bg-success {
+  background-color: #28a745 !important;
+}
+
+.bg-warning {
+  background-color: #ffc107 !important;
+}
+
+.bg-danger {
+  background-color: #dc3545 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.table th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.text-nowrap {
+  font-size: 0.875rem;
+}
+
 @media (max-width: 768px) {
   .content-header {
     flex-direction: column;

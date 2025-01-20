@@ -1,6 +1,7 @@
 export interface Ingredient {
   id: string;
   name: string;
+  description: string;
   unit: string;
   cost: number;
   stockQuantity: number;
@@ -14,6 +15,7 @@ export interface Ingredient {
 
 export interface CreateIngredientCommand {
   name: string;
+  description: string;
   unit: string;
   cost: number;
   stockQuantity: number;
@@ -27,6 +29,7 @@ export interface CreateIngredientCommand {
 
 export interface UpdateIngredientDTO {
   name: string;
+  description: string;
   unit: string;
   cost: number;
   stockQuantity: number;

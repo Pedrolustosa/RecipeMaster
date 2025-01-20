@@ -12,12 +12,43 @@
     margin-right: 0.25rem;
 }
 
+.hover-shadow {
+  transition: all 0.3s ease-in-out;
+}
+
+.hover-shadow:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
 .card {
-    transition: transform 0.2s ease-in-out;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
 }
 
 .card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
+}
+
+.card-header {
+  background-color: rgba(0, 0, 0, 0.03);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.ingredient-list li {
+  font-size: 0.9rem;
+}
+
+.ingredient-list .fa-circle-dot {
+  font-size: 0.5rem;
+  vertical-align: middle;
+}
+
+.badge {
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.5em 0.8em;
 }
 
 .btn-group {
@@ -28,7 +59,14 @@
     flex: 1;
 }
 
-.badge {
-    font-size: 0.8rem;
-    padding: 0.5em 0.75em;
+.btn-link {
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  text-decoration: underline;
+}
+
+.text-muted {
+  font-size: 0.9rem;
 }

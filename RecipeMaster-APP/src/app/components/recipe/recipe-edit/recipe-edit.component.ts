@@ -18,10 +18,10 @@ import { Ingredient } from '../../../models/ingredient.model';
   imports: [CommonModule, RouterModule, ReactiveFormsModule, NgxSpinnerModule]
 })
 export class RecipeEditComponent implements OnInit {
-  recipeForm: FormGroup;
-  recipeId: string = '';
-  loading = false;
+  recipeId!: string;
+  recipeForm!: FormGroup;
   submitted = false;
+  loading = false;
   availableIngredients: Ingredient[] = [];
 
   constructor(
@@ -32,62 +32,67 @@ export class RecipeEditComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
-    this.recipeForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      ingredients: this.formBuilder.array([])
-    });
+    this.initForm();
   }
 
   ngOnInit(): void {
-    this.loadIngredients();
-    this.route.params.subscribe(params => {
-      this.recipeId = params['id'];
-      this.loadRecipe();
+    this.loadIngredients().then(() => {
+      this.route.params.subscribe(params => {
+        this.recipeId = params['id'];
+        if (this.recipeId) {
+          this.loadRecipe();
+        }
+      });
     });
   }
 
-  // Form getters
   get f() { return this.recipeForm.controls; }
   get ingredients() { return this.f['ingredients'] as FormArray; }
 
-  private loadIngredients(): void {
+  private loadIngredients(): Promise<void> {
     this.loading = true;
-    this.ingredientService.getAll().subscribe({
-      next: (ingredients) => {
-        this.availableIngredients = ingredients;
-        this.loading = false;
-      },
-      error: (error) => {
-        this.toastr.error('Failed to load ingredients', 'Error');
-        console.error('Error loading ingredients:', error);
-        this.loading = false;
-      }
+    return new Promise<void>((resolve, reject) => {
+      this.ingredientService.getAll().subscribe({
+        next: (ingredients) => {
+          this.availableIngredients = ingredients;
+          this.loading = false;
+          resolve();
+        },
+        error: (error) => {
+          this.toastr.error('Failed to load ingredients', 'Error');
+          console.error('Error loading ingredients:', error);
+          this.loading = false;
+          reject(error);
+        }
+      });
     });
   }
 
   private loadRecipe(): void {
+    if (!this.availableIngredients.length) {
+      this.toastr.error('No ingredients available', 'Error');
+      return;
+    }
+
     this.loading = true;
     this.recipeService.getById(this.recipeId).subscribe({
       next: (recipe: Recipe) => {
         this.recipeForm.patchValue({
           name: recipe.name,
-          description: recipe.description
+          description: recipe.description,
+          preparationTime: recipe.preparationTime,
+          cookingTime: recipe.cookingTime,
+          servings: recipe.servings,
+          difficulty: recipe.difficulty,
+          instructions: recipe.instructions
         });
 
-        // Clear existing ingredients
         while (this.ingredients.length) {
           this.ingredients.removeAt(0);
         }
 
-        // Add recipe ingredients
         recipe.ingredients.forEach(ingredient => {
-          this.ingredients.push(
-            this.formBuilder.group({
-              ingredientId: [ingredient.ingredientId, Validators.required],
-              quantity: [ingredient.quantity, [Validators.required, Validators.min(1)]]
-            })
-          );
+          this.addIngredient(ingredient);
         });
 
         this.loading = false;
@@ -101,19 +106,30 @@ export class RecipeEditComponent implements OnInit {
     });
   }
 
-  addIngredient(): void {
-    const ingredientForm = this.formBuilder.group({
-      ingredientId: ['', Validators.required],
-      quantity: ['', [Validators.required, Validators.min(1)]]
+  initForm(): void {
+    this.recipeForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required, Validators.minLength(10)]],
+      preparationTime: ['', [Validators.required, Validators.min(1)]],
+      cookingTime: ['', [Validators.required, Validators.min(0)]],
+      servings: ['', [Validators.required, Validators.min(1)]],
+      difficulty: ['', [Validators.required]],
+      instructions: ['', [Validators.required, Validators.minLength(20)]],
+      ingredients: this.formBuilder.array([])
     });
+  }
 
-    this.ingredients.push(ingredientForm);
+  addIngredient(ingredient?: any): void {
+    this.ingredients.push(
+      this.formBuilder.group({
+        ingredientId: [ingredient ? ingredient.ingredientId : '', Validators.required],
+        quantity: [ingredient ? ingredient.quantity : '', [Validators.required, Validators.min(1)]]
+      })
+    );
   }
 
   removeIngredient(index: number): void {
-    if (this.ingredients.length > 1) {
-      this.ingredients.removeAt(index);
-    }
+    this.ingredients.removeAt(index);
   }
 
   onSubmit(): void {
@@ -123,16 +139,19 @@ export class RecipeEditComponent implements OnInit {
       return;
     }
 
+    this.loading = true;
+
     const request: UpdateRecipeRequest = {
       name: this.recipeForm.value.name,
       description: this.recipeForm.value.description,
-      ingredients: this.recipeForm.value.ingredients.map((ing: any) => ({
-        ingredientId: ing.ingredientId,
-        quantity: ing.quantity
-      }))
+      preparationTime: this.recipeForm.value.preparationTime,
+      cookingTime: this.recipeForm.value.cookingTime,
+      servings: this.recipeForm.value.servings,
+      difficulty: this.recipeForm.value.difficulty,
+      instructions: this.recipeForm.value.instructions,
+      ingredients: this.recipeForm.value.ingredients
     };
 
-    this.loading = true;
     this.recipeService.update(this.recipeId, request).subscribe({
       next: () => {
         this.toastr.success('Recipe updated successfully', 'Success');

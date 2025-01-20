@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using RecipeMaster.Application.Commands.Ingredients;
 using RecipeMaster.Application.Commands.Recipes;
 using RecipeMaster.Application.DTOs;
@@ -35,10 +35,18 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.OriginCountry, opt => opt.MapFrom(src => src.OriginCountry));
         CreateMap<Ingredient, IngredientUsageDTO>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
-        
+
         CreateMap<Recipe, RecipeDTO>()
-            .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src => src.Ingredients))
-            .ReverseMap();
+            .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src =>
+                src.Ingredients.Select(i => new RecipeIngredientDTO
+                {
+                    IngredientId = i.Ingredient.Id,
+                    IngredientName = i.Ingredient.Name,
+                    Quantity = i.Quantity
+                }).ToList() ?? new List<RecipeIngredientDTO>()))
+            .ReverseMap()
+            .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src =>
+                src.Ingredients.Select(i => new RecipeIngredient(src.Id, i.IngredientId, i.Quantity)).ToList()));
         CreateMap<UpdateRecipeDTO, UpdateRecipeCommand>();
         CreateMap<UpdateRecipeCommand, Recipe>()
             .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src =>

@@ -125,4 +125,20 @@ export class IngredientListComponent implements OnInit {
       this.currentPage = page;
     }
   }
+
+  getStockLevelClass(ingredient: Ingredient): string {
+    const stockPercentage = (ingredient.stockQuantity / ingredient.minimumStockLevel) * 100;
+    
+    if (stockPercentage <= 50) {
+      return 'bg-danger'; // Vermelho para estoque crítico
+    } else if (stockPercentage <= 80) {
+      return 'bg-warning'; // Amarelo para estoque baixo
+    } else {
+      return 'bg-success'; // Verde para estoque adequado
+    }
+  }
+
+  getStockPercentage(ingredient: Ingredient): number {
+    return Math.min((ingredient.stockQuantity / ingredient.minimumStockLevel) * 100, 100);
+  }
 }

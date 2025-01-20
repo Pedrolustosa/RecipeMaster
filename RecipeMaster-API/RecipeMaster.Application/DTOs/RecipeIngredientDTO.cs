@@ -1,4 +1,4 @@
-﻿namespace RecipeMaster.Application.DTOs;
+namespace RecipeMaster.Application.DTOs;
 
 public class RecipeIngredientDTO
 {
