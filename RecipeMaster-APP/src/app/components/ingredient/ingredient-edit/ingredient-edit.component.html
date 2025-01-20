@@ -24,7 +24,7 @@
         <div class="card-body">
           <form *ngIf="ingredientForm" [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
             <div class="mb-4">
-              <label for="name" class="form-label">Name</label>
+              <label for="name" class="form-label fw-bold">Name</label>
               <input
                 type="text"
                 class="form-control"
@@ -35,7 +35,22 @@
               >
               <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
                 <div *ngIf="f['name'].errors['required']">Name is required</div>
-                <div *ngIf="f['name'].errors['minlength']">Name must be at least 2 characters</div>
+                <div *ngIf="f['name'].errors['minlength']">Name must be at least 2 characters long</div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="description" class="form-label fw-bold">Description</label>
+              <textarea
+                class="form-control"
+                id="description"
+                rows="3"
+                formControlName="description"
+                [ngClass]="{'is-invalid': submitted && f['description'].errors}"
+              ></textarea>
+              <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+                <div *ngIf="f['description'].errors['required']">Description is required</div>
+                <div *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters long</div>
               </div>
             </div>
 

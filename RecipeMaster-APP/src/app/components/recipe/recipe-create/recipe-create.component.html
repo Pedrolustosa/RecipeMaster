@@ -52,6 +52,88 @@
               </div>
             </div>
 
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label for="preparationTime" class="form-label fw-bold">Preparation Time (minutes)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="preparationTime"
+                  formControlName="preparationTime"
+                  [ngClass]="{'is-invalid': submitted && f['preparationTime'].errors}"
+                >
+                <div *ngIf="submitted && f['preparationTime'].errors" class="invalid-feedback">
+                  <div *ngIf="f['preparationTime'].errors['required']">Preparation time is required</div>
+                  <div *ngIf="f['preparationTime'].errors['min']">Preparation time must be at least 1 minute</div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-4">
+                <label for="cookingTime" class="form-label fw-bold">Cooking Time (minutes)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="cookingTime"
+                  formControlName="cookingTime"
+                  [ngClass]="{'is-invalid': submitted && f['cookingTime'].errors}"
+                >
+                <div *ngIf="submitted && f['cookingTime'].errors" class="invalid-feedback">
+                  <div *ngIf="f['cookingTime'].errors['required']">Cooking time is required</div>
+                  <div *ngIf="f['cookingTime'].errors['min']">Cooking time must be at least 0 minutes</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <label for="servings" class="form-label fw-bold">Servings</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="servings"
+                  formControlName="servings"
+                  [ngClass]="{'is-invalid': submitted && f['servings'].errors}"
+                >
+                <div *ngIf="submitted && f['servings'].errors" class="invalid-feedback">
+                  <div *ngIf="f['servings'].errors['required']">Number of servings is required</div>
+                  <div *ngIf="f['servings'].errors['min']">Must serve at least 1 person</div>
+                </div>
+              </div>
+
+              <div class="col-md-6 mb-4">
+                <label for="difficulty" class="form-label fw-bold">Difficulty</label>
+                <select
+                  class="form-select"
+                  id="difficulty"
+                  formControlName="difficulty"
+                  [ngClass]="{'is-invalid': submitted && f['difficulty'].errors}"
+                >
+                  <option value="">Select difficulty</option>
+                  <option value="Easy">Easy</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Hard">Hard</option>
+                </select>
+                <div *ngIf="submitted && f['difficulty'].errors" class="invalid-feedback">
+                  <div *ngIf="f['difficulty'].errors['required']">Difficulty is required</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label for="instructions" class="form-label fw-bold">Instructions</label>
+              <textarea
+                class="form-control"
+                id="instructions"
+                rows="5"
+                formControlName="instructions"
+                [ngClass]="{'is-invalid': submitted && f['instructions'].errors}"
+              ></textarea>
+              <div *ngIf="submitted && f['instructions'].errors" class="invalid-feedback">
+                <div *ngIf="f['instructions'].errors['required']">Instructions are required</div>
+                <div *ngIf="f['instructions'].errors['minlength']">Instructions must be at least 20 characters long</div>
+              </div>
+            </div>
+
             <!-- Ingredients Section -->
             <div class="mb-4" formArrayName="ingredients">
               <div class="d-flex justify-content-between align-items-center mb-3">
@@ -64,36 +146,46 @@
               <div *ngFor="let ingredient of ingredients.controls; let i=index" 
                    [formGroupName]="i" 
                    class="row mb-3 align-items-center">
-                <div class="col">
-                  <select class="form-select"
-                          formControlName="ingredientId"
-                          [ngClass]="{'is-invalid': submitted && ingredient.get('ingredientId')?.errors}">
-                    <option value="">Select ingredient</option>
+                <div class="col-md-6">
+                  <label [for]="'ingredient' + i" class="form-label">Ingredient</label>
+                  <select
+                    [id]="'ingredient' + i"
+                    class="form-select"
+                    formControlName="ingredientId"
+                    [ngClass]="{'is-invalid': submitted && ingredients.controls[i].get('ingredientId')?.errors}"
+                    (change)="onIngredientChange(i, ingredients.controls[i].get('ingredientId')?.value)"
+                  >
+                    <option value="">Select an ingredient</option>
                     <option *ngFor="let ing of availableIngredients" [value]="ing.id">
                       {{ ing.name }}
                     </option>
                   </select>
-                  <div *ngIf="submitted && ingredient.get('ingredientId')?.errors" class="invalid-feedback">
-                    <div *ngIf="ingredient.get('ingredientId')?.errors?.['required']">Please select an ingredient</div>
+                  <div *ngIf="submitted && ingredients.controls[i].get('ingredientId')?.errors" class="invalid-feedback">
+                    <div *ngIf="ingredients.controls[i].get('ingredientId')?.errors?.['required']">Ingredient is required</div>
                   </div>
                 </div>
-                <div class="col-3">
-                  <input type="number" 
-                         class="form-control" 
-                         formControlName="quantity"
-                         placeholder="Quantity"
-                         [ngClass]="{'is-invalid': submitted && ingredient.get('quantity')?.errors}">
-                  <div *ngIf="submitted && ingredient.get('quantity')?.errors" class="invalid-feedback">
-                    <div *ngIf="ingredient.get('quantity')?.errors?.['required']">Quantity is required</div>
-                    <div *ngIf="ingredient.get('quantity')?.errors?.['min']">Quantity must be greater than 0</div>
+
+                <div class="col-md-4">
+                  <label [for]="'quantity' + i" class="form-label">Quantity</label>
+                  <input
+                    type="number"
+                    [id]="'quantity' + i"
+                    class="form-control"
+                    formControlName="quantity"
+                    [ngClass]="{'is-invalid': submitted && ingredients.controls[i].get('quantity')?.errors}"
+                  >
+                  <div *ngIf="submitted && ingredients.controls[i].get('quantity')?.errors" class="invalid-feedback">
+                    <div *ngIf="ingredients.controls[i].get('quantity')?.errors?.['required']">Quantity is required</div>
+                    <div *ngIf="ingredients.controls[i].get('quantity')?.errors?.['min']">Quantity must be greater than 0</div>
                   </div>
                 </div>
-                <div class="col-auto">
-                  <button type="button" 
-                          class="btn btn-outline-danger btn-sm" 
-                          (click)="removeIngredient(i)"
-                          [disabled]="ingredients.length === 1">
-                    <i class="fas fa-trash-alt"></i>
+
+                <!-- Campo oculto para o ingredientName -->
+                <input type="hidden" formControlName="ingredientName">
+
+                <div class="col-md-2 d-flex align-items-end">
+                  <button type="button" class="btn btn-outline-danger" (click)="removeIngredient(i)">
+                    <i class="fas fa-trash"></i>
                   </button>
                 </div>
               </div>

@@ -111,24 +111,22 @@
                   <td class="py-3">
                     <span class="text-success fw-medium">{{ ingredient.cost | currency:'BRL' }}</span>
                   </td>
-                  <td class="py-3">
-                    <div>
-                      <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                          <div class="progress" style="height: 6px;">
-                            <div class="progress-bar" 
-                                 [ngClass]="{
-                                   'bg-success': ingredient.stockQuantity >= ingredient.minimumStockLevel,
-                                   'bg-warning': ingredient.stockQuantity < ingredient.minimumStockLevel && ingredient.stockQuantity > 0,
-                                   'bg-danger': ingredient.stockQuantity === 0
-                                 }"
-                                 [style.width.%]="(ingredient.stockQuantity / (ingredient.minimumStockLevel * 2)) * 100">
-                            </div>
-                          </div>
+                  <td>
+                    <div class="d-flex flex-column">
+                      <div class="progress" style="height: 8px;">
+                        <div class="progress-bar" 
+                             [ngClass]="getStockLevelClass(ingredient)"
+                             [style.width.%]="getStockPercentage(ingredient)"
+                             role="progressbar"
+                             [attr.aria-valuenow]="ingredient.stockQuantity"
+                             [attr.aria-valuemin]="0"
+                             [attr.aria-valuemax]="ingredient.minimumStockLevel">
                         </div>
-                        <span class="ms-2 small">{{ ingredient.stockQuantity }}</span>
                       </div>
-                      <small class="text-muted">Min: {{ ingredient.minimumStockLevel }}</small>
+                      <div class="d-flex justify-content-between mt-1">
+                        <small class="text-muted">Stock: {{ ingredient.stockQuantity }}</small>
+                        <small class="text-muted">Min: {{ ingredient.minimumStockLevel }}</small>
+                      </div>
                     </div>
                   </td>
                   <td class="py-3">

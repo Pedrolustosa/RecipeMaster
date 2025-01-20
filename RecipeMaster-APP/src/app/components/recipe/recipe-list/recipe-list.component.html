@@ -38,68 +38,96 @@
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <div class="col" *ngFor="let recipe of recipes">
       <div class="card h-100 shadow-sm border-0 hover-shadow">
+        <div class="card-header bg-light py-3">
+          <h5 class="card-title mb-0">{{ recipe.name }}</h5>
+        </div>
         <div class="card-body">
-          <h5 class="card-title mb-3">{{ recipe.name }}</h5>
-          <p class="card-text text-muted">{{ recipe.description }}</p>
-          
           <div class="mb-3">
-            <h6 class="fw-bold mb-2">Ingredients</h6>
-            <ul class="list-unstyled mb-0">
-              <li *ngFor="let ingredient of recipe.ingredients" class="mb-1">
-                <span class="text-muted">{{ ingredient.ingredientName }}</span>
+            <p class="card-text">{{ recipe.description }}</p>
+          </div>
+
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-primary">{{ recipe.difficulty }}</span>
+              <span class="text-muted">
+                <i class="fas fa-users me-1"></i> {{ recipe.servings }} servings
+              </span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="text-muted">
+                <i class="fas fa-clock me-1"></i> Prep: {{ recipe.preparationTime }}min
+              </span>
+              <span class="text-muted">
+                <i class="fas fa-fire me-1"></i> Cook: {{ recipe.cookingTime }}min
+              </span>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <h6 class="fw-bold mb-2">
+              <i class="fas fa-list me-2"></i>Ingredients
+            </h6>
+            <ul class="list-unstyled mb-0 ingredient-list">
+              <li *ngFor="let ingredient of recipe.ingredients.slice(0, 3)" class="mb-1">
+                <i class="fas fa-circle-dot me-2 text-primary"></i>
+                {{ ingredient.ingredientName }}
                 <span class="badge bg-light text-dark ms-2">{{ ingredient.quantity }}</span>
+              </li>
+              <li *ngIf="recipe.ingredients.length > 3" class="text-muted">
+                <small>+ {{ recipe.ingredients.length - 3 }} more ingredients</small>
               </li>
             </ul>
           </div>
         </div>
-        <div class="card-footer bg-transparent border-top-0 pb-3">
-          <div class="d-flex justify-content-end gap-2">
-            <div class="btn-group" role="group">
-              <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/recipes/edit', recipe.id]">
-                <i class="fas fa-edit"></i> Edit
+
+        <div class="card-footer bg-white border-top-0">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['edit', recipe.id]">
+                <i class="fas fa-edit me-1"></i> Edit
               </button>
-              <button class="btn btn-sm btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" (click)="selectRecipe(recipe)">
-                <i class="fas fa-trash"></i> Delete
-              </button>
-              <button class="btn btn-sm btn-outline-success" (click)="downloadRecipePDF(recipe)">
-                <i class="fas fa-file-pdf"></i> Download PDF
+              <button class="btn btn-sm btn-outline-danger me-2" (click)="deleteRecipe(recipe.id)">
+                <i class="fas fa-trash me-1"></i> Delete
               </button>
             </div>
+            <button class="btn btn-sm btn-outline-success" (click)="downloadRecipePDF(recipe)">
+              <i class="fas fa-file-pdf me-1"></i> Download PDF
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Empty State -->
+  <!-- No Recipes Message -->
   <div *ngIf="recipes.length === 0" class="text-center py-5">
-    <i class="fas fa-book display-1 text-muted mb-3"></i>
-    <h3 class="text-muted">No Recipes Found</h3>
-    <p class="text-muted mb-4">Start creating your first recipe!</p>
+    <i class="fas fa-book fa-3x text-muted mb-3"></i>
+    <h4>No recipes found</h4>
+    <p class="text-muted">Start by adding your first recipe!</p>
     <button class="btn btn-primary" routerLink="create">
-      <i class="fas fa-plus me-2"></i> Create Recipe
+      <i class="fas fa-plus me-2"></i>Add Recipe
     </button>
   </div>
-</div>
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header border-bottom-0">
-        <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body py-4">
-        <div class="text-center">
-          <i class="fas fa-exclamation-triangle text-warning display-4 mb-3"></i>
-          <p class="mb-0">Are you sure you want to delete this recipe?</p>
-          <p class="text-muted mb-0">This action cannot be undone.</p>
+  <!-- Delete Confirmation Modal -->
+  <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-bottom-0">
+          <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-      </div>
-      <div class="modal-footer border-top-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-danger" (click)="deleteRecipe(selectedRecipe?.id)" data-bs-dismiss="modal">Delete Recipe</button>
+        <div class="modal-body py-4">
+          <div class="text-center">
+            <i class="fas fa-exclamation-triangle text-warning display-4 mb-3"></i>
+            <p class="mb-0">Are you sure you want to delete this recipe?</p>
+            <p class="text-muted mb-0">This action cannot be undone.</p>
+          </div>
+        </div>
+        <div class="modal-footer border-top-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger" (click)="deleteRecipe(selectedRecipe?.id)" data-bs-dismiss="modal">Delete Recipe</button>
+        </div>
       </div>
     </div>
   </div>

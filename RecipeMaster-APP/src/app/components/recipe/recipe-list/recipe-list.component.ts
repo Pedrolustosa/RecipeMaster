@@ -83,123 +83,147 @@ export class RecipeListComponent implements OnInit {
   }
 
   downloadRecipePDF(recipe: Recipe): void {
-    const pdf = new jsPDF();
-    const pageWidth = pdf.internal.pageSize.width;
-    const pageHeight = pdf.internal.pageSize.height;
-    const margin = 20;
-    let yPos = margin;
+    this.recipeService.getById(recipe.id).subscribe({
+      next: (fullRecipe) => {
+        const pdf = new jsPDF();
+        const pageWidth = pdf.internal.pageSize.width;
+        const pageHeight = pdf.internal.pageSize.height;
+        const margin = 20;
+        let yPos = margin;
 
-    // Add parchment background color
-    pdf.setFillColor(251, 247, 238); // Warm cream color
-    pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+        pdf.setFillColor(251, 247, 238);
+        pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
-    // Add decorative border
-    pdf.setDrawColor(139, 69, 19); // Saddle brown
-    pdf.setLineWidth(2);
-    pdf.rect(margin/2, margin/2, pageWidth - margin, pageHeight - margin, 'S');
-    pdf.setLineWidth(0.5);
-    pdf.rect(margin, margin, pageWidth - margin*2, pageHeight - margin*2, 'S');
+        pdf.setDrawColor(139, 69, 19);
+        pdf.setLineWidth(2);
+        pdf.rect(margin/2, margin/2, pageWidth - margin, pageHeight - margin, 'S');
+        pdf.setLineWidth(0.5);
+        pdf.rect(margin, margin, pageWidth - margin*2, pageHeight - margin*2, 'S');
 
-    // Add header decoration
-    pdf.setDrawColor(139, 69, 19);
-    pdf.setLineWidth(1);
-    const headerY = margin + 15;
-    pdf.line(margin, headerY, pageWidth - margin, headerY);
-    yPos = headerY + 15;
+        const headerY = margin + 15;
+        pdf.setDrawColor(139, 69, 19);
+        pdf.setLineWidth(1);
+        pdf.line(margin, headerY, pageWidth - margin, headerY);
+        yPos = headerY + 15;
 
-    // Add title with elegant font
-    pdf.setFont('times', 'bold');
-    pdf.setFontSize(28);
-    pdf.setTextColor(101, 67, 33); // Dark brown
-    const titleWidth = pdf.getStringUnitWidth(recipe.name) * 28 / pdf.internal.scaleFactor;
-    const titleX = (pageWidth - titleWidth) / 2;
-    pdf.text(recipe.name, titleX, yPos);
-    yPos += 20;
+        pdf.setFont('times', 'bold');
+        pdf.setFontSize(28);
+        pdf.setTextColor(101, 67, 33);
+        const titleWidth = pdf.getStringUnitWidth(fullRecipe.name) * 28 / pdf.internal.scaleFactor;
+        const titleX = (pageWidth - titleWidth) / 2;
+        pdf.text(fullRecipe.name, titleX, yPos);
+        yPos += 20;
 
-    // Add recipe details
-    const contentX = margin + 10;
-    const contentWidth = pageWidth - (margin + 10) * 2;
+        const contentX = margin + 10;
+        const contentWidth = pageWidth - (margin + 10) * 2;
 
-    // Description section
-    pdf.setFont('times', 'bold');
-    pdf.setFontSize(16);
-    pdf.text('Description', contentX, yPos);
-    yPos += 10;
+        pdf.setFont('times', 'bold');
+        pdf.setFontSize(16);
+        pdf.text('Description', contentX, yPos);
+        yPos += 10;
 
-    pdf.setFont('times', 'normal');
-    pdf.setFontSize(12);
-    pdf.setTextColor(0);
-    const descriptionLines = pdf.splitTextToSize(recipe.description, contentWidth);
-    pdf.text(descriptionLines, contentX, yPos);
-    yPos += descriptionLines.length * 7 + 15;
+        pdf.setFont('times', 'normal');
+        pdf.setFontSize(12);
+        pdf.setTextColor(0);
+        const descriptionLines = pdf.splitTextToSize(fullRecipe.description, contentWidth);
+        pdf.text(descriptionLines, contentX, yPos);
+        yPos += descriptionLines.length * 7 + 15;
 
-    // Ingredients section
-    pdf.setFont('times', 'bold');
-    pdf.setFontSize(16);
-    pdf.setTextColor(101, 67, 33);
-    pdf.text('Ingredients', contentX, yPos);
-    yPos += 10;
+        pdf.setFont('times', 'bold');
+        pdf.setFontSize(16);
+        pdf.setTextColor(101, 67, 33);
+        pdf.text('Recipe Details', contentX, yPos);
+        yPos += 10;
 
-    // Add decorative line under section title
-    pdf.setDrawColor(139, 69, 19);
-    pdf.setLineWidth(0.5);
-    pdf.line(contentX, yPos - 5, contentX + 50, yPos - 5);
+        pdf.setFont('times', 'normal');
+        pdf.setFontSize(12);
+        pdf.setTextColor(0);
+        pdf.text(`Preparation Time: ${fullRecipe.preparationTime} minutes`, contentX + 10, yPos);
+        yPos += 8;
+        pdf.text(`Cooking Time: ${fullRecipe.cookingTime} minutes`, contentX + 10, yPos);
+        yPos += 8;
+        pdf.text(`Servings: ${fullRecipe.servings}`, contentX + 10, yPos);
+        yPos += 8;
+        pdf.text(`Difficulty: ${fullRecipe.difficulty}`, contentX + 10, yPos);
+        yPos += 15;
 
-    pdf.setFont('times', 'normal');
-    pdf.setFontSize(12);
-    pdf.setTextColor(0);
+        pdf.setFont('times', 'bold');
+        pdf.setFontSize(16);
+        pdf.setTextColor(101, 67, 33);
+        pdf.text('Ingredients', contentX, yPos);
+        yPos += 10;
 
-    let totalCost = 0;
-    recipe.ingredients.forEach(ingredient => {
-      // Add bullet point
-      pdf.setFont('zapfdingbats');
-      pdf.text('•', contentX, yPos);
-      
-      // Add ingredient text
-      pdf.setFont('times', 'normal');
-      const ingredientText = `${ingredient.ingredientName}: ${ingredient.quantity} units`;
-      pdf.text(ingredientText, contentX + 10, yPos);
-      yPos += 8;
+        pdf.setDrawColor(139, 69, 19);
+        pdf.setLineWidth(0.5);
+        pdf.line(contentX, yPos - 5, contentX + 50, yPos - 5);
+
+        pdf.setFont('times', 'normal');
+        pdf.setFontSize(12);
+        pdf.setTextColor(0);
+
+        fullRecipe.ingredients.forEach(ingredient => {
+          pdf.setFont('zapfdingbats');
+          pdf.text('•', contentX, yPos);
+          
+          pdf.setFont('times', 'normal');
+          const ingredientText = `${ingredient.ingredientName}: ${ingredient.quantity}`;
+          pdf.text(ingredientText, contentX + 10, yPos);
+          yPos += 8;
+        });
+
+        yPos += 10;
+
+        if (fullRecipe.instructions) {
+          pdf.setFont('times', 'bold');
+          pdf.setFontSize(16);
+          pdf.setTextColor(101, 67, 33);
+          pdf.text('Instructions', contentX, yPos);
+          yPos += 10;
+
+          pdf.setFont('times', 'normal');
+          pdf.setFontSize(12);
+          pdf.setTextColor(0);
+          const instructionsLines = pdf.splitTextToSize(fullRecipe.instructions, contentWidth);
+          pdf.text(instructionsLines, contentX, yPos);
+          yPos += instructionsLines.length * 7 + 15;
+        }
+
+        const boxHeight = 40;
+        const boxY = yPos;
+        pdf.setDrawColor(139, 69, 19);
+        pdf.setLineWidth(0.5);
+        pdf.rect(contentX, boxY, contentWidth, boxHeight, 'S');
+
+        pdf.setFont('times', 'bold');
+        pdf.setTextColor(101, 67, 33);
+        pdf.text('Recipe Summary', contentX + 5, boxY + 15);
+        
+        pdf.setFont('times', 'normal');
+        pdf.setTextColor(0);
+        pdf.text(`Total Ingredients: ${fullRecipe.ingredients.length}`, contentX + 5, boxY + 25);
+        pdf.text(`Estimated Cost: $${fullRecipe.totalCost.toFixed(2)}`, contentX + 5, boxY + 35);
+
+        const footerY = pageHeight - margin - 10;
+        pdf.setFont('times', 'italic');
+        pdf.setFontSize(10);
+        pdf.setTextColor(128);
+        
+        pdf.setDrawColor(139, 69, 19);
+        pdf.setLineWidth(0.5);
+        pdf.line(margin, footerY - 15, pageWidth - margin, footerY - 15);
+
+        pdf.text('Generated by RecipeMaster', margin, footerY);
+        const dateText = new Date().toLocaleDateString();
+        const dateWidth = pdf.getStringUnitWidth(dateText) * 10 / pdf.internal.scaleFactor;
+        pdf.text(dateText, pageWidth - margin - dateWidth, footerY);
+
+        const fileName = `${fullRecipe.name.toLowerCase().replace(/\s+/g, '-')}-recipe.pdf`;
+        pdf.save(fileName);
+      },
+      error: (error) => {
+        this.toastr.error('Failed to generate PDF', 'Error');
+        console.error('Error generating PDF:', error);
+      }
     });
-
-    yPos += 10;
-
-    // Add summary box
-    const boxHeight = 40;
-    const boxY = yPos;
-    pdf.setDrawColor(139, 69, 19);
-    pdf.setLineWidth(0.5);
-    pdf.rect(contentX, boxY, contentWidth, boxHeight, 'S');
-
-    pdf.setFont('times', 'bold');
-    pdf.setTextColor(101, 67, 33);
-    pdf.text('Recipe Summary', contentX + 5, boxY + 15);
-    
-    pdf.setFont('times', 'normal');
-    pdf.setTextColor(0);
-    pdf.text(`Total Ingredients: ${recipe.ingredients.length}`, contentX + 5, boxY + 25);
-    pdf.text(`Estimated Cost: $${totalCost.toFixed(2)}`, contentX + 5, boxY + 35);
-
-    // Add footer
-    const footerY = pageHeight - margin - 10;
-    pdf.setFont('times', 'italic');
-    pdf.setFontSize(10);
-    pdf.setTextColor(128);
-    
-    // Add decorative line above footer
-    pdf.setDrawColor(139, 69, 19);
-    pdf.setLineWidth(0.5);
-    pdf.line(margin, footerY - 15, pageWidth - margin, footerY - 15);
-
-    // Footer text
-    pdf.text('Generated by RecipeMaster', margin, footerY);
-    const dateText = new Date().toLocaleDateString();
-    const dateWidth = pdf.getStringUnitWidth(dateText) * 10 / pdf.internal.scaleFactor;
-    pdf.text(dateText, pageWidth - margin - dateWidth, footerY);
-
-    // Save the PDF
-    const fileName = `${recipe.name.toLowerCase().replace(/\s+/g, '-')}-recipe.pdf`;
-    pdf.save(fileName);
-    this.toastr.success('Recipe PDF downloaded successfully', 'Success');
   }
 }

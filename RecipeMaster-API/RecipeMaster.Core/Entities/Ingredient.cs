@@ -19,7 +19,18 @@ public class Ingredient
 
     public Ingredient() { }
 
-    public Ingredient(string name, string description, MeasurementUnit unit, IngredientCost cost, decimal stockQuantity, decimal minimumStockLevel, string supplierName, bool isPerishable, string originCountry, string storageInstructions, bool isActive)
+    public Ingredient(
+        string name,
+        string description,
+        MeasurementUnit unit,
+        IngredientCost cost,
+        decimal stockQuantity,
+        decimal minimumStockLevel,
+        string supplierName,
+        bool isPerishable,
+        string originCountry,
+        string storageInstructions,
+        bool isActive)
     {
         Id = Guid.NewGuid();
         Name = name;
@@ -36,4 +47,23 @@ public class Ingredient
     }
 
     public void UpdateCost(IngredientCost newCost) => Cost = newCost ?? throw new ArgumentNullException(nameof(newCost));
+
+    public void DecreaseStock(decimal quantity)
+    {
+        if (quantity <= 0)
+            throw new ArgumentException("The quantity to decrease must be greater than zero.", nameof(quantity));
+
+        if (quantity > StockQuantity)
+            throw new InvalidOperationException($"Not enough stock for {Name}. Current stock: {StockQuantity}, requested: {quantity}");
+
+        StockQuantity -= quantity;
+
+        if (StockQuantity < MinimumStockLevel)
+            NotifyLowStock();
+    }
+
+    private void NotifyLowStock()
+    {
+        Console.WriteLine($"Warning: Stock for {Name} is below the minimum level. Current stock: {StockQuantity}, Minimum level: {MinimumStockLevel}");
+    }
 }

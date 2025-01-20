@@ -18,7 +18,7 @@ import { Ingredient } from '../../../models/ingredient.model';
   imports: [CommonModule, RouterModule, ReactiveFormsModule, NgxSpinnerModule]
 })
 export class RecipeCreateComponent implements OnInit {
-  recipeForm: FormGroup;
+  recipeForm!: FormGroup;
   loading = false;
   submitted = false;
   availableIngredients: Ingredient[] = [];
@@ -30,16 +30,25 @@ export class RecipeCreateComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
-    this.recipeForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      ingredients: this.formBuilder.array([])
-    });
+    this.initForm();
   }
 
   ngOnInit(): void {
     this.addIngredient();
     this.loadIngredients();
+  }
+
+  private initForm(): void {
+    this.recipeForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required, Validators.minLength(10)]],
+      preparationTime: ['', [Validators.required, Validators.min(1)]],
+      cookingTime: ['', [Validators.required, Validators.min(0)]],
+      servings: ['', [Validators.required, Validators.min(1)]],
+      difficulty: ['', [Validators.required]],
+      instructions: ['', [Validators.required, Validators.minLength(20)]],
+      ingredients: this.formBuilder.array([])
+    });
   }
 
   // Form getters
@@ -64,10 +73,21 @@ export class RecipeCreateComponent implements OnInit {
   addIngredient(): void {
     const ingredientForm = this.formBuilder.group({
       ingredientId: ['', Validators.required],
+      ingredientName: [''],  
       quantity: ['', [Validators.required, Validators.min(1)]]
     });
 
     this.ingredients.push(ingredientForm);
+  }
+
+  onIngredientChange(index: number, ingredientId: string): void {
+    const selectedIngredient = this.availableIngredients.find(i => i.id === ingredientId);
+    if (selectedIngredient) {
+      const ingredientForm = this.ingredients.at(index);
+      ingredientForm.patchValue({
+        ingredientName: selectedIngredient.name
+      });
+    }
   }
 
   removeIngredient(index: number): void {
@@ -83,12 +103,19 @@ export class RecipeCreateComponent implements OnInit {
       return;
     }
 
+    const formValue = this.recipeForm.value;
     const request: CreateRecipeRequest = {
-      name: this.recipeForm.value.name,
-      description: this.recipeForm.value.description,
-      ingredients: this.recipeForm.value.ingredients.map((ing: any) => ({
-        ingredientId: ing.ingredientId,
-        quantity: ing.quantity
+      name: formValue.name,
+      description: formValue.description,
+      preparationTime: formValue.preparationTime,
+      cookingTime: formValue.cookingTime,
+      servings: formValue.servings,
+      difficulty: formValue.difficulty,
+      instructions: formValue.instructions,
+      ingredients: formValue.ingredients.map((ingredient: any) => ({
+        ingredientId: ingredient.ingredientId,
+        ingredientName: ingredient.ingredientName,
+        quantity: ingredient.quantity
       }))
     };
 

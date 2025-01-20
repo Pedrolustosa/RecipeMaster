@@ -30,6 +30,7 @@ export class IngredientEditComponent implements OnInit {
     this.ingredientForm = this.formBuilder.group({
       id: [''],
       name: ['', [Validators.required, Validators.minLength(2)]],
+      description: ['', [Validators.required, Validators.minLength(10)]],
       unit: ['', Validators.required],
       cost: [0, [Validators.required, Validators.min(0)]],
       stockQuantity: [0, [Validators.required, Validators.min(0)]],
@@ -58,7 +59,20 @@ export class IngredientEditComponent implements OnInit {
       this.ingredientService.getById(id).subscribe({
         next: (ingredient: Ingredient) => {
           this.originalIngredient = ingredient;
-          this.ingredientForm.patchValue(ingredient);
+          this.ingredientForm.patchValue({
+            id: ingredient.id,
+            name: ingredient.name,
+            description: ingredient.description,
+            unit: ingredient.unit,
+            cost: ingredient.cost,
+            stockQuantity: ingredient.stockQuantity,
+            minimumStockLevel: ingredient.minimumStockLevel,
+            supplierName: ingredient.supplierName,
+            isPerishable: ingredient.isPerishable,
+            originCountry: ingredient.originCountry,
+            storageInstructions: ingredient.storageInstructions,
+            isActive: ingredient.isActive
+          });
         },
         error: (error: Error) => {
           console.error('Error loading ingredient:', error);
