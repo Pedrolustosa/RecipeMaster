@@ -6,6 +6,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { IngredientService } from '../../../services/ingredient.service';
 import { Ingredient } from '../../../models/ingredient.model';
+import { MeasurementUnit } from '../../../models/measurement-unit.enum';
 
 @Component({
   selector: 'app-ingredient-edit',
@@ -19,6 +20,7 @@ export class IngredientEditComponent implements OnInit {
   submitted = false;
   isLoading = false;
   originalIngredient: Ingredient | null = null;
+  measurementUnits = Object.values(MeasurementUnit);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,7 +33,7 @@ export class IngredientEditComponent implements OnInit {
       id: [''],
       name: ['', [Validators.required, Validators.minLength(2)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      unit: ['', Validators.required],
+      unit: [MeasurementUnit.Unit, Validators.required],
       cost: [0, [Validators.required, Validators.min(0)]],
       stockQuantity: [0, [Validators.required, Validators.min(0)]],
       minimumStockLevel: [0, [Validators.required, Validators.min(0)]],
@@ -101,8 +103,9 @@ export class IngredientEditComponent implements OnInit {
         this.router.navigate(['/ingredients']);
       },
       error: (error: Error) => {
-        console.error('Error updating ingredient:', error);
+        this.isLoading = false;
         this.toastr.error('Failed to update ingredient', 'Error');
+        console.error('Error updating ingredient:', error);
       },
       complete: () => {
         this.isLoading = false;

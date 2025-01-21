@@ -77,6 +77,11 @@ public class RecipeController(IMediator mediator) : ControllerBase
                 Id = id,
                 Name = dto.Name,
                 Description = dto.Description,
+                PreparationTime = dto.PreparationTime,
+                CookingTime = dto.CookingTime,
+                Servings = dto.Servings,
+                Difficulty = dto.Difficulty,
+                Instructions = dto.Instructions,
                 Ingredients = dto.Ingredients.Select(i => new UpdateRecipeCommand.IngredientDto
                 {
                     IngredientId = i.IngredientId,

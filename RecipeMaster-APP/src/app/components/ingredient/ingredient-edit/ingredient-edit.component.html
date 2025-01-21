@@ -55,24 +55,26 @@
             </div>
 
             <div class="mb-4">
-              <label for="unit" class="form-label">Unit</label>
-              <input
-                type="text"
-                class="form-control"
+              <label for="unit" class="form-label fw-bold">Unit</label>
+              <select
+                class="form-select"
                 id="unit"
                 formControlName="unit"
-                placeholder="Enter unit (e.g., kg, g, l, ml, unit)"
                 [ngClass]="{'is-invalid': submitted && f['unit'].errors}"
               >
+                <option *ngFor="let unit of measurementUnits" [value]="unit">
+                  {{unit}}
+                </option>
+              </select>
               <div *ngIf="submitted && f['unit'].errors" class="invalid-feedback">
                 <div *ngIf="f['unit'].errors['required']">Unit is required</div>
               </div>
             </div>
 
             <div class="mb-4">
-              <label for="cost" class="form-label">Cost (R$)</label>
+              <label for="cost" class="form-label fw-bold">Cost ($)</label>
               <div class="input-group">
-                <span class="input-group-text">R$</span>
+                <span class="input-group-text">$</span>
                 <input
                   type="number"
                   class="form-control"
@@ -89,110 +91,118 @@
               </div>
             </div>
 
-            <div class="mb-4">
-              <label for="stockQuantity" class="form-label">Stock Quantity</label>
-              <input
-                type="number"
-                class="form-control"
-                id="stockQuantity"
-                formControlName="stockQuantity"
-                placeholder="Enter current stock quantity"
-                [ngClass]="{'is-invalid': submitted && f['stockQuantity'].errors}"
-              >
-              <div *ngIf="submitted && f['stockQuantity'].errors" class="invalid-feedback">
-                <div *ngIf="f['stockQuantity'].errors['required']">Stock quantity is required</div>
-                <div *ngIf="f['stockQuantity'].errors['min']">Stock quantity must be greater than or equal to 0</div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <label for="minimumStockLevel" class="form-label">Minimum Stock Level</label>
-              <input
-                type="number"
-                class="form-control"
-                id="minimumStockLevel"
-                formControlName="minimumStockLevel"
-                placeholder="Enter minimum stock level"
-                [ngClass]="{'is-invalid': submitted && f['minimumStockLevel'].errors}"
-              >
-              <div *ngIf="submitted && f['minimumStockLevel'].errors" class="invalid-feedback">
-                <div *ngIf="f['minimumStockLevel'].errors['required']">Minimum stock level is required</div>
-                <div *ngIf="f['minimumStockLevel'].errors['min']">Minimum stock level must be greater than or equal to 0</div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <label for="supplierName" class="form-label">Supplier Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="supplierName"
-                formControlName="supplierName"
-                placeholder="Enter supplier name"
-                [ngClass]="{'is-invalid': submitted && f['supplierName'].errors}"
-              >
-              <div *ngIf="submitted && f['supplierName'].errors" class="invalid-feedback">
-                <div *ngIf="f['supplierName'].errors['required']">Supplier name is required</div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <div class="form-check">
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="stockQuantity" class="form-label fw-bold">Stock Quantity</label>
                 <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="isPerishable"
-                  formControlName="isPerishable"
+                  type="number"
+                  class="form-control"
+                  id="stockQuantity"
+                  formControlName="stockQuantity"
+                  placeholder="Enter current stock quantity"
+                  [ngClass]="{'is-invalid': submitted && f['stockQuantity'].errors}"
                 >
-                <label class="form-check-label" for="isPerishable">Is Perishable</label>
+                <div *ngIf="submitted && f['stockQuantity'].errors" class="invalid-feedback">
+                  <div *ngIf="f['stockQuantity'].errors['required']">Stock quantity is required</div>
+                  <div *ngIf="f['stockQuantity'].errors['min']">Stock quantity must be greater than or equal to 0</div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="minimumStockLevel" class="form-label fw-bold">Minimum Stock Level</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="minimumStockLevel"
+                  formControlName="minimumStockLevel"
+                  placeholder="Enter minimum stock level"
+                  [ngClass]="{'is-invalid': submitted && f['minimumStockLevel'].errors}"
+                >
+                <div *ngIf="submitted && f['minimumStockLevel'].errors" class="invalid-feedback">
+                  <div *ngIf="f['minimumStockLevel'].errors['required']">Minimum stock level is required</div>
+                  <div *ngIf="f['minimumStockLevel'].errors['min']">Minimum stock level must be greater than or equal to 0</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label for="supplierName" class="form-label fw-bold">Supplier Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="supplierName"
+                  formControlName="supplierName"
+                  placeholder="Enter supplier name"
+                  [ngClass]="{'is-invalid': submitted && f['supplierName'].errors}"
+                >
+                <div *ngIf="submitted && f['supplierName'].errors" class="invalid-feedback">
+                  <div *ngIf="f['supplierName'].errors['required']">Supplier name is required</div>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="originCountry" class="form-label fw-bold">Origin Country</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="originCountry"
+                  formControlName="originCountry"
+                  placeholder="Enter origin country"
+                  [ngClass]="{'is-invalid': submitted && f['originCountry'].errors}"
+                >
+                <div *ngIf="submitted && f['originCountry'].errors" class="invalid-feedback">
+                  <div *ngIf="f['originCountry'].errors['required']">Origin country is required</div>
+                </div>
               </div>
             </div>
 
             <div class="mb-4">
-              <label for="originCountry" class="form-label">Origin Country</label>
-              <input
-                type="text"
-                class="form-control"
-                id="originCountry"
-                formControlName="originCountry"
-                placeholder="Enter country of origin"
-                [ngClass]="{'is-invalid': submitted && f['originCountry'].errors}"
-              >
-              <div *ngIf="submitted && f['originCountry'].errors" class="invalid-feedback">
-                <div *ngIf="f['originCountry'].errors['required']">Origin country is required</div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <label for="storageInstructions" class="form-label">Storage Instructions</label>
+              <label for="storageInstructions" class="form-label fw-bold">Storage Instructions</label>
               <textarea
                 class="form-control"
                 id="storageInstructions"
+                rows="2"
                 formControlName="storageInstructions"
-                placeholder="Enter storage instructions"
-                rows="3"
+                placeholder="Enter storage instructions (optional)"
               ></textarea>
             </div>
 
-            <div class="mb-4">
-              <div class="form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="isActive"
-                  formControlName="isActive"
-                >
-                <label class="form-check-label" for="isActive">Is Active</label>
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="isPerishable"
+                    formControlName="isPerishable"
+                  >
+                  <label class="form-check-label" for="isPerishable">
+                    Perishable Item
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="isActive"
+                    formControlName="isActive"
+                  >
+                  <label class="form-check-label" for="isActive">
+                    Active Item
+                  </label>
+                </div>
               </div>
             </div>
 
-            <div class="d-flex gap-2">
-              <button type="submit" class="btn btn-primary shadow-sm-hover">
-                <i class="fas fa-save me-2"></i>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button type="button" class="btn btn-outline-secondary me-md-2" [routerLink]="['/ingredients']">Cancel</button>
+              <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
                 Update Ingredient
-              </button>
-              <button type="button" class="btn btn-outline-secondary" [routerLink]="['/ingredients']">
-                Cancel
               </button>
             </div>
           </form>
