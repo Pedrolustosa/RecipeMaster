@@ -20,7 +20,7 @@ export class SidebarComponent {
     { 
       icon: 'fas fa-th-large', 
       label: 'Dashboard', 
-      route: '/',
+      route: '/dashboard',
       description: 'Overview and statistics'
     },
     {
