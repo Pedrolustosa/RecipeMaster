@@ -76,8 +76,16 @@ public class IngredientController(IMediator mediator) : ControllerBase
             {
                 Id = id,
                 Name = dto.Name,
+                Description = dto.Description,
                 Unit = dto.Unit,
-                Cost = dto.Cost
+                Cost = dto.Cost,
+                StockQuantity = dto.StockQuantity,
+                MinimumStockLevel = dto.MinimumStockLevel,
+                SupplierName = dto.SupplierName,
+                IsPerishable = dto.IsPerishable,
+                OriginCountry = dto.OriginCountry,
+                StorageInstructions = dto.StorageInstructions,
+                IsActive = dto.IsActive
             };
 
             await _mediator.Send(command);

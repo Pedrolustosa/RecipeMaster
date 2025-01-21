@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">
       <h1 class="login-title">RecipeMaster</h1>
-      <p class="login-subtitle">Entre com suas credenciais</p>
+      <p class="login-subtitle">Enter your credentials</p>
     </div>
     <div class="card-body">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -22,8 +22,8 @@
           *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
           class="text-danger"
         >
-          <small *ngIf="loginForm.get('email')?.errors?.['required']">Email é obrigatório</small>
-          <small *ngIf="loginForm.get('email')?.errors?.['email']">Email inválido</small>
+          <small *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</small>
+          <small *ngIf="loginForm.get('email')?.errors?.['email']">Invalid email</small>
         </div>
 
         <div class="input-group">
@@ -33,7 +33,7 @@
           <input
             [type]="showPassword ? 'text' : 'password'"
             class="form-control"
-            placeholder="Senha"
+            placeholder="Password"
             formControlName="password"
             [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
           />
@@ -45,20 +45,20 @@
           *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
           class="text-danger"
         >
-          <small *ngIf="loginForm.get('password')?.errors?.['required']">Senha é obrigatória</small>
+          <small *ngIf="loginForm.get('password')?.errors?.['required']">Password is required</small>
           <small *ngIf="loginForm.get('password')?.errors?.['minlength']">
-            Senha deve ter no mínimo 6 caracteres
+            Password must be at least 6 characters
           </small>
         </div>
 
         <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid || isLoading">
-          {{ isLoading ? 'Entrando...' : 'Entrar' }}
+          {{ isLoading ? 'Signing in...' : 'Sign In' }}
         </button>
 
         <div class="text-center mt-3">
-          <p>Não tem uma conta? 
+          <p>Don't have an account? 
             <button type="button" class="btn btn-link p-0" (click)="navigateToRegister()">
-              Cadastre-se aqui
+              Register here
             </button>
           </p>
         </div>

@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { ToastrService } from 'ngx-toastr';
 import { IngredientService } from '../../../services/ingredient.service';
 import { CreateIngredientCommand } from '../../../models/ingredient.model';
+import { MeasurementUnit } from '../../../models/measurement-unit.enum';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 @Component({
@@ -18,6 +19,7 @@ export class IngredientCreateComponent implements OnInit {
   ingredientForm: FormGroup;
   submitted = false;
   isLoading = false;
+  measurementUnits = Object.values(MeasurementUnit);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -28,7 +30,7 @@ export class IngredientCreateComponent implements OnInit {
     this.ingredientForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      unit: ['', Validators.required],
+      unit: [MeasurementUnit.Unit, Validators.required],
       cost: [0, [Validators.required, Validators.min(0)]],
       StockQuantity: [0, [Validators.required, Validators.min(0)]],
       MinimumStockLevel: [0, [Validators.required, Validators.min(0)]],
