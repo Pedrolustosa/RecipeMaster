@@ -10,6 +10,7 @@ import { StorageService } from './storage.service';
 })
 export class AuthService {
   private readonly API_URL = `${environment.apiUrl}/api/auth`;
+  private readonly TOKEN_EXPIRATION_TIME = 120; // 2 hours in minutes
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
 
@@ -46,7 +47,40 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     const token = this.storageService.get('token');
-    return !!token;
+    return !!token && !this.isTokenExpired();
+  }
+
+  isTokenExpired(): boolean {
+    const token = this.storageService.get('token');
+    if (!token) return true;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp * 1000; // Convert to milliseconds
+      const timeUntilExpiry = expiry - Date.now();
+      
+      // Avisa 5 minutos antes da expiração
+      if (timeUntilExpiry > 0 && timeUntilExpiry <= 5 * 60 * 1000) {
+        console.warn('Token will expire in less than 5 minutes');
+      }
+      
+      return Date.now() >= expiry;
+    } catch (error) {
+      console.error('Error checking token expiration:', error);
+      return true;
+    }
+  }
+
+  getTokenExpirationTime(): number | null {
+    const token = this.storageService.get('token');
+    if (!token) return null;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp * 1000; // Convert to milliseconds
+    } catch {
+      return null;
+    }
   }
 
   private getUserFromStorage(): User | null {

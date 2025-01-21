@@ -6,37 +6,64 @@ using RecipeMaster.Infra.IoC.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerSetup();
 builder.Services.AddAutoMapperSetup();
 builder.Services.AddInfrastructure();
 builder.Services.AddJwtSetup(builder.Configuration);
+
+// Configure DbContext
+//builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
+//    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseInMemoryDatabase("RecipeMasterDb"));
+
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins", policy =>
+    {
+        policy.AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials()
+              .WithOrigins(
+                  "http://localhost:4200",
+                  "https://localhost:4200",
+                  "https://recipe-master-app.vercel.app",
+                  "http://recipe-master-app.vercel.app"
+              );
+    });
+});
 
 var app = builder.Build();
 
-// Configure CORS
-app.UseCors(opt => opt.AllowAnyHeader()
-                      .AllowAnyMethod()
-                      .AllowCredentials()
-                      .WithOrigins("http://localhost:4200", "https://localhost:4200", 
-                                   "https://recipe-master-app.vercel.app", "http://recipe-master-app.vercel.app"));
-// Use seed data
+// Apply middleware in the correct order
+
+// Middleware for CORS
+app.UseCors("AllowSpecificOrigins");
+
+// Seed initial data if applicable
 app.UseSeedData();
 
 // Middleware for exception handling
 app.UseMiddleware<ExceptionMiddleware>();
 
-// Swagger
+// Swagger for API documentation
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// Pipeline
+// Enforce HTTPS redirection
 app.UseHttpsRedirection();
+
+// Authentication and Authorization
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Map controllers
 app.MapControllers();
+
+// Run the application
 app.Run();

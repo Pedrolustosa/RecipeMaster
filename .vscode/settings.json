@@ -1,4 +1,0 @@
-{
-    "appService.defaultWebAppToDeploy": "/subscriptions/315762d5-9a87-4653-a803-4d6705dfe39c/resourceGroups/RecipeMaster/providers/Microsoft.Web/sites/RecipeMasterWeb-API",
-    "appService.deploySubpath": "RecipeMaster-API\\RecipeMaster.API\\bin\\Publish"
-}
