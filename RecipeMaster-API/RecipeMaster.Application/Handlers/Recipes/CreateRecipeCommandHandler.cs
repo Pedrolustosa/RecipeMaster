@@ -20,16 +20,22 @@ public class CreateRecipeCommandHandler(IRecipeRepository recipeRepository, IIng
             cookingTime: request.CookingTime,
             servings: request.Servings,
             difficulty: Enum.Parse<DifficultyLevel>(request.Difficulty, ignoreCase: true),
-            instructions: request.Instructions
+            instructions: request.Instructions,
+            totalCost: request.TotalCost,
+            yieldPerPortion: request.YieldPerPortion
         );
 
         foreach (var ingredientDto in request.Ingredients)
         {
-            var ingredient = await _ingredientRepository.GetByIdAsync(ingredientDto.IngredientId) ?? throw new KeyNotFoundException($"Ingredient with ID {ingredientDto.IngredientId} not found.");
+            var ingredient = await _ingredientRepository.GetByIdAsync(ingredientDto.IngredientId)
+                ?? throw new KeyNotFoundException($"Ingredient with ID {ingredientDto.IngredientId} not found.");
+
             ingredient.DecreaseStock(ingredientDto.Quantity);
             recipe.AddIngredient(new RecipeIngredient(recipe.Id, ingredient.Id, ingredientDto.Quantity));
         }
+
         await _recipeRepository.AddAsync(recipe);
         return recipe.Id;
     }
+
 }

@@ -49,17 +49,26 @@
           <div class="mb-3">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <span class="badge bg-primary">{{ recipe.difficulty }}</span>
-              <span class="text-muted">
-                <i class="fas fa-users me-1"></i> {{ recipe.servings }} servings
-              </span>
+              <span class="badge bg-success">R$ {{ recipe.totalCost | number:'1.2-2' }}</span>
             </div>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="text-muted">
-                <i class="fas fa-clock me-1"></i> Prep: {{ recipe.preparationTime }}min
-              </span>
-              <span class="text-muted">
-                <i class="fas fa-fire me-1"></i> Cook: {{ recipe.cookingTime }}min
-              </span>
+            
+            <div class="recipe-details">
+              <div class="detail-item">
+                <i class="fas fa-clock text-muted"></i>
+                <span>Prep: {{ recipe.preparationTime }}min</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-fire text-muted"></i>
+                <span>Cook: {{ recipe.cookingTime }}min</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-users text-muted"></i>
+                <span>Serves: {{ recipe.servings }}</span>
+              </div>
+              <div class="detail-item">
+                <i class="fas fa-dollar-sign text-muted"></i>
+                <span>Por porção: R$ {{ recipe.yieldPerPortion | number:'1.2-2' }}</span>
+              </div>
             </div>
           </div>
 

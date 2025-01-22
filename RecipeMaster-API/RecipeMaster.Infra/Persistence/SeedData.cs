@@ -77,22 +77,22 @@ public static class SeedData
     {
         var ingredients = new[]
         {
-            new Ingredient("Salt", "Fine table salt.", MeasurementUnit.Gram, new IngredientCost(0.05m),
-                stockQuantity: 500, minimumStockLevel: 50, supplierName: "Salt Co.", isPerishable: false,
-                originCountry: "USA", storageInstructions: "Store in a cool, dry place.", isActive: true),
-            new Ingredient("Sugar", "Granulated white sugar.", MeasurementUnit.Gram, new IngredientCost(0.10m),
-                stockQuantity: 1000, minimumStockLevel: 100, supplierName: "Sweet Supplies", isPerishable: false,
-                originCountry: "Brazil", storageInstructions: "Keep in an airtight container.", isActive: true),
-            new Ingredient("Flour", "All-purpose flour.", MeasurementUnit.Kilogram, new IngredientCost(1.50m),
-                stockQuantity: 300, minimumStockLevel: 30, supplierName: "Flour Mills", isPerishable: false,
-                originCountry: "Canada", storageInstructions: "Store in a sealed container.", isActive: true),
-            new Ingredient("Eggs", "Large eggs.", MeasurementUnit.Unit, new IngredientCost(0.30m),
-                stockQuantity: 100, minimumStockLevel: 20, supplierName: "FreshEgg Farms", isPerishable: true,
-                originCountry: "Netherlands", storageInstructions: "Refrigerate at 4°C.", isActive: true),
-            new Ingredient("Milk", "Whole milk.", MeasurementUnit.Liter, new IngredientCost(0.80m),
-                stockQuantity: 100, minimumStockLevel: 20, supplierName: "DairyFresh", isPerishable: true,
-                originCountry: "Germany", storageInstructions: "Keep refrigerated at 4°C.", isActive: true)
-        };
+        new Ingredient("Salt", "Fine table salt.", MeasurementUnit.Gram, new IngredientCost(0.05m),
+            stockQuantity: 1000, minimumStockLevel: 50, supplierName: "Salt Co.", isPerishable: false,
+            originCountry: "USA", storageInstructions: "Store in a cool, dry place.", isActive: true),
+        new Ingredient("Sugar", "Granulated white sugar.", MeasurementUnit.Gram, new IngredientCost(0.10m),
+            stockQuantity: 1500, minimumStockLevel: 100, supplierName: "Sweet Supplies", isPerishable: false,
+            originCountry: "Brazil", storageInstructions: "Keep in an airtight container.", isActive: true),
+        new Ingredient("Flour", "All-purpose flour.", MeasurementUnit.Kilogram, new IngredientCost(1.50m),
+            stockQuantity: 800, minimumStockLevel: 30, supplierName: "Flour Mills", isPerishable: false,
+            originCountry: "Canada", storageInstructions: "Store in a sealed container.", isActive: true),
+        new Ingredient("Eggs", "Large eggs.", MeasurementUnit.Unit, new IngredientCost(0.30m),
+            stockQuantity: 200, minimumStockLevel: 20, supplierName: "FreshEgg Farms", isPerishable: true,
+            originCountry: "Netherlands", storageInstructions: "Refrigerate at 4°C.", isActive: true),
+        new Ingredient("Milk", "Whole milk.", MeasurementUnit.Liter, new IngredientCost(0.80m),
+            stockQuantity: 200, minimumStockLevel: 20, supplierName: "DairyFresh", isPerishable: true,
+            originCountry: "Germany", storageInstructions: "Keep refrigerated at 4°C.", isActive: true)
+    };
 
         foreach (var ingredient in ingredients)
         {
@@ -104,14 +104,16 @@ public static class SeedData
 
         context.SaveChanges();
 
-        // Receitas reduzidas
         var recipes = new[]
         {
-            new Recipe("Cake", "A simple cake recipe", 15, 45, 8, "Mix ingredients and bake.", DifficultyLevel.Medium),
-            new Recipe("Pancakes", "A quick breakfast recipe", 10, 20, 4, "Mix, fry, and serve.", DifficultyLevel.Easy),
+            new Recipe("Cake", "A simple cake recipe", 15, 45, 8, "Mix ingredients and bake.",
+                       DifficultyLevel.Medium, totalCost: 10.50m, yieldPerPortion: 1.31m),
+            new Recipe("Pancakes", "A quick breakfast recipe", 10, 20, 4, "Mix, fry, and serve.",
+                       DifficultyLevel.Easy, totalCost: 5.00m, yieldPerPortion: 1.25m),
             new Recipe("Cookies", "Delicious chocolate chip cookies", 20, 25, 12, "Mix dough, add chips, bake.",
-                DifficultyLevel.Medium)
+                       DifficultyLevel.Medium, totalCost: 15.00m, yieldPerPortion: 1.25m)
         };
+
 
         foreach (var recipe in recipes)
         {
@@ -128,13 +130,13 @@ public static class SeedData
 
         var recipeIngredients = new[]
         {
-            new { Recipe = "Cake", Ingredient = "Sugar", Quantity = 200 },
-            new { Recipe = "Cake", Ingredient = "Flour", Quantity = 300 },
+            new { Recipe = "Cake", Ingredient = "Sugar", Quantity = 100 },
+            new { Recipe = "Cake", Ingredient = "Flour", Quantity = 100 },
             new { Recipe = "Cake", Ingredient = "Eggs", Quantity = 3 },
-            new { Recipe = "Pancakes", Ingredient = "Flour", Quantity = 200 },
-            new { Recipe = "Pancakes", Ingredient = "Milk", Quantity = 300 },
-            new { Recipe = "Cookies", Ingredient = "Flour", Quantity = 250 },
-            new { Recipe = "Cookies", Ingredient = "Sugar", Quantity = 100 },
+            new { Recipe = "Pancakes", Ingredient = "Flour", Quantity = 100 },
+            new { Recipe = "Pancakes", Ingredient = "Milk", Quantity = 100 },
+            new { Recipe = "Cookies", Ingredient = "Flour", Quantity = 110 },
+            new { Recipe = "Cookies", Ingredient = "Sugar", Quantity = 50 },
             new { Recipe = "Cookies", Ingredient = "Eggs", Quantity = 2 }
         };
 
@@ -145,8 +147,12 @@ public static class SeedData
             {
                 context.RecipeIngredients.Add(new RecipeIngredient(recipeDict[ri.Recipe], ingredientDict[ri.Ingredient],
                     ri.Quantity));
+
+                var ingredient = context.Ingredients.Find(ingredientDict[ri.Ingredient]);
+                ingredient?.DecreaseStock(ri.Quantity);
             }
         }
+
         context.SaveChanges();
     }
 }

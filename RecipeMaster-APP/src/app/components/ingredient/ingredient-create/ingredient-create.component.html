@@ -1,219 +1,182 @@
-<div class="container-fluid">
-  <!-- Header Section -->
-  <div class="row mb-4">
-    <div class="col">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h1 class="display-6 mb-0">Create Ingredient</h1>
-          <p class="text-muted mt-2">Add a new ingredient</p>
-        </div>
-        <div>
-          <button type="button" class="btn btn-outline-secondary shadow-sm-hover" [routerLink]="['/ingredients']">
-            <i class="fas fa-arrow-left me-2"></i>
-            Back to List
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Form Section -->
+<div class="container-fluid py-3">
   <div class="row">
-    <div class="col-12 col-lg-8">
-      <div class="card shadow-sm">
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-plus-circle me-2"></i>Create New Ingredient
+          </h5>
+        </div>
+        
         <div class="card-body">
-          <form *ngIf="ingredientForm" [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
-            <div class="mb-4">
-              <label for="name" class="form-label fw-bold">Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                formControlName="name"
-                placeholder="Enter ingredient name"
-                [ngClass]="{'is-invalid': submitted && f['name'].errors}"
-              >
-              <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                <div *ngIf="f['name'].errors['required']">Name is required</div>
-                <div *ngIf="f['name'].errors['minlength']">Name must be at least 2 characters long</div>
-              </div>
-            </div>
+          <form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
+            <ul class="nav nav-tabs mb-3" id="ingredientTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
+                  <i class="fas fa-info-circle me-2"></i>Basic Info
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
+                  <i class="fas fa-list-ul me-2"></i>Details
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="storage-tab" data-bs-toggle="tab" data-bs-target="#storage" type="button" role="tab">
+                  <i class="fas fa-warehouse me-2"></i>Storage
+                </button>
+              </li>
+            </ul>
 
-            <div class="mb-4">
-              <label for="description" class="form-label fw-bold">Description</label>
-              <textarea
-                class="form-control"
-                id="description"
-                rows="3"
-                formControlName="description"
-                [ngClass]="{'is-invalid': submitted && f['description'].errors}"
-              ></textarea>
-              <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
-                <div *ngIf="f['description'].errors['required']">Description is required</div>
-                <div *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters long</div>
-              </div>
-            </div>
+            <div class="tab-content" id="ingredientTabContent">
+              <!-- Basic Info Tab -->
+              <div class="tab-pane fade show active" id="basic" role="tabpanel">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="name" class="form-label fw-bold">Name</label>
+                    <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter ingredient name"
+                      [ngClass]="{'is-invalid': submitted && f['name'].errors}">
+                    <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+                      <div *ngIf="f['name'].errors['required']">Name is required</div>
+                      <div *ngIf="f['name'].errors['minlength']">Name must be at least 3 characters</div>
+                      <div *ngIf="f['name'].errors['maxlength']">Name cannot exceed 100 characters</div>
+                    </div>
+                  </div>
 
-            <div class="mb-4">
-              <label for="unit" class="form-label fw-bold">Unit</label>
-              <select
-                class="form-select"
-                id="unit"
-                formControlName="unit"
-                [ngClass]="{'is-invalid': submitted && f['unit'].errors}"
-              >
-                <option *ngFor="let unit of measurementUnits" [value]="unit">
-                  {{unit}}
-                </option>
-              </select>
-              <div *ngIf="submitted && f['unit'].errors" class="invalid-feedback">
-                <div *ngIf="f['unit'].errors['required']">Unit is required</div>
-              </div>
-            </div>
+                  <div class="col-md-6">
+                    <label for="unit" class="form-label fw-bold">Unit of Measure</label>
+                    <select class="form-select" id="unit" formControlName="unit"
+                      [ngClass]="{'is-invalid': submitted && f['unit'].errors}">
+                      <option value="">Select unit</option>
+                      <option value="g">Grams (g)</option>
+                      <option value="kg">Kilograms (kg)</option>
+                      <option value="ml">Milliliters (ml)</option>
+                      <option value="l">Liters (l)</option>
+                      <option value="unit">Units</option>
+                      <option value="cup">Cups</option>
+                      <option value="tbsp">Tablespoons</option>
+                      <option value="tsp">Teaspoons</option>
+                    </select>
+                    <div *ngIf="submitted && f['unit'].errors" class="invalid-feedback">
+                      <div *ngIf="f['unit'].errors['required']">Unit of measure is required</div>
+                    </div>
+                  </div>
 
-            <div class="mb-4">
-              <label for="cost" class="form-label fw-bold">Cost (R$)</label>
-              <div class="input-group">
-                <span class="input-group-text">R$</span>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="cost"
-                  formControlName="cost"
-                  placeholder="0.00"
-                  step="0.01"
-                  [ngClass]="{'is-invalid': submitted && f['cost'].errors}"
-                >
-                <div *ngIf="submitted && f['cost'].errors" class="invalid-feedback">
-                  <div *ngIf="f['cost'].errors['required']">Cost is required</div>
-                  <div *ngIf="f['cost'].errors['min']">Cost must be greater than 0</div>
+                  <div class="col-12">
+                    <label for="description" class="form-label fw-bold">Description</label>
+                    <textarea class="form-control" id="description" rows="3" formControlName="description"
+                      placeholder="Describe the ingredient" [ngClass]="{'is-invalid': submitted && f['description'].errors}"></textarea>
+                    <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
+                      <div *ngIf="f['description'].errors['required']">Description is required</div>
+                      <div *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters</div>
+                      <div *ngIf="f['description'].errors['maxlength']">Description cannot exceed 500 characters</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Details Tab -->
+              <div class="tab-pane fade" id="details" role="tabpanel">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="cost" class="form-label fw-bold">Cost per Unit</label>
+                    <div class="input-group">
+                      <span class="input-group-text">$</span>
+                      <input type="number" class="form-control" id="cost" formControlName="cost" step="0.01"
+                        placeholder="0.00" [ngClass]="{'is-invalid': submitted && f['cost'].errors}">
+                    </div>
+                    <div *ngIf="submitted && f['cost'].errors" class="invalid-feedback">
+                      <div *ngIf="f['cost'].errors['required']">Cost is required</div>
+                      <div *ngIf="f['cost'].errors['min']">Must be at least $0.01</div>
+                      <div *ngIf="f['cost'].errors['max']">Cannot exceed $999.99</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="supplierName" class="form-label fw-bold">Supplier Name</label>
+                    <input type="text" class="form-control" id="supplierName" formControlName="supplierName"
+                      placeholder="Enter supplier name" [ngClass]="{'is-invalid': submitted && f['supplierName'].errors}">
+                    <div *ngIf="submitted && f['supplierName'].errors" class="invalid-feedback">
+                      <div *ngIf="f['supplierName'].errors['required']">Supplier name is required</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="stockQuantity" class="form-label fw-bold">Current Stock</label>
+                    <input type="number" class="form-control" id="stockQuantity" formControlName="stockQuantity"
+                      placeholder="Enter current stock" [ngClass]="{'is-invalid': submitted && f['stockQuantity'].errors}">
+                    <div *ngIf="submitted && f['stockQuantity'].errors" class="invalid-feedback">
+                      <div *ngIf="f['stockQuantity'].errors['required']">Stock quantity is required</div>
+                      <div *ngIf="f['stockQuantity'].errors['min']">Must be at least 0</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="minimumStockLevel" class="form-label fw-bold">Minimum Stock Level</label>
+                    <input type="number" class="form-control" id="minimumStockLevel" formControlName="minimumStockLevel"
+                      placeholder="Enter minimum stock level" [ngClass]="{'is-invalid': submitted && f['minimumStockLevel'].errors}">
+                    <div *ngIf="submitted && f['minimumStockLevel'].errors" class="invalid-feedback">
+                      <div *ngIf="f['minimumStockLevel'].errors['required']">Minimum stock level is required</div>
+                      <div *ngIf="f['minimumStockLevel'].errors['min']">Must be at least 0</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Storage Tab -->
+              <div class="tab-pane fade" id="storage" role="tabpanel">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="originCountry" class="form-label fw-bold">Country of Origin</label>
+                    <input type="text" class="form-control" id="originCountry" formControlName="originCountry"
+                      placeholder="Enter country of origin" [ngClass]="{'is-invalid': submitted && f['originCountry'].errors}">
+                    <div *ngIf="submitted && f['originCountry'].errors" class="invalid-feedback">
+                      <div *ngIf="f['originCountry'].errors['required']">Country of origin is required</div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-check form-switch mt-4">
+                      <input type="checkbox" class="form-check-input" id="isPerishable" formControlName="isPerishable">
+                      <label class="form-check-label" for="isPerishable">Perishable Item</label>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="storageInstructions" class="form-label fw-bold">Storage Instructions</label>
+                    <textarea class="form-control" id="storageInstructions" rows="3" formControlName="storageInstructions"
+                      placeholder="Enter storage instructions"></textarea>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-check form-switch">
+                      <input type="checkbox" class="form-check-input" id="isActive" formControlName="isActive">
+                      <label class="form-check-label" for="isActive">Active Item</label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div class="row g-3 mb-4">
-              <div class="col-md-6">
-                <label for="StockQuantity" class="form-label fw-bold">Stock Quantity</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="StockQuantity"
-                  formControlName="StockQuantity"
-                  placeholder="Enter current stock quantity"
-                  [ngClass]="{'is-invalid': submitted && f['StockQuantity'].errors}"
-                >
-                <div *ngIf="submitted && f['StockQuantity'].errors" class="invalid-feedback">
-                  <div *ngIf="f['StockQuantity'].errors['required']">Stock quantity is required</div>
-                  <div *ngIf="f['StockQuantity'].errors['min']">Stock quantity must be greater than or equal to 0</div>
-                </div>
+            <!-- Fixed bottom action buttons -->
+            <div class="position-sticky bottom-0 bg-white pt-3 border-top mt-3">
+              <div class="d-flex gap-2 justify-content-end">
+                <button type="button" class="btn btn-secondary" routerLink="/ingredients">
+                  <i class="fas fa-times me-2"></i>Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save me-2"></i>Create Ingredient
+                </button>
               </div>
-
-              <div class="col-md-6">
-                <label for="MinimumStockLevel" class="form-label fw-bold">Minimum Stock Level</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="MinimumStockLevel"
-                  formControlName="MinimumStockLevel"
-                  placeholder="Enter minimum stock level"
-                  [ngClass]="{'is-invalid': submitted && f['MinimumStockLevel'].errors}"
-                >
-                <div *ngIf="submitted && f['MinimumStockLevel'].errors" class="invalid-feedback">
-                  <div *ngIf="f['MinimumStockLevel'].errors['required']">Minimum stock level is required</div>
-                  <div *ngIf="f['MinimumStockLevel'].errors['min']">Minimum stock level must be greater than or equal to 0</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="row g-3 mb-4">
-              <div class="col-md-6">
-                <label for="SupplierName" class="form-label fw-bold">Supplier Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="SupplierName"
-                  formControlName="SupplierName"
-                  placeholder="Enter supplier name"
-                  [ngClass]="{'is-invalid': submitted && f['SupplierName'].errors}"
-                >
-                <div *ngIf="submitted && f['SupplierName'].errors" class="invalid-feedback">
-                  <div *ngIf="f['SupplierName'].errors['required']">Supplier name is required</div>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <label for="OriginCountry" class="form-label fw-bold">Origin Country</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="OriginCountry"
-                  formControlName="OriginCountry"
-                  placeholder="Enter origin country"
-                  [ngClass]="{'is-invalid': submitted && f['OriginCountry'].errors}"
-                >
-                <div *ngIf="submitted && f['OriginCountry'].errors" class="invalid-feedback">
-                  <div *ngIf="f['OriginCountry'].errors['required']">Origin country is required</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <label for="storageInstructions" class="form-label fw-bold">Storage Instructions</label>
-              <textarea
-                class="form-control"
-                id="storageInstructions"
-                rows="2"
-                formControlName="StorageInstructions"
-                placeholder="Enter storage instructions (optional)"
-              ></textarea>
-            </div>
-
-            <div class="row g-3 mb-4">
-              <div class="col-md-6">
-                <div class="form-check form-switch">
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    id="IsPerishable"
-                    formControlName="IsPerishable"
-                  >
-                  <label class="form-check-label" for="IsPerishable">
-                    Perishable Item
-                  </label>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="form-check form-switch">
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    id="IsActive"
-                    formControlName="IsActive"
-                  >
-                  <label class="form-check-label" for="IsActive">
-                    Active Item
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button type="button" class="btn btn-outline-secondary me-md-2" [routerLink]="['/ingredients']">Cancel</button>
-              <button type="submit" class="btn btn-primary" [disabled]="isLoading">
-                <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
-                Create Ingredient
-              </button>
             </div>
           </form>
         </div>
       </div>
     </div>
-
-    <!-- Tips Section -->
-    <div class="col-12 col-lg-4 mt-4 mt-lg-0">
-      <div class="card shadow-sm border-0 bg-light">
-        <div class="card-body p-4">
+    
+    <div class="col-md-3">
+      <div class="card bg-light border-0 shadow-sm">
+        <div class="card-body">
           <h5 class="card-title mb-3">
             <i class="fas fa-lightbulb text-warning me-2"></i>
             Tips for Creating Ingredients
@@ -221,19 +184,23 @@
           <ul class="list-unstyled mb-0">
             <li class="mb-2">
               <i class="fas fa-check-circle text-success me-2"></i>
-              Use clear, descriptive names for ingredients
+              Use clear, descriptive names
             </li>
             <li class="mb-2">
               <i class="fas fa-check-circle text-success me-2"></i>
-              Specify standard units (e.g., kg, g, l, ml, unit)
+              Choose appropriate unit of measure
             </li>
             <li class="mb-2">
               <i class="fas fa-check-circle text-success me-2"></i>
-              Enter accurate cost information for better recipe pricing
+              Set accurate cost information
             </li>
-            <li>
+            <li class="mb-2">
               <i class="fas fa-check-circle text-success me-2"></i>
-              Double-check all information before saving
+              Maintain proper stock levels
+            </li>
+            <li class="mb-2">
+              <i class="fas fa-check-circle text-success me-2"></i>
+              Include storage instructions for perishables
             </li>
           </ul>
         </div>

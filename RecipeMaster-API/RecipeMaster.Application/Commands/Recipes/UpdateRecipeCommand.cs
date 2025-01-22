@@ -12,6 +12,8 @@ public class UpdateRecipeCommand : IRequest<Unit>
     public int Servings { get; set; }
     public string Difficulty { get; set; }
     public string Instructions { get; set; }
+    public decimal TotalCost { get; set; }
+    public decimal YieldPerPortion { get; set; }
     public List<IngredientDto> Ingredients { get; set; }
 
     public class IngredientDto
