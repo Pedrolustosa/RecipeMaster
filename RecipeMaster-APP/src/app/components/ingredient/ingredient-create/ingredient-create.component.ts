@@ -7,6 +7,7 @@ import { IngredientService } from '../../../services/ingredient.service';
 import { CreateIngredientCommand } from '../../../models/ingredient.model';
 import { MeasurementUnit } from '../../../models/measurement-unit.enum';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-ingredient-create',
@@ -16,9 +17,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
   imports: [CommonModule, ReactiveFormsModule, RouterModule, NgxSpinnerModule]
 })
 export class IngredientCreateComponent implements OnInit {
-  ingredientForm: FormGroup;
+  ingredientForm!: FormGroup;
   submitted = false;
-  isLoading = false;
+  loading = false;
   measurementUnits = Object.values(MeasurementUnit);
 
   constructor(
@@ -27,53 +28,96 @@ export class IngredientCreateComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) {
+    this.initForm();
+  }
+
+  private initForm(): void {
     this.ingredientForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      unit: [MeasurementUnit.Unit, Validators.required],
-      cost: [0, [Validators.required, Validators.min(0)]],
-      StockQuantity: [0, [Validators.required, Validators.min(0)]],
-      MinimumStockLevel: [0, [Validators.required, Validators.min(0)]],
-      SupplierName: ['', Validators.required],
-      IsPerishable: [false],
-      OriginCountry: ['', Validators.required],
-      StorageInstructions: [''],
-      IsActive: [true]
+      name: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(100)
+      ]],
+      description: ['', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(500)
+      ]],
+      unit: ['', [Validators.required]],
+      cost: ['', [
+        Validators.required,
+        Validators.min(0.01),
+        Validators.max(9999.99)
+      ]],
+      stockQuantity: ['', [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(9999)
+      ]],
+      minimumStockLevel: ['', [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(9999)
+      ]],
+      supplierName: ['', [Validators.required]],
+      isPerishable: [false],
+      originCountry: ['', [Validators.required]],
+      storageInstructions: [''],
+      isActive: [true]
+    });
+
+    // Add conditional validation for storage instructions
+    this.ingredientForm.get('isPerishable')?.valueChanges.subscribe(isPerishable => {
+      const storageControl = this.ingredientForm.get('storageInstructions');
+      if (isPerishable) {
+        storageControl?.setValidators([Validators.required]);
+      } else {
+        storageControl?.clearValidators();
+      }
+      storageControl?.updateValueAndValidity();
     });
   }
 
   ngOnInit(): void {}
 
-  // Getter for easy access to form fields
   get f() {
     return this.ingredientForm.controls;
   }
 
-  onSubmit(): void {
+  getValidationMessage(fieldName: string): string {
+    const control = this.f[fieldName];
+    if (!control || !control.errors || !control.touched) return '';
+
+    const errors = control.errors;
+    if (errors['required']) return `${fieldName} is required`;
+    if (errors['minlength']) return `${fieldName} must be at least ${errors['minlength'].requiredLength} characters`;
+    if (errors['maxlength']) return `${fieldName} cannot exceed ${errors['maxlength'].requiredLength} characters`;
+    if (errors['min']) return `${fieldName} must be greater than ${errors['min'].min}`;
+    if (errors['max']) return `${fieldName} must be less than ${errors['max'].max}`;
+
+    return 'Invalid field';
+  }
+
+  async onSubmit(): Promise<void> {
     this.submitted = true;
 
     if (this.ingredientForm.invalid) {
-      this.markFormGroupTouched(this.ingredientForm);
+      this.toastr.error('Please correct the errors in the form before submitting.');
       return;
     }
 
-    this.isLoading = true;
-    const command: CreateIngredientCommand = this.ingredientForm.value;
-    
-    this.ingredientService.create(command).subscribe({
-      next: () => {
-        this.toastr.success('Ingredient created successfully', 'Success');
-        this.router.navigate(['/ingredients']);
-      },
-      error: (error: Error) => {
-        this.isLoading = false;
-        this.toastr.error('Failed to create ingredient', 'Error');
-        console.error('Error creating ingredient:', error);
-      },
-      complete: () => {
-        this.isLoading = false;
-      }
-    });
+    try {
+      this.loading = true;
+      const formValue = this.ingredientForm.value;
+      
+      await firstValueFrom(this.ingredientService.create(formValue));
+      this.toastr.success('Ingredient created successfully!');
+      this.router.navigate(['/ingredients']);
+    } catch (error) {
+      this.toastr.error('Failed to create ingredient. Please try again.');
+    } finally {
+      this.loading = false;
+    }
   }
 
   private markFormGroupTouched(formGroup: FormGroup): void {

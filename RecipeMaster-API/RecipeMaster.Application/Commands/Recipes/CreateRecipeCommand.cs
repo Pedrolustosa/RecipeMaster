@@ -12,5 +12,7 @@ public class CreateRecipeCommand : IRequest<Guid>
     public int Servings { get; set; }
     public string Difficulty { get; set; }
     public string Instructions { get; set; }
+    public decimal TotalCost { get; set; }
+    public decimal YieldPerPortion { get; set; }
     public List<RecipeIngredientDTO> Ingredients { get; set; }
 }

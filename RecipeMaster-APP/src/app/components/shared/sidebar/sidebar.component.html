@@ -1,7 +1,7 @@
 <nav class="sidebar" [class.collapsed]="!isExpanded">
   <div class="sidebar-header">
     <div class="logo-container">
-      <i class="fas fa-utensils"></i>
+      <img src="assets/logo-preto-transparente.png" alt="RecipeMaster Logo" class="logo-img">
       <span class="app-name" *ngIf="isExpanded">RecipeMaster</span>
     </div>
     <button class="toggle-btn" 
@@ -39,6 +39,13 @@
   </div>
 
   <div class="sidebar-footer">
+    <a href="https://www.instagram.com/vivaconfeitariaa?igsh=NXNvbzJlbzljMzlj" 
+       target="_blank" 
+       class="social-link"
+       [title]="!isExpanded ? 'Instagram' : ''">
+      <i class="fab fa-instagram"></i>
+      <span *ngIf="isExpanded">Instagram</span>
+    </a>
     <button class="logout-btn" 
             (click)="logout()" 
             [title]="!isExpanded ? 'Logout' : ''">

@@ -8,6 +8,7 @@ export interface Recipe {
     difficulty: string;
     instructions: string;
     totalCost: number;
+    yieldPerPortion: number;
     ingredients: RecipeIngredient[];
 }
 
@@ -25,6 +26,8 @@ export interface CreateRecipeRequest {
     servings: number;
     difficulty: string;
     instructions: string;
+    totalCost: number;
+    yieldPerPortion: number;
     ingredients: CreateRecipeIngredient[];
 }
 
@@ -35,6 +38,7 @@ export interface CreateRecipeIngredient {
 }
 
 export interface UpdateRecipeRequest {
+    id: string;
     name: string;
     description: string;
     preparationTime: number;
@@ -42,7 +46,12 @@ export interface UpdateRecipeRequest {
     servings: number;
     difficulty: string;
     instructions: string;
-    ingredients: UpdateRecipeIngredient[];
+    totalCost: number;
+    yieldPerPortion: number;
+    ingredients: {
+        ingredientId: string;
+        quantity: number;
+    }[];
 }
 
 export interface UpdateRecipeIngredient {

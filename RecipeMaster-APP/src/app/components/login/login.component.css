@@ -1,43 +1,73 @@
 .container-fluid {
-  background-color: #f8f9fa;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 2rem;
 }
 
 .card {
-  border-radius: 8px;
+  border-radius: 15px;
   border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   background: #fff;
   width: 100%;
   max-width: 400px;
+  overflow: hidden;
 }
 
 .card-header {
-  background: transparent;
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
   border-bottom: none;
-  padding: 1.5rem 1.5rem 0;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: white;
 }
 
-.card-body {
-  padding: 1.5rem;
-}
-
-.input-group {
+.logo-container {
   margin-bottom: 1rem;
 }
 
+.login-logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+.login-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.login-subtitle {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 0;
+}
+
+.card-body {
+  padding: 2rem 1.5rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
 .input-group-text {
-  background-color: #f8f9fa;
+  background-color: transparent;
   border-right: none;
   color: #6c757d;
+  border-radius: 8px 0 0 8px;
 }
 
 .form-control {
   border-left: none;
   height: 45px;
+  border-radius: 0 8px 8px 0;
 }
 
 .form-control:focus {
@@ -46,36 +76,28 @@
 }
 
 .input-group:focus-within {
-  box-shadow: 0 0 0 1px #007bff;
-  border-radius: 4px;
+  box-shadow: 0 0 0 2px #2575fc;
+  border-radius: 8px;
 }
 
 .btn-primary {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  border: none;
   height: 45px;
+  border-radius: 8px;
+  font-weight: 600;
   width: 100%;
-  font-weight: 500;
   margin-top: 1rem;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #5a0cb1 0%, #1b66e0 100%);
 }
 
 .text-danger {
   font-size: 0.875rem;
-  margin-top: -0.5rem;
+  margin-top: -1rem;
   margin-bottom: 1rem;
-}
-
-.login-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: #212529;
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-
-.login-subtitle {
-  color: #6c757d;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 0.875rem;
 }
 
 /* Responsividade */

@@ -1,4 +1,4 @@
-﻿namespace RecipeMaster.Application.DTOs;
+﻿using RecipeMaster.Application.DTOs;
 
 public class RecipeDTO
 {
@@ -11,5 +11,6 @@ public class RecipeDTO
     public string Difficulty { get; set; }
     public string Instructions { get; set; }
     public decimal TotalCost { get; set; }
+    public decimal YieldPerPortion { get; set; }
     public List<RecipeIngredientDTO> Ingredients { get; set; }
 }

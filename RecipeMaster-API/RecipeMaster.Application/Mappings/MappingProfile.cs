@@ -1,9 +1,9 @@
 using AutoMapper;
+using RecipeMaster.Core.Entities;
+using RecipeMaster.Application.DTOs;
+using RecipeMaster.Core.ValueObjects;
 using RecipeMaster.Application.Commands.Ingredients;
 using RecipeMaster.Application.Commands.Recipes;
-using RecipeMaster.Application.DTOs;
-using RecipeMaster.Core.Entities;
-using RecipeMaster.Core.ValueObjects;
 
 namespace RecipeMaster.Application.Mappings;
 
@@ -35,7 +35,6 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.OriginCountry, opt => opt.MapFrom(src => src.OriginCountry));
         CreateMap<Ingredient, IngredientUsageDTO>()
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
-
         CreateMap<Recipe, RecipeDTO>()
             .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src =>
                 src.Ingredients.Select(i => new RecipeIngredientDTO
@@ -43,15 +42,20 @@ public class MappingProfile : Profile
                     IngredientId = i.Ingredient.Id,
                     IngredientName = i.Ingredient.Name,
                     Quantity = i.Quantity
-                }).ToList() ?? new List<RecipeIngredientDTO>()))
+                }).ToList()))
             .ReverseMap()
             .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src =>
                 src.Ingredients.Select(i => new RecipeIngredient(src.Id, i.IngredientId, i.Quantity)).ToList()));
-        CreateMap<UpdateRecipeDTO, UpdateRecipeCommand>();
+        CreateMap<UpdateRecipeDTO, UpdateRecipeCommand>()
+            .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src =>
+                src.Ingredients.Select(i => new UpdateRecipeCommand.IngredientDto
+                {
+                    IngredientId = i.IngredientId,
+                    Quantity = i.Quantity
+                }).ToList()));
         CreateMap<UpdateRecipeCommand, Recipe>()
             .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src =>
-                src.Ingredients.Select(i => new RecipeIngredient(src.Id, i.IngredientId, i.Quantity))));
-
+                src.Ingredients.Select(i => new RecipeIngredient(src.Id, i.IngredientId, i.Quantity)).ToList()));
         CreateMap<RecipeIngredient, RecipeIngredientDTO>()
             .ForMember(dest => dest.IngredientId, opt => opt.MapFrom(src => src.IngredientId))
             .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))

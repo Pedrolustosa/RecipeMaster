@@ -16,7 +16,7 @@ import { MeasurementUnit } from '../../../models/measurement-unit.enum';
   imports: [CommonModule, ReactiveFormsModule, RouterModule, NgxSpinnerModule]
 })
 export class IngredientEditComponent implements OnInit {
-  ingredientForm: FormGroup;
+  ingredientForm!: FormGroup;
   submitted = false;
   isLoading = false;
   originalIngredient: Ingredient | null = null;
@@ -29,19 +29,54 @@ export class IngredientEditComponent implements OnInit {
     private ingredientService: IngredientService,
     private toastr: ToastrService
   ) {
+    this.initForm();
+  }
+
+  private initForm(): void {
     this.ingredientForm = this.formBuilder.group({
       id: [''],
-      name: ['', [Validators.required, Validators.minLength(2)]],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      unit: [MeasurementUnit.Unit, Validators.required],
-      cost: [0, [Validators.required, Validators.min(0)]],
-      stockQuantity: [0, [Validators.required, Validators.min(0)]],
-      minimumStockLevel: [0, [Validators.required, Validators.min(0)]],
-      supplierName: ['', Validators.required],
+      name: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(100)
+      ]],
+      description: ['', [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(500)
+      ]],
+      unit: [MeasurementUnit.Unit, [Validators.required]],
+      cost: ['', [
+        Validators.required,
+        Validators.min(0.01),
+        Validators.max(9999.99)
+      ]],
+      stockQuantity: ['', [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(9999)
+      ]],
+      minimumStockLevel: ['', [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(9999)
+      ]],
+      supplierName: ['', [Validators.required]],
       isPerishable: [false],
-      originCountry: ['', Validators.required],
+      originCountry: ['', [Validators.required]],
       storageInstructions: [''],
       isActive: [true]
+    });
+
+    // Add conditional validation for storage instructions
+    this.ingredientForm.get('isPerishable')?.valueChanges.subscribe(isPerishable => {
+      const storageControl = this.ingredientForm.get('storageInstructions');
+      if (isPerishable) {
+        storageControl?.setValidators([Validators.required]);
+      } else {
+        storageControl?.clearValidators();
+      }
+      storageControl?.updateValueAndValidity();
     });
   }
 
@@ -52,6 +87,21 @@ export class IngredientEditComponent implements OnInit {
   // Getter for easy access to form fields
   get f() {
     return this.ingredientForm.controls;
+  }
+
+  getValidationMessage(fieldName: string): string {
+    const control = this.f[fieldName];
+    if (!control || !control.errors || !control.touched) return '';
+
+    const errors = control.errors;
+    if (errors['required']) return `${fieldName} is required`;
+    if (errors['minlength']) return `${fieldName} must be at least ${errors['minlength'].requiredLength} characters`;
+    if (errors['maxlength']) return `${fieldName} cannot exceed ${errors['maxlength'].requiredLength} characters`;
+    if (errors['min']) return `${fieldName} must be greater than ${errors['min'].min}`;
+    if (errors['max']) return `${fieldName} must be less than ${errors['max'].max}`;
+    if (errors['email']) return `Invalid email format`;
+
+    return 'Invalid field';
   }
 
   private loadIngredient(): void {
