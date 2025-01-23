@@ -22,6 +22,21 @@ export class IngredientEditComponent implements OnInit {
   originalIngredient: Ingredient | null = null;
   measurementUnits = Object.values(MeasurementUnit);
 
+  // Field instructions
+  fieldInstructions = {
+    name: 'Enter a unique, descriptive name for the ingredient (e.g., "Fresh Organic Tomatoes", "All-Purpose Flour")',
+    description: 'Provide details about the ingredient including variety, quality, or special characteristics (e.g., "Premium grade Italian tomatoes, perfect for sauces")',
+    unit: 'Select the most appropriate measurement unit for this ingredient. Consider how it will be used in recipes',
+    cost: 'Enter the average cost per unit (e.g., cost per kg, per unit). Use current market prices',
+    stockQuantity: 'Enter the current quantity available in stock. This helps track inventory levels and plan purchases',
+    minimumStockLevel: 'Set the minimum quantity that should be maintained in stock. You will be alerted when stock falls below this level',
+    supplierName: 'Enter the name of your preferred supplier for this ingredient. This helps with reordering and maintaining supplier relationships',
+    isPerishable: 'Check if this ingredient has a limited shelf life and requires special storage',
+    originCountry: 'Enter the country where this ingredient typically comes from (e.g., "Italy" for specific olive oils)',
+    storageInstructions: 'Specify how to properly store this ingredient (e.g., "Store in a cool, dry place" or "Refrigerate after opening")',
+    isActive: 'Indicate if this ingredient is currently available for use in recipes'
+  };
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -34,7 +49,6 @@ export class IngredientEditComponent implements OnInit {
 
   private initForm(): void {
     this.ingredientForm = this.formBuilder.group({
-      id: [''],
       name: ['', [
         Validators.required,
         Validators.minLength(3),
@@ -45,7 +59,7 @@ export class IngredientEditComponent implements OnInit {
         Validators.minLength(10),
         Validators.maxLength(500)
       ]],
-      unit: [MeasurementUnit.Unit, [Validators.required]],
+      unit: ['', [Validators.required]],
       cost: ['', [
         Validators.required,
         Validators.min(0.01),
@@ -61,9 +75,17 @@ export class IngredientEditComponent implements OnInit {
         Validators.min(0),
         Validators.max(9999)
       ]],
-      supplierName: ['', [Validators.required]],
+      supplierName: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(100)
+      ]],
       isPerishable: [false],
-      originCountry: ['', [Validators.required]],
+      originCountry: ['', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(100)
+      ]],
       storageInstructions: [''],
       isActive: [true]
     });
@@ -72,7 +94,11 @@ export class IngredientEditComponent implements OnInit {
     this.ingredientForm.get('isPerishable')?.valueChanges.subscribe(isPerishable => {
       const storageControl = this.ingredientForm.get('storageInstructions');
       if (isPerishable) {
-        storageControl?.setValidators([Validators.required]);
+        storageControl?.setValidators([
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(500)
+        ]);
       } else {
         storageControl?.clearValidators();
       }
@@ -112,7 +138,6 @@ export class IngredientEditComponent implements OnInit {
         next: (ingredient: Ingredient) => {
           this.originalIngredient = ingredient;
           this.ingredientForm.patchValue({
-            id: ingredient.id,
             name: ingredient.name,
             description: ingredient.description,
             unit: ingredient.unit,

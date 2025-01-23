@@ -173,6 +173,7 @@
                       <i class="fas fa-plus me-1"></i>Add Ingredient
                     </button>
                   </div>
+                  <small class="text-muted d-block mb-3">{{fieldInstructions.recipeIngredients}}</small>
 
                   <div formArrayName="ingredients">
                     <div *ngFor="let ingredient of ingredients.controls; let i=index" [formGroupName]="i"
