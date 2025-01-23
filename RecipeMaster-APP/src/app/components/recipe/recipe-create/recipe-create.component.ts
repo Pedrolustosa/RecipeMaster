@@ -27,16 +27,17 @@ export class RecipeCreateComponent implements OnInit {
 
   // Field help texts
   fieldInstructions = {
-    name: 'Enter a descriptive name for your recipe (3-100 characters)',
-    description: 'Provide a brief overview of your recipe (10-500 characters)',
-    preparationTime: 'Time needed for preparation in minutes (1-999)',
-    cookingTime: 'Time needed for cooking in minutes (0-999, 0 if no cooking required)',
-    servings: 'Number of portions this recipe yields (1-50)',
-    difficulty: 'Select the difficulty level of preparing this recipe',
-    instructions: 'Detailed step-by-step cooking instructions (20-2000 characters)',
-    totalCost: 'Total cost of all ingredients in USD (0.01-9999.99)',
-    yieldPerPortion: 'Cost per serving in USD (0.01-999.99)',
-    ingredients: 'Select ingredients and specify quantities (at least 1 ingredient required)'
+    name: 'Enter a clear and descriptive name for your recipe. E.g., "Chocolate Cake with Strawberry Frosting" (3-100 characters)',
+    description: 'Briefly describe your recipe, including special features and main flavors. E.g., "A fluffy chocolate cake with fresh strawberry frosting, perfect for parties" (10-500 characters)',
+    preparationTime: 'Time needed to prepare all ingredients, including cutting, measuring, and organizing (1-999 minutes)',
+    cookingTime: 'Total cooking/baking time. Enter 0 if no cooking required (e.g., salads) (0-999 minutes)',
+    servings: 'Number of portions this recipe yields. Consider average portion sizes per person (1-50 servings)',
+    difficulty: 'Choose difficulty based on required technique: Easy (beginners), Medium (basic knowledge), Hard (experience needed), Expert (advanced techniques)',
+    instructions: 'List detailed step-by-step preparation instructions. Include temperatures, times, and important tips. Separate each step on a new line (20-2000 characters)',
+    totalCost: 'Approximate total cost of all ingredients in USD. Use average market prices (0.01-9999.99)',
+    yieldPerPortion: 'Cost per serving in USD (total cost divided by number of servings) (0.01-999.99)',
+    ingredients: 'Select required ingredients and specify exact quantities (e.g., "2 cups", "300g", "3 units"). Minimum 1 ingredient',
+    recipeIngredients: 'Click "Add Ingredient" to include ingredients in your recipe. For each ingredient: 1) Select from the dropdown list, 2) Specify the exact quantity (e.g., 2, 3.5), 3) Choose the measurement unit (e.g., cups, grams, pieces). Make sure to add all necessary ingredients for your recipe.'
   };
 
   constructor(
@@ -129,8 +130,7 @@ export class RecipeCreateComponent implements OnInit {
   private async loadIngredients(): Promise<void> {
     try {
       this.spinner.show();
-      const ingredients$ = this.ingredientService.ingredients$;
-      this.ingredientList = await firstValueFrom(ingredients$);
+      this.ingredientList = await firstValueFrom(this.ingredientService.getAll());
     } catch (error) {
       this.toastr.error('Failed to load ingredients');
       console.error('Error loading ingredients:', error);
@@ -192,10 +192,14 @@ export class RecipeCreateComponent implements OnInit {
         instructions: formValue.instructions,
         totalCost: formValue.totalCost,
         yieldPerPortion: formValue.yieldPerPortion,
-        ingredients: formValue.ingredients.map((ing: any) => ({
-          ingredientId: ing.ingredientId,
-          quantity: ing.quantity
-        }))
+        ingredients: formValue.ingredients.map((ing: any) => {
+          const ingredient = this.ingredientList.find(i => i.id === ing.ingredientId);
+          return {
+            ingredientId: ing.ingredientId,
+            ingredientName: ingredient ? ingredient.name : '',
+            quantity: ing.quantity
+          };
+        })
       };
 
       await firstValueFrom(this.recipeService.create(recipe));

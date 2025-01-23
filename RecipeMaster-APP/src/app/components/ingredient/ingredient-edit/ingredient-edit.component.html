@@ -18,7 +18,7 @@
               </li>
               <li class="nav-item" role="presentation">
                 <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
-                  <i class="fas fa-list-ul me-2"></i>Details
+                  <i class="fas fa-dollar-sign me-2"></i>Details
                 </button>
               </li>
               <li class="nav-item" role="presentation">
@@ -37,10 +37,11 @@
                     <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter ingredient name"
                       [ngClass]="{'is-invalid': submitted && f['name'].errors}">
                     <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                      <div *ngIf="f['name'].errors['required']">Name is required</div>
-                      <div *ngIf="f['name'].errors['minlength']">Name must be at least 3 characters</div>
+                      <div *ngIf="f['name'].errors['required']">Name is required for ingredient identification</div>
+                      <div *ngIf="f['name'].errors['minlength']">Name must be at least 3 characters to be descriptive</div>
                       <div *ngIf="f['name'].errors['maxlength']">Name cannot exceed 100 characters</div>
                     </div>
+                    <small class="text-muted">{{fieldInstructions.name}}</small>
                   </div>
 
                   <div class="col-md-6">
@@ -53,8 +54,9 @@
                       </option>
                     </select>
                     <div *ngIf="submitted && f['unit'].errors" class="invalid-feedback">
-                      <div *ngIf="f['unit'].errors['required']">Unit of measure is required</div>
+                      <div *ngIf="f['unit'].errors['required']">Please select a measurement unit to specify how this ingredient will be measured</div>
                     </div>
+                    <small class="text-muted">{{fieldInstructions.unit}}</small>
                   </div>
 
                   <div class="col-12">
@@ -62,10 +64,11 @@
                     <textarea class="form-control" id="description" rows="3" formControlName="description"
                       placeholder="Describe the ingredient" [ngClass]="{'is-invalid': submitted && f['description'].errors}"></textarea>
                     <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
-                      <div *ngIf="f['description'].errors['required']">Description is required</div>
-                      <div *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters</div>
+                      <div *ngIf="f['description'].errors['required']">Description helps users understand the ingredient's characteristics</div>
+                      <div *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters to be meaningful</div>
                       <div *ngIf="f['description'].errors['maxlength']">Description cannot exceed 500 characters</div>
                     </div>
+                    <small class="text-muted">{{fieldInstructions.description}}</small>
                   </div>
                 </div>
               </div>
@@ -81,39 +84,11 @@
                         placeholder="0.00" [ngClass]="{'is-invalid': submitted && f['cost'].errors}">
                     </div>
                     <div *ngIf="submitted && f['cost'].errors" class="invalid-feedback">
-                      <div *ngIf="f['cost'].errors['required']">Cost is required</div>
-                      <div *ngIf="f['cost'].errors['min']">Must be at least $0.01</div>
-                      <div *ngIf="f['cost'].errors['max']">Cannot exceed $999.99</div>
+                      <div *ngIf="f['cost'].errors['required']">Cost is required for recipe pricing calculations</div>
+                      <div *ngIf="f['cost'].errors['min']">Cost must be at least $0.01</div>
+                      <div *ngIf="f['cost'].errors['max']">Cost cannot exceed $999.99</div>
                     </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label for="supplierName" class="form-label fw-bold">Supplier Name</label>
-                    <input type="text" class="form-control" id="supplierName" formControlName="supplierName"
-                      placeholder="Enter supplier name" [ngClass]="{'is-invalid': submitted && f['supplierName'].errors}">
-                    <div *ngIf="submitted && f['supplierName'].errors" class="invalid-feedback">
-                      <div *ngIf="f['supplierName'].errors['required']">Supplier name is required</div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label for="stockQuantity" class="form-label fw-bold">Current Stock</label>
-                    <input type="number" class="form-control" id="stockQuantity" formControlName="stockQuantity"
-                      placeholder="Enter current stock" [ngClass]="{'is-invalid': submitted && f['stockQuantity'].errors}">
-                    <div *ngIf="submitted && f['stockQuantity'].errors" class="invalid-feedback">
-                      <div *ngIf="f['stockQuantity'].errors['required']">Stock quantity is required</div>
-                      <div *ngIf="f['stockQuantity'].errors['min']">Must be at least 0</div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label for="minimumStockLevel" class="form-label fw-bold">Minimum Stock Level</label>
-                    <input type="number" class="form-control" id="minimumStockLevel" formControlName="minimumStockLevel"
-                      placeholder="Enter minimum stock level" [ngClass]="{'is-invalid': submitted && f['minimumStockLevel'].errors}">
-                    <div *ngIf="submitted && f['minimumStockLevel'].errors" class="invalid-feedback">
-                      <div *ngIf="f['minimumStockLevel'].errors['required']">Minimum stock level is required</div>
-                      <div *ngIf="f['minimumStockLevel'].errors['min']">Must be at least 0</div>
-                    </div>
+                    <small class="text-muted">{{fieldInstructions.cost}}</small>
                   </div>
                 </div>
               </div>
@@ -122,32 +97,79 @@
               <div class="tab-pane fade" id="storage" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-6">
+                    <label for="stockQuantity" class="form-label fw-bold">Stock Quantity</label>
+                    <input type="number" class="form-control" id="stockQuantity" formControlName="stockQuantity"
+                      placeholder="Enter current stock" [ngClass]="{'is-invalid': submitted && f['stockQuantity'].errors}">
+                    <div *ngIf="submitted && f['stockQuantity'].errors" class="invalid-feedback">
+                      <div *ngIf="f['stockQuantity'].errors['required']">Stock quantity is required for inventory management</div>
+                      <div *ngIf="f['stockQuantity'].errors['min']">Stock quantity cannot be negative</div>
+                      <div *ngIf="f['stockQuantity'].errors['max']">Stock quantity cannot exceed 9999</div>
+                    </div>
+                    <small class="text-muted">Enter the current quantity of this ingredient in stock.</small>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="minimumStockLevel" class="form-label fw-bold">Minimum Stock Level</label>
+                    <input type="number" class="form-control" id="minimumStockLevel" formControlName="minimumStockLevel"
+                      placeholder="Enter minimum stock level" [ngClass]="{'is-invalid': submitted && f['minimumStockLevel'].errors}">
+                    <div *ngIf="submitted && f['minimumStockLevel'].errors" class="invalid-feedback">
+                      <div *ngIf="f['minimumStockLevel'].errors['required']">Minimum stock level is required for inventory alerts</div>
+                      <div *ngIf="f['minimumStockLevel'].errors['min']">Minimum stock level cannot be negative</div>
+                      <div *ngIf="f['minimumStockLevel'].errors['max']">Minimum stock level cannot exceed 9999</div>
+                    </div>
+                    <small class="text-muted">Enter the minimum quantity of this ingredient to maintain in stock.</small>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="supplierName" class="form-label fw-bold">Supplier Name</label>
+                    <input type="text" class="form-control" id="supplierName" formControlName="supplierName"
+                      placeholder="Enter supplier name" [ngClass]="{'is-invalid': submitted && f['supplierName'].errors}">
+                    <div *ngIf="submitted && f['supplierName'].errors" class="invalid-feedback">
+                      <div *ngIf="f['supplierName'].errors['required']">Supplier name is required for purchasing</div>
+                      <div *ngIf="f['supplierName'].errors['minlength']">Supplier name must be at least 2 characters</div>
+                      <div *ngIf="f['supplierName'].errors['maxlength']">Supplier name cannot exceed 100 characters</div>
+                    </div>
+                    <small class="text-muted">Enter the name of the supplier for this ingredient.</small>
+                  </div>
+
+                  <div class="col-md-6">
                     <label for="originCountry" class="form-label fw-bold">Country of Origin</label>
                     <input type="text" class="form-control" id="originCountry" formControlName="originCountry"
                       placeholder="Enter country of origin" [ngClass]="{'is-invalid': submitted && f['originCountry'].errors}">
                     <div *ngIf="submitted && f['originCountry'].errors" class="invalid-feedback">
                       <div *ngIf="f['originCountry'].errors['required']">Country of origin is required</div>
+                      <div *ngIf="f['originCountry'].errors['minlength']">Country name must be at least 2 characters</div>
+                      <div *ngIf="f['originCountry'].errors['maxlength']">Country name cannot exceed 100 characters</div>
                     </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <div class="form-check form-switch mt-4">
-                      <input type="checkbox" class="form-check-input" id="isPerishable" formControlName="isPerishable">
-                      <label class="form-check-label" for="isPerishable">Perishable Item</label>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <label for="storageInstructions" class="form-label fw-bold">Storage Instructions</label>
-                    <textarea class="form-control" id="storageInstructions" rows="3" formControlName="storageInstructions"
-                      placeholder="Enter storage instructions"></textarea>
+                    <small class="text-muted">{{fieldInstructions.originCountry}}</small>
                   </div>
 
                   <div class="col-md-6">
                     <div class="form-check form-switch">
-                      <input type="checkbox" class="form-check-input" id="isActive" formControlName="isActive">
-                      <label class="form-check-label" for="isActive">Active Item</label>
+                      <input class="form-check-input" type="checkbox" id="isPerishable" formControlName="isPerishable">
+                      <label class="form-check-label" for="isPerishable">Perishable Item</label>
                     </div>
+                    <small class="text-muted">{{fieldInstructions.isPerishable}}</small>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="storageInstructions" class="form-label fw-bold">Storage Instructions</label>
+                    <textarea class="form-control" id="storageInstructions" rows="2" formControlName="storageInstructions"
+                      placeholder="Enter storage instructions" [ngClass]="{'is-invalid': submitted && f['storageInstructions'].errors}"></textarea>
+                    <div *ngIf="submitted && f['storageInstructions'].errors" class="invalid-feedback">
+                      <div *ngIf="f['storageInstructions'].errors['required']">Storage instructions are required for perishable items</div>
+                      <div *ngIf="f['storageInstructions'].errors['minlength']">Storage instructions must be at least 10 characters</div>
+                      <div *ngIf="f['storageInstructions'].errors['maxlength']">Storage instructions cannot exceed 500 characters</div>
+                    </div>
+                    <small class="text-muted">{{fieldInstructions.storageInstructions}}</small>
+                  </div>
+
+                  <div class="col-md-6">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="isActive" formControlName="isActive">
+                      <label class="form-check-label" for="isActive">Active Ingredient</label>
+                    </div>
+                    <small class="text-muted">{{fieldInstructions.isActive}}</small>
                   </div>
                 </div>
               </div>
