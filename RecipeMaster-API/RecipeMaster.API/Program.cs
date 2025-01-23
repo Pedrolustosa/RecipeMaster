@@ -15,11 +15,11 @@ builder.Services.AddInfrastructure();
 builder.Services.AddJwtSetup(builder.Configuration);
 
 // Configure DbContext
-builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 //builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
-//    options.UseInMemoryDatabase("RecipeMasterDb"));
+//    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
+    options.UseInMemoryDatabase("RecipeMasterDb"));
 
 // Configure CORS
 builder.Services.AddCors(options =>
