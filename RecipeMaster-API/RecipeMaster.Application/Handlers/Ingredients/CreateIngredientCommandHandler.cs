@@ -1,23 +1,23 @@
 ﻿using MediatR;
-using RecipeMaster.Application.Commands.Ingredients;
 using RecipeMaster.Core.Entities;
-using RecipeMaster.Core.Interfaces.Repositories;
+using Microsoft.Extensions.Logging;
 using RecipeMaster.Core.ValueObjects;
+using RecipeMaster.Core.Interfaces.Repositories;
+using RecipeMaster.Application.Commands.Ingredients;
 
 namespace RecipeMaster.Application.Handlers.Ingredients;
 
-public class CreateIngredientCommandHandler : IRequestHandler<CreateIngredientCommand, Guid>
+public class CreateIngredientCommandHandler(IIngredientRepository repository, ILogger<CreateIngredientCommandHandler> logger) : IRequestHandler<CreateIngredientCommand, Guid>
 {
-    private readonly IIngredientRepository _repository;
-
-    public CreateIngredientCommandHandler(IIngredientRepository repository)
-    {
-        _repository = repository;
-    }
+    private readonly IIngredientRepository _repository = repository;
+    private readonly ILogger<CreateIngredientCommandHandler> _logger = logger;
 
     public async Task<Guid> Handle(CreateIngredientCommand request, CancellationToken cancellationToken)
     {
-        var ingredient = new Ingredient(
+        try
+        {
+            _logger.LogInformation("Creating a new ingredient...");
+            var ingredient = new Ingredient(
                 request.Name,
                 request.Description,
                 Enum.Parse<MeasurementUnit>(request.Unit),
@@ -28,8 +28,18 @@ public class CreateIngredientCommandHandler : IRequestHandler<CreateIngredientCo
                 request.IsPerishable,
                 request.OriginCountry,
                 request.StorageInstructions,
-                request.IsActive);
-        await _repository.AddAsync(ingredient);
-        return ingredient.Id;
+                request.IsActive
+            );
+
+            await _repository.AddAsync(ingredient);
+            _logger.LogInformation("Successfully created ingredient with ID {Id}.", ingredient.Id);
+
+            return ingredient.Id;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while creating ingredient.");
+            throw;
+        }
     }
 }
