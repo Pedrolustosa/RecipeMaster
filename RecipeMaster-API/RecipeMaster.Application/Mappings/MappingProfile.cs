@@ -80,6 +80,7 @@ public class MappingProfile : Profile
             .ReverseMap()
             .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src =>
                 src.Ingredients.Select(i => new RecipeIngredient(src.Id, i.IngredientId, i.Quantity)).ToList()));
+
         CreateMap<UpdateRecipeDTO, UpdateRecipeCommand>()
             .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src =>
                 src.Ingredients.Select(i => new UpdateRecipeCommand.IngredientDto
@@ -87,6 +88,7 @@ public class MappingProfile : Profile
                     IngredientId = i.IngredientId,
                     Quantity = i.Quantity
                 }).ToList()));
+
         CreateMap<UpdateRecipeCommand, Recipe>()
             .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src =>
                 src.Ingredients.Select(i => new RecipeIngredient(src.Id, i.IngredientId, i.Quantity)).ToList()));
@@ -95,8 +97,21 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.IngredientId, opt => opt.MapFrom(src => src.IngredientId))
             .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
             .ReverseMap();
+
         CreateMap<UpdateRecipeIngredientDTO, RecipeIngredient>()
             .ForMember(dest => dest.RecipeId, opt => opt.Ignore())
             .ForMember(dest => dest.Ingredient, opt => opt.Ignore());
+
+        CreateMap<RecipeDTO, CreateRecipeCommand>()
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+            .ForMember(dest => dest.PreparationTime, opt => opt.MapFrom(src => src.PreparationTime))
+            .ForMember(dest => dest.CookingTime, opt => opt.MapFrom(src => src.CookingTime))
+            .ForMember(dest => dest.Servings, opt => opt.MapFrom(src => src.Servings))
+            .ForMember(dest => dest.Difficulty, opt => opt.MapFrom(src => src.Difficulty))
+            .ForMember(dest => dest.Instructions, opt => opt.MapFrom(src => src.Instructions))
+            .ForMember(dest => dest.TotalCost, opt => opt.MapFrom(src => src.TotalCost))
+            .ForMember(dest => dest.YieldPerPortion, opt => opt.MapFrom(src => src.YieldPerPortion))
+            .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src => src.Ingredients));
     }
 }
