@@ -1,27 +1,23 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RecipeMaster.API.Exceptions;
-using RecipeMaster.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
-using RecipeMaster.Application.Queries.Recipes;
-using RecipeMaster.Application.Commands.Recipes;
+using RecipeMaster.Application.Services.Interfaces;
 
 namespace RecipeMaster.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-
-public class RecipeController(IMediator mediator) : ControllerBase
+public class RecipeController(IRecipeService recipeService) : ControllerBase
 {
-    private readonly IMediator _mediator = mediator;
+    private readonly IRecipeService _recipeService = recipeService;
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         try
         {
-            var recipes = await _mediator.Send(new GetAllRecipesQuery());
+            var recipes = await _recipeService.GetAllAsync();
             return Ok(recipes);
         }
         catch (Exception ex)
@@ -35,9 +31,10 @@ public class RecipeController(IMediator mediator) : ControllerBase
     {
         try
         {
-            var recipe = await _mediator.Send(new GetRecipeByIdQuery { Id = id });
-
-            return recipe == null ? throw new NotFoundException("Recipe", id) : (IActionResult)Ok(recipe);
+            var recipe = await _recipeService.GetByIdAsync(id);
+            return recipe == null
+                ? throw new NotFoundException("Recipe", id)
+                : (IActionResult)Ok(recipe);
         }
         catch (NotFoundException ex)
         {
@@ -50,11 +47,11 @@ public class RecipeController(IMediator mediator) : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateRecipeCommand command)
+    public async Task<IActionResult> Create([FromBody] RecipeDTO dto)
     {
         try
         {
-            var id = await _mediator.Send(command);
+            var id = await _recipeService.CreateAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id }, null);
         }
         catch (ValidationException ex)
@@ -72,24 +69,7 @@ public class RecipeController(IMediator mediator) : ControllerBase
     {
         try
         {
-            var command = new UpdateRecipeCommand
-            {
-                Id = id,
-                Name = dto.Name,
-                Description = dto.Description,
-                PreparationTime = dto.PreparationTime,
-                CookingTime = dto.CookingTime,
-                Servings = dto.Servings,
-                Difficulty = dto.Difficulty,
-                Instructions = dto.Instructions,
-                Ingredients = dto.Ingredients.Select(i => new UpdateRecipeCommand.IngredientDto
-                {
-                    IngredientId = i.IngredientId,
-                    Quantity = i.Quantity
-                }).ToList()
-            };
-
-            await _mediator.Send(command);
+            await _recipeService.UpdateAsync(id, dto);
             return NoContent();
         }
         catch (NotFoundException ex)
@@ -111,7 +91,7 @@ public class RecipeController(IMediator mediator) : ControllerBase
     {
         try
         {
-            await _mediator.Send(new DeleteRecipeCommand { Id = id });
+            await _recipeService.DeleteAsync(id);
             return NoContent();
         }
         catch (NotFoundException ex)
