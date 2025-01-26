@@ -7,7 +7,11 @@ public static class AutoMapperSetup
 {
     public static IServiceCollection AddAutoMapperSetup(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(MappingProfile));
+        services.AddAutoMapper(cfg =>
+        {
+            cfg.AddProfile<IngredientMappingProfile>();
+            cfg.AddProfile<RecipeMappingProfile>();
+        });
         return services;
     }
 }
