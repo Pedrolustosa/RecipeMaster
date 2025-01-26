@@ -25,4 +25,8 @@
     <ProjectReference Include="..\RecipeMaster.Infra.IoC\RecipeMaster.Infra.IoC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="logs\" />
+  </ItemGroup>
+
 </Project>
