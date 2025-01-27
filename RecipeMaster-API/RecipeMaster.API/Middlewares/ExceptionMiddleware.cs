@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using RecipeMaster.API.Exceptions;
+using RecipeMaster.Core.Exceptions;
 
 namespace RecipeMaster.API.Middlewares;
 

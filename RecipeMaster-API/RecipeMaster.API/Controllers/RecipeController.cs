@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RecipeMaster.API.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using RecipeMaster.Application.Services.Interfaces;
+using RecipeMaster.Core.Exceptions;
 
 namespace RecipeMaster.API.Controllers;
 

@@ -1,4 +1,4 @@
-﻿namespace RecipeMaster.API.Models;
+﻿namespace RecipeMaster.Core.Entities;
 
 public class TokenResponse
 {

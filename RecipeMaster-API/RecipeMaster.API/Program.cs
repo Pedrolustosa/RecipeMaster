@@ -20,7 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerSetup();
 builder.Services.AddAutoMapperSetup();
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddJwtSetup(builder.Configuration);
 
 builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
