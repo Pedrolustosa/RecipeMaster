@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using RecipeMaster.Core.JWT;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

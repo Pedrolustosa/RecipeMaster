@@ -1,4 +1,4 @@
-﻿namespace RecipeMaster.Infra.IoC.JWT;
+﻿namespace RecipeMaster.Core.JWT;
 
 public class JwtSettings
 {

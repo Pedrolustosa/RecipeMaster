@@ -1,7 +1,12 @@
 ﻿using Serilog;
+using RecipeMaster.Core.JWT;
 using RecipeMaster.Infra.Identity;
+using RecipeMaster.Core.Interfaces;
+using Microsoft.Extensions.Options;
 using RecipeMaster.Infra.Repositories;
 using RecipeMaster.Application.Services;
+using Microsoft.Extensions.Configuration;
+using RecipeMaster.Infra.Identity.Services;
 using Microsoft.Extensions.DependencyInjection;
 using RecipeMaster.Core.Interfaces.Repositories;
 using RecipeMaster.Application.Services.Interfaces;
@@ -22,14 +27,18 @@ public static class DependencyInjection
     {
         services.AddScoped<IIngredientService, IngredientService>();
         services.AddScoped<IRecipeService, RecipeService>();
+        services.AddScoped<IAuthService, AuthService>();
         return services;
     }
 
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddIdentitySetup();
         services.AddRepositories();
         services.AddServices();
+        var jwtSettingsSection = configuration.GetSection("JwtSettings");
+        services.Configure<JwtSettings>(jwtSettingsSection);
+        services.AddSingleton(sp => sp.GetRequiredService<IOptions<JwtSettings>>().Value);
         services.AddSingleton(Log.Logger);
         services.AddLogging();
         services.AddMediatR(cfg =>
@@ -38,5 +47,4 @@ public static class DependencyInjection
         });
         return services;
     }
-
 }

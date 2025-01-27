@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace RecipeMaster.API.Exceptions;
+namespace RecipeMaster.Core.Exceptions;
 
 public abstract class BaseException : Exception
 {

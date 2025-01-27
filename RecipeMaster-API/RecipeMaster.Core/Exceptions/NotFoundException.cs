@@ -1,12 +1,8 @@
-﻿using System;
+﻿using System.Net;
 
 namespace RecipeMaster.Core.Exceptions;
 
-public class NotFoundException : Exception
+public class NotFoundException(string resource, object key) : BaseException($"The resource '{resource}' with key '{key}' was not found.")
 {
-    public NotFoundException() : base() { }
-
-    public NotFoundException(string message) : base(message) { }
-
-    public NotFoundException(string message, Exception innerException) : base(message, innerException) { }
+    public override HttpStatusCode StatusCode => HttpStatusCode.NotFound;
 }

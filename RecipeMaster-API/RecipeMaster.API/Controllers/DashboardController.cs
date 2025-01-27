@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using RecipeMaster.API.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using RecipeMaster.Application.Queries.Dashboard;
+using RecipeMaster.Core.Exceptions;
 
 namespace RecipeMaster.API.Controllers;
 
