@@ -1,6 +1,6 @@
 <div class="register-container">
   <div class="register-card">
-    <h2>Create Account</h2>
+    <h2>{{ 'AUTH.REGISTER.TITLE' | translate }}</h2>
     
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
       <div class="input-group">
@@ -10,7 +10,7 @@
         <input
           type="email"
           class="form-control"
-          placeholder="Email"
+          [placeholder]="'AUTH.REGISTER.FORM.EMAIL_PLACEHOLDER' | translate"
           formControlName="email"
           [class.is-invalid]="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
         />
@@ -19,8 +19,7 @@
         *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
         class="text-danger"
       >
-        <small *ngIf="registerForm.get('email')?.errors?.['required']">Email is required</small>
-        <small *ngIf="registerForm.get('email')?.errors?.['email']">Please enter a valid email</small>
+        {{ getValidationMessage('email') }}
       </div>
 
       <div class="input-group">
@@ -30,7 +29,7 @@
         <input
           [type]="showPassword ? 'text' : 'password'"
           class="form-control"
-          placeholder="Password"
+          [placeholder]="'AUTH.REGISTER.FORM.PASSWORD_PLACEHOLDER' | translate"
           formControlName="password"
           [class.is-invalid]="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
         />
@@ -42,20 +41,18 @@
         *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
         class="text-danger"
       >
-        <small *ngIf="registerForm.get('password')?.errors?.['required']">Password is required</small>
-        <small *ngIf="registerForm.get('password')?.errors?.['minlength']">
-          Password must be at least 6 characters
-        </small>
+        {{ getValidationMessage('password') }}
       </div>
 
       <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
 
       <button type="submit" [disabled]="registerForm.invalid || loading" class="submit-button">
-        {{ loading ? 'Creating Account...' : 'Create Account' }}
+        {{ (loading ? 'AUTH.REGISTER.FORM.CREATING_ACCOUNT' : 'AUTH.REGISTER.FORM.CREATE_ACCOUNT') | translate }}
       </button>
 
       <div class="login-link">
-        Already have an account? <a routerLink="/login">Login here</a>
+        {{ 'AUTH.REGISTER.FORM.HAVE_ACCOUNT' | translate }} 
+        <a routerLink="/login">{{ 'AUTH.REGISTER.FORM.LOGIN_LINK' | translate }}</a>
       </div>
     </form>
   </div>

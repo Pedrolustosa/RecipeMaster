@@ -5,9 +5,10 @@ import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } fr
 import { Router } from '@angular/router';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 import { RecipeService } from '../../../services/recipe.service';
 import { IngredientService } from '../../../services/ingredient.service';
-import { Recipe, UpdateRecipeRequest } from '../../../models/recipe.models';
+import { UpdateRecipeRequest } from '../../../models/recipe.models';
 import { Ingredient } from '../../../models/ingredient.model';
 import { firstValueFrom } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -15,7 +16,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
-  styleUrls: ['./recipe-edit.component.css'],
+  styleUrls: ['./recipe-edit.component.scss'],
   standalone: true,
   imports: [CommonModule, RouterModule, ReactiveFormsModule, NgxSpinnerModule]
 })
@@ -26,21 +27,7 @@ export class RecipeEditComponent implements OnInit {
   submitted = false;
   ingredientList: Ingredient[] = [];
   availableIngredients: Ingredient[] = [];
-
-  // Field help texts
-  fieldInstructions = {
-    name: 'Enter a clear and descriptive name for your recipe. E.g., "Chocolate Cake with Strawberry Frosting" (3-100 characters)',
-    description: 'Briefly describe your recipe, including special features and main flavors. E.g., "A fluffy chocolate cake with fresh strawberry frosting, perfect for parties" (10-500 characters)',
-    preparationTime: 'Time needed to prepare all ingredients, including cutting, measuring, and organizing (1-999 minutes)',
-    cookingTime: 'Total cooking/baking time. Enter 0 if no cooking required (e.g., salads) (0-999 minutes)',
-    servings: 'Number of portions this recipe yields. Consider average portion sizes per person (1-50 servings)',
-    difficulty: 'Choose difficulty based on required technique: Easy (beginners), Medium (basic knowledge), Hard (experience needed), Expert (advanced techniques)',
-    instructions: 'List detailed step-by-step preparation instructions. Include temperatures, times, and important tips. Separate each step on a new line (20-2000 characters)',
-    totalCost: 'Approximate total cost of all ingredients in USD. Use average market prices (0.01-9999.99)',
-    yieldPerPortion: 'Cost per serving in USD (total cost divided by number of servings) (0.01-999.99)',
-    ingredients: 'Select required ingredients and specify exact quantities (e.g., "2 cups", "300g", "3 units"). Minimum 1 ingredient',
-    recipeIngredients: 'Click "Add Ingredient" to include ingredients in your recipe. For each ingredient: 1) Select from the dropdown list, 2) Specify the exact quantity (e.g., 2, 3.5), 3) Choose the measurement unit (e.g., cups, grams, pieces). Make sure to add all necessary ingredients for your recipe.'
-  };
+  fieldInstructions: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -49,8 +36,11 @@ export class RecipeEditComponent implements OnInit {
     private ingredientService: IngredientService,
     private router: Router,
     private toastr: ToastrService,
-    private spinner: NgxSpinnerService
-  ) { }
+    private spinner: NgxSpinnerService,
+    private translate: TranslateService
+  ) {
+    this.initFieldInstructions();
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -60,6 +50,22 @@ export class RecipeEditComponent implements OnInit {
         this.loadRecipe();
       });
     });
+  }
+
+  private initFieldInstructions(): void {
+    this.fieldInstructions = {
+      name: this.translate.instant('RECIPES.FORM.HELP_TEXTS.NAME'),
+      description: this.translate.instant('RECIPES.FORM.HELP_TEXTS.DESCRIPTION'),
+      preparationTime: this.translate.instant('RECIPES.FORM.HELP_TEXTS.PREPARATION_TIME'),
+      cookingTime: this.translate.instant('RECIPES.FORM.HELP_TEXTS.COOKING_TIME'),
+      servings: this.translate.instant('RECIPES.FORM.HELP_TEXTS.SERVINGS'),
+      difficulty: this.translate.instant('RECIPES.FORM.HELP_TEXTS.DIFFICULTY'),
+      instructions: this.translate.instant('RECIPES.FORM.HELP_TEXTS.INSTRUCTIONS'),
+      totalCost: this.translate.instant('RECIPES.FORM.HELP_TEXTS.TOTAL_COST'),
+      yieldPerPortion: this.translate.instant('RECIPES.FORM.HELP_TEXTS.YIELD_PER_PORTION'),
+      ingredients: this.translate.instant('RECIPES.FORM.HELP_TEXTS.INGREDIENTS'),
+      recipeIngredients: this.translate.instant('RECIPES.FORM.HELP_TEXTS.RECIPE_INGREDIENTS')
+    };
   }
 
   private initForm(): void {
@@ -110,13 +116,8 @@ export class RecipeEditComponent implements OnInit {
     });
   }
 
-  // Getter for easy access to form fields
   get f() { return this.recipeForm.controls; }
-
-  // Getter for ingredients form array
-  get ingredients() {
-    return this.f['ingredients'] as FormArray;
-  }
+  get ingredients() { return this.f['ingredients'] as FormArray; }
 
   addIngredient(): void {
     const ingredientForm = this.formBuilder.group({
@@ -135,7 +136,9 @@ export class RecipeEditComponent implements OnInit {
     if (this.ingredients.length > 1) {
       this.ingredients.removeAt(index);
     } else {
-      this.toastr.warning('Recipe must have at least one ingredient.');
+      this.toastr.warning(
+        this.translate.instant('RECIPES.MESSAGES.RECIPE_MUST_HAVE_AT_LEAST_ONE_INGREDIENT')
+      );
     }
   }
 
@@ -146,7 +149,10 @@ export class RecipeEditComponent implements OnInit {
       this.ingredientList = ingredients;
       this.availableIngredients = ingredients;
     } catch (error) {
-      this.toastr.error('Failed to load ingredients');
+      this.toastr.error(
+        this.translate.instant('RECIPES.MESSAGES.LOAD_INGREDIENTS_ERROR'),
+        this.translate.instant('RECIPES.MESSAGES.ERROR')
+      );
       console.error('Error loading ingredients:', error);
     } finally {
       this.spinner.hide();
@@ -158,12 +164,10 @@ export class RecipeEditComponent implements OnInit {
       this.loading = true;
       const recipe = await firstValueFrom(this.recipeService.getById(this.recipeId));
       
-      // Clear existing ingredients
       while (this.ingredients.length) {
         this.ingredients.removeAt(0);
       }
 
-      // Add each ingredient from the recipe
       recipe.ingredients.forEach(ingredient => {
         const ingredientForm = this.formBuilder.group({
           ingredientId: [ingredient.ingredientId, [Validators.required]],
@@ -176,7 +180,6 @@ export class RecipeEditComponent implements OnInit {
         this.ingredients.push(ingredientForm);
       });
 
-      // Update form with recipe data
       this.recipeForm.patchValue({
         name: recipe.name,
         description: recipe.description,
@@ -190,7 +193,10 @@ export class RecipeEditComponent implements OnInit {
       });
 
     } catch (error) {
-      this.toastr.error('Failed to load recipe. Please try again.');
+      this.toastr.error(
+        this.translate.instant('RECIPES.MESSAGES.LOAD_ERROR'),
+        this.translate.instant('RECIPES.MESSAGES.ERROR')
+      );
       this.router.navigate(['/recipes']);
     } finally {
       this.loading = false;
@@ -213,21 +219,47 @@ export class RecipeEditComponent implements OnInit {
     if (!control || !control.errors || !control.touched) return '';
 
     const errors = control.errors;
-    if (errors['required']) return `${fieldName} is required`;
-    if (errors['minlength']) return `${fieldName} must be at least ${errors['minlength'].requiredLength} characters`;
-    if (errors['maxlength']) return `${fieldName} cannot exceed ${errors['maxlength'].requiredLength} characters`;
-    if (errors['min']) return `${fieldName} must be greater than ${errors['min'].min}`;
-    if (errors['max']) return `${fieldName} must be less than ${errors['max'].max}`;
-    if (errors['email']) return `Invalid email format`;
+    if (errors['required']) {
+      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.REQUIRED', { fieldName });
+    }
+    if (errors['minlength']) {
+      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.MIN_LENGTH', {
+        fieldName,
+        requiredLength: errors['minlength'].requiredLength
+      });
+    }
+    if (errors['maxlength']) {
+      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.MAX_LENGTH', {
+        fieldName,
+        requiredLength: errors['maxlength'].requiredLength
+      });
+    }
+    if (errors['min']) {
+      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.MIN', {
+        fieldName,
+        min: errors['min'].min
+      });
+    }
+    if (errors['max']) {
+      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.MAX', {
+        fieldName,
+        max: errors['max'].max
+      });
+    }
+    if (errors['email']) {
+      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.EMAIL');
+    }
 
-    return 'Invalid field';
+    return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.INVALID_FIELD');
   }
 
   async onSubmit(): Promise<void> {
     this.submitted = true;
 
     if (this.recipeForm.invalid) {
-      this.toastr.error('Please correct the errors in the form before submitting.');
+      this.toastr.error(
+        this.translate.instant('RECIPES.MESSAGES.PLEASE_CORRECT_ERRORS')
+      );
       return;
     }
 
@@ -257,16 +289,21 @@ export class RecipeEditComponent implements OnInit {
       };
 
       await firstValueFrom(this.recipeService.update(this.recipeId, recipe));
-      this.toastr.success('Recipe updated successfully!');
+      this.toastr.success(
+        this.translate.instant('RECIPES.MESSAGES.UPDATE_SUCCESS'),
+        this.translate.instant('RECIPES.MESSAGES.SUCCESS')
+      );
       this.router.navigate(['/recipes']);
     } catch (error) {
-      this.toastr.error('Failed to update recipe. Please try again.');
+      this.toastr.error(
+        this.translate.instant('RECIPES.MESSAGES.UPDATE_ERROR'),
+        this.translate.instant('RECIPES.MESSAGES.ERROR')
+      );
     } finally {
       this.loading = false;
     }
   }
 
-  // Helper method to calculate yield per portion
   calculateYieldPerPortion(): void {
     const totalCost = this.f['totalCost'].value;
     const servings = this.f['servings'].value;

@@ -2,11 +2,11 @@
   <div class="sidebar-header">
     <div class="logo-container">
       <img src="assets/logo-preto-transparente.png" alt="RecipeMaster Logo" class="logo-img">
-      <span class="app-name" *ngIf="isExpanded">RecipeMaster</span>
+      <span class="app-name" *ngIf="isExpanded">{{ 'APP_NAME' | translate }}</span>
     </div>
     <button class="toggle-btn" 
             (click)="handleSidebarToggle()"
-            [title]="isExpanded ? 'Collapse menu' : 'Expand menu'">
+            [title]="(isExpanded ? 'SIDEBAR.COLLAPSE_MENU' : 'SIDEBAR.EXPAND_MENU') | translate">
       <i class="fas" [class.fa-chevron-left]="isExpanded" [class.fa-chevron-right]="!isExpanded"></i>
     </button>
   </div>
@@ -21,17 +21,17 @@
   </div>
 
   <div class="nav-section">
-    <div class="section-header" *ngIf="isExpanded">Menu</div>
+    <div class="section-header" *ngIf="isExpanded">{{ 'SIDEBAR.MENU' | translate }}</div>
     <ul class="nav-links">
       <li *ngFor="let item of navItems" 
           [class.active]="isCurrentRoute(item.route)"
           [routerLink]="item.route"
-          [title]="!isExpanded ? item.label : ''">
+          [title]="!isExpanded ? (item.translationKey | translate) : ''">
         <div class="nav-item">
           <i [class]="item.icon"></i>
           <div class="nav-content" *ngIf="isExpanded">
-            <span class="nav-label">{{ item.label }}</span>
-            <span class="nav-description">{{ item.description }}</span>
+            <span class="nav-label">{{ item.translationKey | translate }}</span>
+            <span class="nav-description">{{ item.translationKey + '_DESC' | translate }}</span>
           </div>
         </div>
       </li>
@@ -39,18 +39,32 @@
   </div>
 
   <div class="sidebar-footer">
+    <div class="language-switcher" *ngIf="isExpanded">
+      <button type="button" 
+              (click)="translate.use('pt')" 
+              class="btn btn-sm btn-outline-secondary me-2"
+              [class.active]="translate.currentLang === 'pt'">
+        PT
+      </button>
+      <button type="button" 
+              (click)="translate.use('en')" 
+              class="btn btn-sm btn-outline-secondary"
+              [class.active]="translate.currentLang === 'en'">
+        EN
+      </button>
+    </div>
     <a href="https://www.instagram.com/vivaconfeitariaa?igsh=NXNvbzJlbzljMzlj" 
        target="_blank" 
        class="social-link"
-       [title]="!isExpanded ? 'Instagram' : ''">
+       [title]="!isExpanded ? ('SIDEBAR.INSTAGRAM' | translate) : ''">
       <i class="fab fa-instagram"></i>
-      <span *ngIf="isExpanded">Instagram</span>
+      <span *ngIf="isExpanded">{{ 'SIDEBAR.INSTAGRAM' | translate }}</span>
     </a>
     <button class="logout-btn" 
             (click)="logout()" 
-            [title]="!isExpanded ? 'Logout' : ''">
+            [title]="!isExpanded ? ('SIDEBAR.LOGOUT' | translate) : ''">
       <i class="fas fa-sign-out-alt"></i>
-      <span *ngIf="isExpanded">Logout</span>
+      <span *ngIf="isExpanded">{{ 'SIDEBAR.LOGOUT' | translate }}</span>
     </button>
   </div>
 </nav>

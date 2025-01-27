@@ -4,26 +4,31 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
           <h5 class="mb-0">
-            <i class="fas fa-edit me-2"></i>Edit Ingredient
+            <i class="fas fa-edit me-2"></i>
+            {{ 'INGREDIENTS.EDIT.TITLE' | translate }}
           </h5>
         </div>
         
         <div class="card-body">
+          <p class="text-muted">{{ 'INGREDIENTS.EDIT.SUBTITLE' | translate }}</p>
           <form [formGroup]="ingredientForm" (ngSubmit)="onSubmit()">
             <ul class="nav nav-tabs mb-3" id="ingredientTabs" role="tablist">
               <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
-                  <i class="fas fa-info-circle me-2"></i>Basic Info
+                  <i class="fas fa-info-circle me-2"></i>
+                  {{ 'INGREDIENTS.EDIT.TABS.BASIC' | translate }}
                 </button>
               </li>
               <li class="nav-item" role="presentation">
                 <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
-                  <i class="fas fa-dollar-sign me-2"></i>Details
+                  <i class="fas fa-dollar-sign me-2"></i>
+                  {{ 'INGREDIENTS.EDIT.TABS.DETAILS' | translate }}
                 </button>
               </li>
               <li class="nav-item" role="presentation">
                 <button class="nav-link" id="storage-tab" data-bs-toggle="tab" data-bs-target="#storage" type="button" role="tab">
-                  <i class="fas fa-warehouse me-2"></i>Storage
+                  <i class="fas fa-warehouse me-2"></i>
+                  {{ 'INGREDIENTS.EDIT.TABS.STORAGE' | translate }}
                 </button>
               </li>
             </ul>
@@ -33,42 +38,70 @@
               <div class="tab-pane fade show active" id="basic" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="name" class="form-label fw-bold">Name</label>
-                    <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter ingredient name"
-                      [ngClass]="{'is-invalid': submitted && f['name'].errors}">
+                    <label for="name" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.NAME' | translate }}</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      id="name" 
+                      formControlName="name"
+                      [placeholder]="'INGREDIENTS.EDIT.FORM.NAME' | translate"
+                      [ngClass]="{'is-invalid': submitted && f['name'].errors}"
+                    >
                     <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                      <div *ngIf="f['name'].errors['required']">Name is required for ingredient identification</div>
-                      <div *ngIf="f['name'].errors['minlength']">Name must be at least 3 characters to be descriptive</div>
-                      <div *ngIf="f['name'].errors['maxlength']">Name cannot exceed 100 characters</div>
+                      <div *ngIf="f['name'].errors['required']">
+                        {{ 'INGREDIENTS.EDIT.FORM.NAME_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['name'].errors['minlength']">
+                        {{ 'INGREDIENTS.EDIT.FORM.NAME_MINLENGTH' | translate }}
+                      </div>
+                      <div *ngIf="f['name'].errors['maxlength']">
+                        {{ 'INGREDIENTS.EDIT.FORM.NAME_MAXLENGTH' | translate }}
+                      </div>
                     </div>
-                    <small class="text-muted">{{fieldInstructions.name}}</small>
+                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.NAME_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
-                    <label for="unit" class="form-label fw-bold">Unit of Measure</label>
-                    <select class="form-select" id="unit" formControlName="unit"
-                      [ngClass]="{'is-invalid': submitted && f['unit'].errors}">
-                      <option value="">Select unit</option>
-                      <option *ngFor="let unit of measurementUnits" [value]="unit">
-                        {{unit}}
-                      </option>
+                    <label for="unit" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.UNIT' | translate }}</label>
+                    <select 
+                      class="form-select" 
+                      id="unit" 
+                      formControlName="unit"
+                      [ngClass]="{'is-invalid': submitted && f['unit'].errors}"
+                    >
+                      <option value="">{{ 'INGREDIENTS.EDIT.FORM.SELECT_UNIT' | translate }}</option>
+                      <option *ngFor="let unit of measurementUnits" [value]="unit">{{unit}}</option>
                     </select>
                     <div *ngIf="submitted && f['unit'].errors" class="invalid-feedback">
-                      <div *ngIf="f['unit'].errors['required']">Please select a measurement unit to specify how this ingredient will be measured</div>
+                      <div *ngIf="f['unit'].errors['required']">
+                        {{ 'INGREDIENTS.EDIT.FORM.UNIT_REQUIRED' | translate }}
+                      </div>
                     </div>
-                    <small class="text-muted">{{fieldInstructions.unit}}</small>
+                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.UNIT_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-12">
-                    <label for="description" class="form-label fw-bold">Description</label>
-                    <textarea class="form-control" id="description" rows="3" formControlName="description"
-                      placeholder="Describe the ingredient" [ngClass]="{'is-invalid': submitted && f['description'].errors}"></textarea>
+                    <label for="description" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION' | translate }}</label>
+                    <textarea 
+                      class="form-control" 
+                      id="description" 
+                      rows="3" 
+                      formControlName="description"
+                      [placeholder]="'INGREDIENTS.EDIT.FORM.DESCRIPTION' | translate"
+                      [ngClass]="{'is-invalid': submitted && f['description'].errors}"
+                    ></textarea>
                     <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
-                      <div *ngIf="f['description'].errors['required']">Description helps users understand the ingredient's characteristics</div>
-                      <div *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters to be meaningful</div>
-                      <div *ngIf="f['description'].errors['maxlength']">Description cannot exceed 500 characters</div>
+                      <div *ngIf="f['description'].errors['required']">
+                        {{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['description'].errors['minlength']">
+                        {{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION_MINLENGTH' | translate }}
+                      </div>
+                      <div *ngIf="f['description'].errors['maxlength']">
+                        {{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION_MAXLENGTH' | translate }}
+                      </div>
                     </div>
-                    <small class="text-muted">{{fieldInstructions.description}}</small>
+                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION_INSTRUCTIONS' | translate }}</small>
                   </div>
                 </div>
               </div>
@@ -77,18 +110,31 @@
               <div class="tab-pane fade" id="details" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="cost" class="form-label fw-bold">Cost per Unit</label>
+                    <label for="cost" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.PRICE' | translate }}</label>
                     <div class="input-group">
                       <span class="input-group-text">$</span>
-                      <input type="number" class="form-control" id="cost" formControlName="cost" step="0.01"
-                        placeholder="0.00" [ngClass]="{'is-invalid': submitted && f['cost'].errors}">
+                      <input 
+                        type="number" 
+                        class="form-control" 
+                        id="cost" 
+                        formControlName="cost"
+                        step="0.01"
+                        [placeholder]="'INGREDIENTS.EDIT.FORM.PRICE' | translate"
+                        [ngClass]="{'is-invalid': submitted && f['cost'].errors}"
+                      >
                     </div>
                     <div *ngIf="submitted && f['cost'].errors" class="invalid-feedback">
-                      <div *ngIf="f['cost'].errors['required']">Cost is required for recipe pricing calculations</div>
-                      <div *ngIf="f['cost'].errors['min']">Cost must be at least $0.01</div>
-                      <div *ngIf="f['cost'].errors['max']">Cost cannot exceed $999.99</div>
+                      <div *ngIf="f['cost'].errors['required']">
+                        {{ 'INGREDIENTS.EDIT.FORM.PRICE_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['cost'].errors['min']">
+                        {{ 'INGREDIENTS.EDIT.FORM.PRICE_MIN' | translate }}
+                      </div>
+                      <div *ngIf="f['cost'].errors['max']">
+                        {{ 'INGREDIENTS.EDIT.FORM.PRICE_MAX' | translate }}
+                      </div>
                     </div>
-                    <small class="text-muted">{{fieldInstructions.cost}}</small>
+                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.PRICE_INSTRUCTIONS' | translate }}</small>
                   </div>
                 </div>
               </div>
@@ -97,79 +143,148 @@
               <div class="tab-pane fade" id="storage" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="stockQuantity" class="form-label fw-bold">Stock Quantity</label>
-                    <input type="number" class="form-control" id="stockQuantity" formControlName="stockQuantity"
-                      placeholder="Enter current stock" [ngClass]="{'is-invalid': submitted && f['stockQuantity'].errors}">
+                    <label for="stockQuantity" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY' | translate }}</label>
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      id="stockQuantity" 
+                      formControlName="stockQuantity"
+                      [ngClass]="{'is-invalid': submitted && f['stockQuantity'].errors}"
+                    >
                     <div *ngIf="submitted && f['stockQuantity'].errors" class="invalid-feedback">
-                      <div *ngIf="f['stockQuantity'].errors['required']">Stock quantity is required for inventory management</div>
-                      <div *ngIf="f['stockQuantity'].errors['min']">Stock quantity cannot be negative</div>
-                      <div *ngIf="f['stockQuantity'].errors['max']">Stock quantity cannot exceed 9999</div>
+                      <div *ngIf="f['stockQuantity'].errors['required']">
+                        {{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['stockQuantity'].errors['min']">
+                        {{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY_MIN' | translate }}
+                      </div>
+                      <div *ngIf="f['stockQuantity'].errors['max']">
+                        {{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY_MAX' | translate }}
+                      </div>
                     </div>
-                    <small class="text-muted">Enter the current quantity of this ingredient in stock.</small>
+                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
-                    <label for="minimumStockLevel" class="form-label fw-bold">Minimum Stock Level</label>
-                    <input type="number" class="form-control" id="minimumStockLevel" formControlName="minimumStockLevel"
-                      placeholder="Enter minimum stock level" [ngClass]="{'is-invalid': submitted && f['minimumStockLevel'].errors}">
+                    <label for="minimumStockLevel" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.MIN_STOCK_LEVEL' | translate }}</label>
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      id="minimumStockLevel" 
+                      formControlName="minimumStockLevel"
+                      [ngClass]="{'is-invalid': submitted && f['minimumStockLevel'].errors}"
+                    >
                     <div *ngIf="submitted && f['minimumStockLevel'].errors" class="invalid-feedback">
-                      <div *ngIf="f['minimumStockLevel'].errors['required']">Minimum stock level is required for inventory alerts</div>
-                      <div *ngIf="f['minimumStockLevel'].errors['min']">Minimum stock level cannot be negative</div>
-                      <div *ngIf="f['minimumStockLevel'].errors['max']">Minimum stock level cannot exceed 9999</div>
+                      <div *ngIf="f['minimumStockLevel'].errors['required']">
+                        {{ 'INGREDIENTS.EDIT.FORM.MIN_STOCK_LEVEL_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['minimumStockLevel'].errors['min']">
+                        {{ 'INGREDIENTS.EDIT.FORM.MIN_STOCK_LEVEL_MIN' | translate }}
+                      </div>
+                      <div *ngIf="f['minimumStockLevel'].errors['max']">
+                        {{ 'INGREDIENTS.EDIT.FORM.MIN_STOCK_LEVEL_MAX' | translate }}
+                      </div>
                     </div>
-                    <small class="text-muted">Enter the minimum quantity of this ingredient to maintain in stock.</small>
+                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.MIN_STOCK_LEVEL_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
-                    <label for="supplierName" class="form-label fw-bold">Supplier Name</label>
-                    <input type="text" class="form-control" id="supplierName" formControlName="supplierName"
-                      placeholder="Enter supplier name" [ngClass]="{'is-invalid': submitted && f['supplierName'].errors}">
+                    <label for="supplierName" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.SUPPLIER_NAME' | translate }}</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      id="supplierName" 
+                      formControlName="supplierName"
+                      [ngClass]="{'is-invalid': submitted && f['supplierName'].errors}"
+                    >
                     <div *ngIf="submitted && f['supplierName'].errors" class="invalid-feedback">
-                      <div *ngIf="f['supplierName'].errors['required']">Supplier name is required for purchasing</div>
-                      <div *ngIf="f['supplierName'].errors['minlength']">Supplier name must be at least 2 characters</div>
-                      <div *ngIf="f['supplierName'].errors['maxlength']">Supplier name cannot exceed 100 characters</div>
+                      <div *ngIf="f['supplierName'].errors['required']">
+                        {{ 'INGREDIENTS.EDIT.FORM.SUPPLIER_NAME_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['supplierName'].errors['minlength']">
+                        {{ 'INGREDIENTS.EDIT.FORM.SUPPLIER_NAME_MINLENGTH' | translate }}
+                      </div>
+                      <div *ngIf="f['supplierName'].errors['maxlength']">
+                        {{ 'INGREDIENTS.EDIT.FORM.SUPPLIER_NAME_MAXLENGTH' | translate }}
+                      </div>
                     </div>
-                    <small class="text-muted">Enter the name of the supplier for this ingredient.</small>
+                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.SUPPLIER_NAME_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
-                    <label for="originCountry" class="form-label fw-bold">Country of Origin</label>
-                    <input type="text" class="form-control" id="originCountry" formControlName="originCountry"
-                      placeholder="Enter country of origin" [ngClass]="{'is-invalid': submitted && f['originCountry'].errors}">
+                    <label for="originCountry" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.ORIGIN_COUNTRY' | translate }}</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      id="originCountry" 
+                      formControlName="originCountry"
+                      [ngClass]="{'is-invalid': submitted && f['originCountry'].errors}"
+                    >
                     <div *ngIf="submitted && f['originCountry'].errors" class="invalid-feedback">
-                      <div *ngIf="f['originCountry'].errors['required']">Country of origin is required</div>
-                      <div *ngIf="f['originCountry'].errors['minlength']">Country name must be at least 2 characters</div>
-                      <div *ngIf="f['originCountry'].errors['maxlength']">Country name cannot exceed 100 characters</div>
+                      <div *ngIf="f['originCountry'].errors['required']">
+                        {{ 'INGREDIENTS.EDIT.FORM.ORIGIN_COUNTRY_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['originCountry'].errors['minlength']">
+                        {{ 'INGREDIENTS.EDIT.FORM.ORIGIN_COUNTRY_MINLENGTH' | translate }}
+                      </div>
+                      <div *ngIf="f['originCountry'].errors['maxlength']">
+                        {{ 'INGREDIENTS.EDIT.FORM.ORIGIN_COUNTRY_MAXLENGTH' | translate }}
+                      </div>
                     </div>
-                    <small class="text-muted">{{fieldInstructions.originCountry}}</small>
+                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.ORIGIN_COUNTRY_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="isPerishable" formControlName="isPerishable">
-                      <label class="form-check-label" for="isPerishable">Perishable Item</label>
+                      <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        id="isPerishable" 
+                        formControlName="isPerishable"
+                      >
+                      <label class="form-check-label" for="isPerishable">
+                        {{ 'INGREDIENTS.EDIT.FORM.IS_PERISHABLE' | translate }}
+                      </label>
                     </div>
-                    <small class="text-muted">{{fieldInstructions.isPerishable}}</small>
+                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.IS_PERISHABLE_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-12">
-                    <label for="storageInstructions" class="form-label fw-bold">Storage Instructions</label>
-                    <textarea class="form-control" id="storageInstructions" rows="2" formControlName="storageInstructions"
-                      placeholder="Enter storage instructions" [ngClass]="{'is-invalid': submitted && f['storageInstructions'].errors}"></textarea>
+                    <label for="storageInstructions" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS' | translate }}</label>
+                    <textarea 
+                      class="form-control" 
+                      id="storageInstructions" 
+                      rows="2" 
+                      formControlName="storageInstructions"
+                      [ngClass]="{'is-invalid': submitted && f['storageInstructions'].errors}"
+                    ></textarea>
                     <div *ngIf="submitted && f['storageInstructions'].errors" class="invalid-feedback">
-                      <div *ngIf="f['storageInstructions'].errors['required']">Storage instructions are required for perishable items</div>
-                      <div *ngIf="f['storageInstructions'].errors['minlength']">Storage instructions must be at least 10 characters</div>
-                      <div *ngIf="f['storageInstructions'].errors['maxlength']">Storage instructions cannot exceed 500 characters</div>
+                      <div *ngIf="f['storageInstructions'].errors['required']">
+                        {{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['storageInstructions'].errors['minlength']">
+                        {{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS_MINLENGTH' | translate }}
+                      </div>
+                      <div *ngIf="f['storageInstructions'].errors['maxlength']">
+                        {{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS_MAXLENGTH' | translate }}
+                      </div>
                     </div>
-                    <small class="text-muted">{{fieldInstructions.storageInstructions}}</small>
+                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="isActive" formControlName="isActive">
-                      <label class="form-check-label" for="isActive">Active Ingredient</label>
+                      <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        id="isActive" 
+                        formControlName="isActive"
+                      >
+                      <label class="form-check-label" for="isActive">
+                        {{ 'INGREDIENTS.EDIT.FORM.IS_ACTIVE' | translate }}
+                      </label>
                     </div>
-                    <small class="text-muted">{{fieldInstructions.isActive}}</small>
+                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.IS_ACTIVE_INSTRUCTIONS' | translate }}</small>
                   </div>
                 </div>
               </div>
@@ -178,11 +293,13 @@
             <!-- Fixed bottom action buttons -->
             <div class="position-sticky bottom-0 bg-white pt-3 border-top mt-3">
               <div class="d-flex gap-2 justify-content-end">
-                <button type="button" class="btn btn-secondary" routerLink="/ingredients">
-                  <i class="fas fa-times me-2"></i>Cancel
+                <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+                  <i class="fas fa-times me-2"></i>
+                  {{ 'INGREDIENTS.EDIT.FORM.CANCEL' | translate }}
                 </button>
                 <button type="submit" class="btn btn-primary">
-                  <i class="fas fa-save me-2"></i>Update Ingredient
+                  <i class="fas fa-save me-2"></i>
+                  {{ 'INGREDIENTS.EDIT.FORM.SUBMIT' | translate }}
                 </button>
               </div>
             </div>
@@ -196,28 +313,28 @@
         <div class="card-body">
           <h5 class="card-title mb-3">
             <i class="fas fa-lightbulb text-warning me-2"></i>
-            Tips for Editing Ingredients
+            {{ 'INGREDIENTS.EDIT.TIPS.TITLE' | translate }}
           </h5>
           <ul class="list-unstyled mb-0">
             <li class="mb-2">
               <i class="fas fa-check-circle text-success me-2"></i>
-              Review and update ingredient name if needed
+              {{ 'INGREDIENTS.EDIT.TIPS.REVIEW_NAME' | translate }}
             </li>
             <li class="mb-2">
               <i class="fas fa-check-circle text-success me-2"></i>
-              Verify unit of measure is appropriate
+              {{ 'INGREDIENTS.EDIT.TIPS.VERIFY_UNIT' | translate }}
             </li>
             <li class="mb-2">
               <i class="fas fa-check-circle text-success me-2"></i>
-              Update cost if it has changed
+              {{ 'INGREDIENTS.EDIT.TIPS.UPDATE_COST' | translate }}
             </li>
             <li class="mb-2">
               <i class="fas fa-check-circle text-success me-2"></i>
-              Maintain accurate stock levels
+              {{ 'INGREDIENTS.EDIT.TIPS.MAINTAIN_STOCK' | translate }}
             </li>
             <li class="mb-2">
               <i class="fas fa-check-circle text-success me-2"></i>
-              Check storage requirements for perishables
+              {{ 'INGREDIENTS.EDIT.TIPS.CHECK_STORAGE' | translate }}
             </li>
           </ul>
         </div>

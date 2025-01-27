@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { IngredientService } from '../../../services/ingredient.service';
 import { CreateIngredientCommand } from '../../../models/ingredient.model';
@@ -14,7 +15,7 @@ import { firstValueFrom } from 'rxjs';
   templateUrl: './ingredient-create.component.html',
   styleUrls: ['./ingredient-create.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, NgxSpinnerModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, NgxSpinnerModule, TranslateModule]
 })
 export class IngredientCreateComponent implements OnInit {
   ingredientForm!: FormGroup;
@@ -41,7 +42,8 @@ export class IngredientCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private ingredientService: IngredientService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService
   ) {
     this.initForm();
   }

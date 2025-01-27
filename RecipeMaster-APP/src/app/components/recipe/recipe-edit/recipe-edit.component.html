@@ -4,7 +4,7 @@
       <div class="card">
         <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
           <h5 class="mb-0">
-            <i class="fas fa-edit me-2"></i>Edit Recipe
+            <i class="fas fa-edit me-2"></i>{{ 'RECIPES.EDIT.TITLE' | translate }}
           </h5>
         </div>
         
@@ -13,17 +13,17 @@
             <ul class="nav nav-tabs mb-3" id="recipeTabs" role="tablist">
               <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
-                  <i class="fas fa-info-circle me-2"></i>Basic Info
+                  <i class="fas fa-info-circle me-2"></i>{{ 'RECIPES.CREATE.FORM.BASIC_INFO' | translate }}
                 </button>
               </li>
               <li class="nav-item" role="presentation">
                 <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
-                  <i class="fas fa-list-ul me-2"></i>Details
+                  <i class="fas fa-list-ul me-2"></i>{{ 'RECIPES.CREATE.FORM.DETAILS' | translate }}
                 </button>
               </li>
               <li class="nav-item" role="presentation">
                 <button class="nav-link" id="ingredients-tab" data-bs-toggle="tab" data-bs-target="#ingredients" type="button" role="tab">
-                  <i class="fas fa-carrot me-2"></i>Ingredients
+                  <i class="fas fa-carrot me-2"></i>{{ 'RECIPES.CREATE.FORM.INGREDIENTS.TITLE' | translate }}
                 </button>
               </li>
             </ul>
@@ -33,41 +33,39 @@
               <div class="tab-pane fade show active" id="basic" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="name" class="form-label fw-bold">Recipe Name</label>
-                    <input type="text" class="form-control" id="name" formControlName="name" placeholder="Enter recipe name"
+                    <label for="name" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.NAME' | translate }}</label>
+                    <input type="text" class="form-control" id="name" formControlName="name" 
+                      [placeholder]="'RECIPES.CREATE.FORM.NAME_INSTRUCTIONS' | translate"
                       [ngClass]="{'is-invalid': submitted && f['name'].errors}">
                     <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                      <div *ngIf="f['name'].errors['required']">Recipe name is required</div>
-                      <div *ngIf="f['name'].errors['minlength']">Name must be at least 3 characters</div>
-                      <div *ngIf="f['name'].errors['maxlength']">Name cannot exceed 100 characters</div>
+                      {{ getValidationMessage('name') }}
                     </div>
                     <small class="text-muted">{{fieldInstructions.name}}</small>
                   </div>
 
                   <div class="col-md-6">
-                    <label for="difficulty" class="form-label fw-bold">Difficulty Level</label>
+                    <label for="difficulty" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.DIFFICULTY' | translate }}</label>
                     <select class="form-select" id="difficulty" formControlName="difficulty"
                       [ngClass]="{'is-invalid': submitted && f['difficulty'].errors}">
-                      <option value="">Select difficulty</option>
-                      <option value="Easy">Easy</option>
-                      <option value="Medium">Medium</option>
-                      <option value="Hard">Hard</option>
-                      <option value="Expert">Expert</option>
+                      <option value="">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_SELECT' | translate }}</option>
+                      <option value="Easy">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_LEVELS.EASY' | translate }}</option>
+                      <option value="Medium">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_LEVELS.MEDIUM' | translate }}</option>
+                      <option value="Hard">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_LEVELS.HARD' | translate }}</option>
+                      <option value="Expert">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_LEVELS.EXPERT' | translate }}</option>
                     </select>
                     <div *ngIf="submitted && f['difficulty'].errors" class="invalid-feedback">
-                      <div *ngIf="f['difficulty'].errors['required']">Difficulty level is required</div>
+                      {{ getValidationMessage('difficulty') }}
                     </div>
                     <small class="text-muted">{{fieldInstructions.difficulty}}</small>
                   </div>
 
                   <div class="col-12">
-                    <label for="description" class="form-label fw-bold">Description</label>
+                    <label for="description" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.DESCRIPTION' | translate }}</label>
                     <textarea class="form-control" id="description" rows="3" formControlName="description"
-                      placeholder="Describe your recipe" [ngClass]="{'is-invalid': submitted && f['description'].errors}"></textarea>
+                      [placeholder]="'RECIPES.CREATE.FORM.DESCRIPTION_INSTRUCTIONS' | translate"
+                      [ngClass]="{'is-invalid': submitted && f['description'].errors}"></textarea>
                     <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
-                      <div *ngIf="f['description'].errors['required']">Description is required</div>
-                      <div *ngIf="f['description'].errors['minlength']">Description must be at least 10 characters</div>
-                      <div *ngIf="f['description'].errors['maxlength']">Description cannot exceed 500 characters</div>
+                      {{ getValidationMessage('description') }}
                     </div>
                     <small class="text-muted">{{fieldInstructions.description}}</small>
                   </div>
@@ -78,88 +76,80 @@
               <div class="tab-pane fade" id="details" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-4">
-                    <label for="preparationTime" class="form-label fw-bold">Preparation Time</label>
+                    <label for="preparationTime" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.PREPARATION_TIME' | translate }}</label>
                     <div class="input-group">
                       <input type="number" class="form-control" id="preparationTime" formControlName="preparationTime"
-                        placeholder="Enter time" [ngClass]="{'is-invalid': submitted && f['preparationTime'].errors}">
-                      <span class="input-group-text">minutes</span>
+                        [placeholder]="'RECIPES.CREATE.FORM.PREPARATION_TIME' | translate"
+                        [ngClass]="{'is-invalid': submitted && f['preparationTime'].errors}">
+                      <span class="input-group-text">min</span>
                     </div>
                     <div *ngIf="submitted && f['preparationTime'].errors" class="invalid-feedback">
-                      <div *ngIf="f['preparationTime'].errors['required']">Preparation time is required</div>
-                      <div *ngIf="f['preparationTime'].errors['min']">Must be at least 1 minute</div>
-                      <div *ngIf="f['preparationTime'].errors['max']">Cannot exceed 999 minutes</div>
+                      {{ getValidationMessage('preparationTime') }}
                     </div>
                     <small class="text-muted">{{fieldInstructions.preparationTime}}</small>
                   </div>
 
                   <div class="col-md-4">
-                    <label for="cookingTime" class="form-label fw-bold">Cooking Time</label>
+                    <label for="cookingTime" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.COOKING_TIME' | translate }}</label>
                     <div class="input-group">
                       <input type="number" class="form-control" id="cookingTime" formControlName="cookingTime"
-                        placeholder="Enter time" [ngClass]="{'is-invalid': submitted && f['cookingTime'].errors}">
-                      <span class="input-group-text">minutes</span>
+                        [placeholder]="'RECIPES.CREATE.FORM.COOKING_TIME' | translate"
+                        [ngClass]="{'is-invalid': submitted && f['cookingTime'].errors}">
+                      <span class="input-group-text">min</span>
                     </div>
                     <div *ngIf="submitted && f['cookingTime'].errors" class="invalid-feedback">
-                      <div *ngIf="f['cookingTime'].errors['required']">Cooking time is required</div>
-                      <div *ngIf="f['cookingTime'].errors['min']">Cannot be negative</div>
-                      <div *ngIf="f['cookingTime'].errors['max']">Cannot exceed 999 minutes</div>
+                      {{ getValidationMessage('cookingTime') }}
                     </div>
                     <small class="text-muted">{{fieldInstructions.cookingTime}}</small>
                   </div>
 
                   <div class="col-md-4">
-                    <label for="servings" class="form-label fw-bold">Servings</label>
+                    <label for="servings" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.SERVINGS' | translate }}</label>
                     <input type="number" class="form-control" id="servings" formControlName="servings"
-                      placeholder="Number of servings" [ngClass]="{'is-invalid': submitted && f['servings'].errors}">
+                      [placeholder]="'RECIPES.CREATE.FORM.SERVINGS' | translate"
+                      [ngClass]="{'is-invalid': submitted && f['servings'].errors}"
+                      (change)="calculateYieldPerPortion()">
                     <div *ngIf="submitted && f['servings'].errors" class="invalid-feedback">
-                      <div *ngIf="f['servings'].errors['required']">Number of servings is required</div>
-                      <div *ngIf="f['servings'].errors['min']">Must be at least 1 serving</div>
-                      <div *ngIf="f['servings'].errors['max']">Cannot exceed 50 servings</div>
+                      {{ getValidationMessage('servings') }}
                     </div>
                     <small class="text-muted">{{fieldInstructions.servings}}</small>
                   </div>
 
+                  <div class="col-12">
+                    <label for="instructions" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.INSTRUCTIONS' | translate }}</label>
+                    <textarea class="form-control" id="instructions" rows="5" formControlName="instructions"
+                      [ngClass]="{'is-invalid': submitted && f['instructions'].errors}"></textarea>
+                    <div *ngIf="submitted && f['instructions'].errors" class="invalid-feedback">
+                      {{ getValidationMessage('instructions') }}
+                    </div>
+                    <small class="text-muted">{{fieldInstructions.instructions}}</small>
+                  </div>
+
                   <div class="col-md-6">
-                    <label for="totalCost" class="form-label fw-bold">Total Cost</label>
+                    <label for="totalCost" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.TOTAL_COST' | translate }}</label>
                     <div class="input-group">
                       <span class="input-group-text">$</span>
-                      <input type="number" class="form-control" id="totalCost" formControlName="totalCost" step="0.01"
-                        placeholder="0.00" [ngClass]="{'is-invalid': submitted && f['totalCost'].errors}">
+                      <input type="number" class="form-control" id="totalCost" formControlName="totalCost"
+                        [ngClass]="{'is-invalid': submitted && f['totalCost'].errors}"
+                        (change)="calculateYieldPerPortion()">
                     </div>
                     <div *ngIf="submitted && f['totalCost'].errors" class="invalid-feedback">
-                      <div *ngIf="f['totalCost'].errors['required']">Total cost is required</div>
-                      <div *ngIf="f['totalCost'].errors['min']">Must be at least $0.01</div>
-                      <div *ngIf="f['totalCost'].errors['max']">Cannot exceed $9,999.99</div>
+                      {{ getValidationMessage('totalCost') }}
                     </div>
                     <small class="text-muted">{{fieldInstructions.totalCost}}</small>
                   </div>
 
                   <div class="col-md-6">
-                    <label for="yieldPerPortion" class="form-label fw-bold">Cost per Serving</label>
+                    <label for="yieldPerPortion" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.YIELD_PER_PORTION' | translate }}</label>
                     <div class="input-group">
                       <span class="input-group-text">$</span>
                       <input type="number" class="form-control" id="yieldPerPortion" formControlName="yieldPerPortion"
-                        step="0.01" placeholder="0.00" [ngClass]="{'is-invalid': submitted && f['yieldPerPortion'].errors}">
+                        [ngClass]="{'is-invalid': submitted && f['yieldPerPortion'].errors}" readonly>
                     </div>
                     <div *ngIf="submitted && f['yieldPerPortion'].errors" class="invalid-feedback">
-                      <div *ngIf="f['yieldPerPortion'].errors['required']">Cost per serving is required</div>
-                      <div *ngIf="f['yieldPerPortion'].errors['min']">Must be at least $0.01</div>
-                      <div *ngIf="f['yieldPerPortion'].errors['max']">Cannot exceed $999.99</div>
+                      {{ getValidationMessage('yieldPerPortion') }}
                     </div>
                     <small class="text-muted">{{fieldInstructions.yieldPerPortion}}</small>
-                  </div>
-
-                  <div class="col-12">
-                    <label for="instructions" class="form-label fw-bold">Instructions</label>
-                    <textarea class="form-control" id="instructions" rows="5" formControlName="instructions"
-                      placeholder="Enter step-by-step instructions"
-                      [ngClass]="{'is-invalid': submitted && f['instructions'].errors}"></textarea>
-                    <div *ngIf="submitted && f['instructions'].errors" class="invalid-feedback">
-                      <div *ngIf="f['instructions'].errors['required']">Instructions are required</div>
-                      <div *ngIf="f['instructions'].errors['minlength']">Instructions must be at least 20 characters</div>
-                      <div *ngIf="f['instructions'].errors['maxlength']">Instructions cannot exceed 2000 characters</div>
-                    </div>
-                    <small class="text-muted">{{fieldInstructions.instructions}}</small>
                   </div>
                 </div>
               </div>
@@ -167,49 +157,48 @@
               <!-- Ingredients Tab -->
               <div class="tab-pane fade" id="ingredients" role="tabpanel">
                 <div class="mb-3">
-                  <div class="d-flex justify-content-between align-items-center mb-3">
-                    <label class="form-label fw-bold mb-0">Recipe Ingredients</label>
-                    <button type="button" class="btn btn-primary btn-sm" (click)="addIngredient()">
-                      <i class="fas fa-plus me-1"></i>Add Ingredient
-                    </button>
-                  </div>
                   <small class="text-muted d-block mb-3">{{fieldInstructions.recipeIngredients}}</small>
-
+                  
                   <div formArrayName="ingredients">
-                    <div *ngFor="let ingredient of ingredients.controls; let i=index" [formGroupName]="i"
-                      class="row g-3 mb-3 align-items-end border-bottom pb-3">
+                    <div *ngFor="let ingredient of ingredients.controls; let i=index" [formGroupName]="i" class="row g-3 mb-3">
                       <div class="col-md-6">
-                        <label [for]="'ingredientId' + i" class="form-label">Select Ingredient</label>
-                        <select [id]="'ingredientId' + i" class="form-select" formControlName="ingredientId"
+                        <label [for]="'ingredientId' + i" class="form-label">{{ 'RECIPES.CREATE.FORM.INGREDIENTS.SELECT' | translate }}</label>
+                        <select class="form-select" [id]="'ingredientId' + i" formControlName="ingredientId"
+                          (change)="onIngredientChange(i, $event)"
                           [ngClass]="{'is-invalid': submitted && ingredient.get('ingredientId')?.errors}">
-                          <option value="">Choose ingredient</option>
-                          <option *ngFor="let ing of availableIngredients" [value]="ing.id">
-                            {{ing.name}}
-                          </option>
+                          <option value="">{{ 'RECIPES.CREATE.FORM.INGREDIENTS.SELECT' | translate }}</option>
+                          <option *ngFor="let item of availableIngredients" [value]="item.id">{{item.name}}</option>
                         </select>
                         <div *ngIf="submitted && ingredient.get('ingredientId')?.errors" class="invalid-feedback">
-                          <div *ngIf="ingredient.get('ingredientId')?.errors?.['required']">Please select an ingredient</div>
+                          {{ 'RECIPES.CREATE.FORM.INGREDIENTS.SELECT_REQUIRED' | translate }}
                         </div>
                       </div>
 
-                      <div class="col">
-                        <label [for]="'quantity' + i" class="form-label">Quantity</label>
-                        <input type="number" class="form-control" [id]="'quantity' + i" formControlName="quantity" step="0.01"
-                          placeholder="Enter quantity"
+                      <div class="col-md-5">
+                        <label [for]="'quantity' + i" class="form-label">{{ 'RECIPES.CREATE.FORM.INGREDIENTS.QUANTITY' | translate }}</label>
+                        <input type="number" class="form-control" [id]="'quantity' + i" formControlName="quantity"
                           [ngClass]="{'is-invalid': submitted && ingredient.get('quantity')?.errors}">
                         <div *ngIf="submitted && ingredient.get('quantity')?.errors" class="invalid-feedback">
-                          <div *ngIf="ingredient.get('quantity')?.errors?.['required']">Quantity is required</div>
-                          <div *ngIf="ingredient.get('quantity')?.errors?.['min']">Quantity must be greater than 0</div>
+                          <div *ngIf="ingredient.get('quantity')?.errors?.['required']">
+                            {{ 'RECIPES.CREATE.FORM.INGREDIENTS.QUANTITY_REQUIRED' | translate }}
+                          </div>
+                          <div *ngIf="ingredient.get('quantity')?.errors?.['min']">
+                            {{ 'RECIPES.CREATE.FORM.INGREDIENTS.QUANTITY_MIN' | translate }}
+                          </div>
                         </div>
                       </div>
 
-                      <div class="col-auto">
-                        <button type="button" class="btn btn-danger btn-sm" (click)="removeIngredient(i)">
+                      <div class="col-md-1 d-flex align-items-end">
+                        <button type="button" class="btn btn-outline-danger" (click)="removeIngredient(i)">
                           <i class="fas fa-trash"></i>
                         </button>
                       </div>
                     </div>
                   </div>
+
+                  <button type="button" class="btn btn-outline-primary" (click)="addIngredient()">
+                    <i class="fas fa-plus me-2"></i>{{ 'RECIPES.CREATE.FORM.INGREDIENTS.ADD' | translate }}
+                  </button>
                 </div>
               </div>
             </div>
@@ -217,11 +206,11 @@
             <!-- Fixed bottom action buttons -->
             <div class="position-sticky bottom-0 bg-white pt-3 border-top mt-3">
               <div class="d-flex gap-2 justify-content-end">
-                <button type="button" class="btn btn-secondary" routerLink="/recipes">
-                  <i class="fas fa-times me-2"></i>Cancel
+                <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+                  {{ 'RECIPES.CREATE.FORM.CANCEL' | translate }}
                 </button>
-                <button type="submit" class="btn btn-primary">
-                  <i class="fas fa-save me-2"></i>Update Recipe
+                <button type="submit" class="btn btn-primary" [disabled]="loading">
+                  <i class="fas fa-save me-2"></i>{{ 'RECIPES.EDIT.FORM.SUBMIT' | translate }}
                 </button>
               </div>
             </div>
@@ -233,30 +222,21 @@
     <div class="col-md-3">
       <div class="card bg-light border-0 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title mb-3">
-            <i class="fas fa-lightbulb text-warning me-2"></i>
-            Tips for Editing Recipes
-          </h5>
-          <ul class="list-unstyled mb-0">
+          <h6 class="card-title">{{ 'RECIPES.FORM.HELP_TEXTS.TITLE' | translate }}</h6>
+          <p class="card-text small">{{ 'RECIPES.FORM.HELP_TEXTS.DESCRIPTION' | translate }}</p>
+          <hr>
+          <ul class="list-unstyled small mb-0">
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              Keep the recipe name clear and descriptive
+              <i class="fas fa-info-circle text-primary me-2"></i>
+              {{ 'RECIPES.FORM.HELP_TEXTS.VALIDATION' | translate }}
             </li>
             <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              Update the description to reflect any changes
+              <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+              {{ 'RECIPES.FORM.HELP_TEXTS.REQUIRED_FIELDS' | translate }}
             </li>
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              Double-check ingredient quantities for accuracy
-            </li>
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              Ensure preparation and cooking times are realistic
-            </li>
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              Write clear, step-by-step instructions
+            <li>
+              <i class="fas fa-question-circle text-info me-2"></i>
+              {{ 'RECIPES.FORM.HELP_TEXTS.NEED_HELP' | translate }}
             </li>
           </ul>
         </div>
