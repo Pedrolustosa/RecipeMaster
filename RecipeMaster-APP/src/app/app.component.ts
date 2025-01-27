@@ -1,21 +1,42 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, RouterOutlet } from '@angular/router';
-import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
-import { Router } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { SidebarComponent } from './components/shared/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterModule, RouterOutlet, SidebarComponent, NgxSpinnerModule]
+  imports: [
+    CommonModule,
+    RouterModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    SidebarComponent
+  ],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   isSidebarExpanded = true;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private translate: TranslateService
+  ) {
+    // Configurar idiomas disponíveis
+    translate.addLangs(['pt', 'en']);
+    
+    // Definir idioma padrão
+    translate.setDefaultLang('pt');
+    
+    // Obter o idioma do navegador
+    const browserLang = translate.getBrowserLang();
+    
+    // Usar o idioma do navegador se disponível, senão usar o padrão
+    translate.use(browserLang?.match(/pt|en/) ? browserLang : 'pt');
+  }
 
   onSidebarToggle(isExpanded: boolean): void {
     this.isSidebarExpanded = isExpanded;

@@ -4,13 +4,13 @@
     <div class="col">
       <div class="d-flex justify-content-between align-items-center">
         <div>
-          <h1 class="display-6 mb-0">Recipes</h1>
-          <p class="text-muted mt-2">Manage your cooking recipes</p>
+          <h1 class="display-6 mb-0">{{ 'RECIPES.LIST.TITLE' | translate }}</h1>
+          <p class="text-muted mt-2">{{ 'RECIPES.LIST.SUBTITLE' | translate }}</p>
         </div>
         <div>
           <button class="btn btn-primary shadow-sm-hover" routerLink="create">
             <i class="fas fa-plus me-2"></i>
-            Add Recipe
+            {{ 'RECIPES.LIST.ADD_RECIPE' | translate }}
           </button>
         </div>
       </div>
@@ -28,7 +28,7 @@
           type="text"
           class="form-control border-start-0 ps-0"
           [(ngModel)]="searchTerm"
-          placeholder="Search recipes..."
+          [placeholder]="'RECIPES.LIST.SEARCH' | translate"
         >
       </div>
     </div>
@@ -55,26 +55,26 @@
             <div class="recipe-details">
               <div class="detail-item">
                 <i class="fas fa-clock text-muted"></i>
-                <span>Prep: {{ recipe.preparationTime }}min</span>
+                <span>{{ 'RECIPES.LIST.DETAILS.PREP_TIME' | translate }}: {{ recipe.preparationTime }}min</span>
               </div>
               <div class="detail-item">
                 <i class="fas fa-fire text-muted"></i>
-                <span>Cook: {{ recipe.cookingTime }}min</span>
+                <span>{{ 'RECIPES.LIST.DETAILS.COOK_TIME' | translate }}: {{ recipe.cookingTime }}min</span>
               </div>
               <div class="detail-item">
                 <i class="fas fa-users text-muted"></i>
-                <span>Serves: {{ recipe.servings }}</span>
+                <span>{{ 'RECIPES.LIST.DETAILS.SERVES' | translate }}: {{ recipe.servings }}</span>
               </div>
               <div class="detail-item">
                 <i class="fas fa-dollar-sign text-muted"></i>
-                <span>Por porção: R$ {{ recipe.yieldPerPortion | number:'1.2-2' }}</span>
+                <span>{{ 'RECIPES.LIST.DETAILS.COST_PER_SERVING' | translate }}: R$ {{ recipe.yieldPerPortion | number:'1.2-2' }}</span>
               </div>
             </div>
           </div>
 
           <div class="mb-3">
             <h6 class="fw-bold mb-2">
-              <i class="fas fa-list me-2"></i>Ingredients
+              <i class="fas fa-list me-2"></i>{{ 'RECIPES.LIST.DETAILS.INGREDIENTS' | translate }}
             </h6>
             <ul class="list-unstyled mb-0 ingredient-list">
               <li *ngFor="let ingredient of recipe.ingredients.slice(0, 3)" class="mb-1">
@@ -83,7 +83,7 @@
                 <span class="badge bg-light text-dark ms-2">{{ ingredient.quantity }}</span>
               </li>
               <li *ngIf="recipe.ingredients.length > 3" class="text-muted">
-                <small>+ {{ recipe.ingredients.length - 3 }} more ingredients</small>
+                <small>+ {{ recipe.ingredients.length - 3 }} {{ 'RECIPES.LIST.DETAILS.MORE_INGREDIENTS' | translate }}</small>
               </li>
             </ul>
           </div>
@@ -93,14 +93,14 @@
           <div class="d-flex justify-content-between align-items-center">
             <div>
               <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['edit', recipe.id]">
-                <i class="fas fa-edit me-1"></i> Edit
+                <i class="fas fa-edit me-1"></i> {{ 'RECIPES.LIST.ACTIONS.EDIT' | translate }}
               </button>
-              <button class="btn btn-sm btn-outline-danger me-2" (click)="deleteRecipe(recipe.id)">
-                <i class="fas fa-trash me-1"></i> Delete
+              <button class="btn btn-sm btn-outline-danger me-2" (click)="setSelectedRecipe(recipe)" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                <i class="fas fa-trash me-1"></i> {{ 'RECIPES.LIST.ACTIONS.DELETE' | translate }}
               </button>
             </div>
             <button class="btn btn-sm btn-outline-success" (click)="downloadRecipePDF(recipe)">
-              <i class="fas fa-file-pdf me-1"></i> Download PDF
+              <i class="fas fa-file-pdf me-1"></i> {{ 'RECIPES.LIST.ACTIONS.DOWNLOAD_PDF' | translate }}
             </button>
           </div>
         </div>
@@ -111,10 +111,10 @@
   <!-- No Recipes Message -->
   <div *ngIf="recipes.length === 0" class="text-center py-5">
     <i class="fas fa-book fa-3x text-muted mb-3"></i>
-    <h4>No recipes found</h4>
-    <p class="text-muted">Start by adding your first recipe!</p>
+    <h4>{{ 'RECIPES.LIST.NO_RECIPES.TITLE' | translate }}</h4>
+    <p class="text-muted">{{ 'RECIPES.LIST.NO_RECIPES.MESSAGE' | translate }}</p>
     <button class="btn btn-primary" routerLink="create">
-      <i class="fas fa-plus me-2"></i>Add Recipe
+      <i class="fas fa-plus me-2"></i> {{ 'RECIPES.LIST.NO_RECIPES.ADD_RECIPE' | translate }}
     </button>
   </div>
 
@@ -123,19 +123,25 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header border-bottom-0">
-          <h5 class="modal-title" id="deleteConfirmationModalLabel">Confirm Deletion</h5>
+          <h5 class="modal-title" id="deleteConfirmationModalLabel">{{ 'RECIPES.LIST.DELETE_CONFIRM.TITLE' | translate }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body py-4">
           <div class="text-center">
             <i class="fas fa-exclamation-triangle text-warning display-4 mb-3"></i>
-            <p class="mb-0">Are you sure you want to delete this recipe?</p>
-            <p class="text-muted mb-0">This action cannot be undone.</p>
+            <p class="mb-1">{{ 'RECIPES.LIST.DELETE_CONFIRM.MESSAGE' | translate }} <strong>{{ selectedRecipe?.name }}</strong>?</p>
+            <p class="text-muted small">{{ 'RECIPES.LIST.DELETE_CONFIRM.WARNING' | translate }}</p>
           </div>
         </div>
         <div class="modal-footer border-top-0">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger" (click)="deleteRecipe(selectedRecipe?.id)" data-bs-dismiss="modal">Delete Recipe</button>
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            <i class="fas fa-times me-2"></i>
+            {{ 'RECIPES.LIST.DELETE_CONFIRM.CANCEL' | translate }}
+          </button>
+          <button type="button" class="btn btn-danger" (click)="deleteRecipe()">
+            <i class="fas fa-trash me-2"></i>
+            {{ 'RECIPES.LIST.DELETE_CONFIRM.CONFIRM' | translate }}
+          </button>
         </div>
       </div>
     </div>

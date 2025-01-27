@@ -6,6 +6,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Ingredient } from '../../../models/ingredient.model';
 import { IngredientService } from '../../../services/ingredient.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 declare var bootstrap: any;
 
 @Component({
@@ -13,7 +14,7 @@ declare var bootstrap: any;
   templateUrl: './ingredient-list.component.html',
   styleUrls: ['./ingredient-list.component.css'],
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, NgxSpinnerModule]
+  imports: [CommonModule, RouterModule, FormsModule, NgxSpinnerModule, TranslateModule]
 })
 export class IngredientListComponent implements OnInit {
   ingredients: Ingredient[] = [];
@@ -29,7 +30,8 @@ export class IngredientListComponent implements OnInit {
 
   constructor(
     private ingredientService: IngredientService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -56,11 +58,34 @@ export class IngredientListComponent implements OnInit {
     this.selectedIngredient = ingredient;
   }
 
-  deleteIngredient(id: string): void {
-    if (!id) return;
-
-    this.ingredientToDelete = id;
-    this.deleteModal.show();
+  deleteIngredient(): void {
+    if (this.selectedIngredient) {
+      this.ingredientService.delete(this.selectedIngredient.id).subscribe({
+        next: () => {
+          const modal = document.getElementById('deleteConfirmationModal');
+          if (modal) {
+            const modalInstance = bootstrap.Modal.getInstance(modal);
+            if (modalInstance) {
+              modalInstance.hide();
+            }
+          }
+          
+          this.toastr.success(
+            this.translate.instant('INGREDIENTS.MESSAGES.DELETE_SUCCESS'),
+            this.translate.instant('INGREDIENTS.MESSAGES.SUCCESS')
+          );
+          
+          this.loadIngredients();
+        },
+        error: (error) => {
+          console.error('Error deleting ingredient:', error);
+          this.toastr.error(
+            this.translate.instant('INGREDIENTS.MESSAGES.DELETE_ERROR'),
+            this.translate.instant('INGREDIENTS.MESSAGES.ERROR')
+          );
+        }
+      });
+    }
   }
 
   confirmDelete(): void {

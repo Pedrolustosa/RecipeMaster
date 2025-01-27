@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -17,21 +18,27 @@ import { AuthService } from '../../services/auth.service';
     CommonModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    ToastrModule
+    ToastrModule,
+    TranslateModule
   ]
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   isLoading = false;
   showPassword = false;
+  currentLang = 'pt';
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+    private translate: TranslateService
+  ) {
+    translate.setDefaultLang('pt');
+    translate.use('pt');
+  }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -109,5 +116,10 @@ export class LoginComponent implements OnInit {
         this.markFormGroupTouched(control);
       }
     });
+  }
+
+  switchLanguage(lang: string) {
+    this.currentLang = lang;
+    this.translate.use(lang);
   }
 }

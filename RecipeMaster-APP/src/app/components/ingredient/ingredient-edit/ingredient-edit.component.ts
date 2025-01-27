@@ -7,13 +7,14 @@ import { ToastrService } from 'ngx-toastr';
 import { IngredientService } from '../../../services/ingredient.service';
 import { Ingredient } from '../../../models/ingredient.model';
 import { MeasurementUnit } from '../../../models/measurement-unit.enum';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ingredient-edit',
   templateUrl: './ingredient-edit.component.html',
   styleUrls: ['./ingredient-edit.component.css'],
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, NgxSpinnerModule]
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, NgxSpinnerModule, TranslateModule]
 })
 export class IngredientEditComponent implements OnInit {
   ingredientForm!: FormGroup;
@@ -42,7 +43,8 @@ export class IngredientEditComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private ingredientService: IngredientService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService
   ) {
     this.initForm();
   }
@@ -186,6 +188,10 @@ export class IngredientEditComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  onCancel(): void {
+    this.router.navigate(['/ingredients']);
   }
 
   private markFormGroupTouched(formGroup: FormGroup): void {

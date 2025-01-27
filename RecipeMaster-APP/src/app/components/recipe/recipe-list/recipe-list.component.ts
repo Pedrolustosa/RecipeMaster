@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
+import { Recipe } from '../../../models/recipe.models';
+import { RecipeService } from '../../../services/recipe.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { RecipeService } from '../../../services/recipe.service';
-import { Recipe } from '../../../models/recipe.models';
 import jsPDF from 'jspdf';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-recipe-list',
@@ -24,14 +27,15 @@ export class RecipeListComponent implements OnInit {
 
   constructor(
     private recipeService: RecipeService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit(): void {
     this.loadRecipes();
   }
 
-  private loadRecipes(): void {
+  loadRecipes(): void {
     this.loading = true;
     this.recipeService.getAll().subscribe({
       next: (recipes) => {
@@ -40,8 +44,11 @@ export class RecipeListComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.toastr.error('Failed to load recipes', 'Error');
         console.error('Error loading recipes:', error);
+        this.toastr.error(
+          this.translate.instant('RECIPES.MESSAGES.LOAD_ERROR'),
+          this.translate.instant('RECIPES.MESSAGES.ERROR')
+        );
         this.loading = false;
       }
     });
@@ -60,26 +67,42 @@ export class RecipeListComponent implements OnInit {
     );
   }
 
-  selectRecipe(recipe: Recipe): void {
+  setSelectedRecipe(recipe: Recipe): void {
     this.selectedRecipe = recipe;
   }
 
-  deleteRecipe(id: string | undefined): void {
-    if (!id) return;
-    
-    this.loading = true;
-    this.recipeService.delete(id).subscribe({
-      next: () => {
-        this.toastr.success('Recipe deleted successfully', 'Success');
-        this.loadRecipes();
-        this.selectedRecipe = null;
-      },
-      error: (error) => {
-        this.toastr.error('Failed to delete recipe', 'Error');
-        console.error('Error deleting recipe:', error);
-        this.loading = false;
-      }
-    });
+  deleteRecipe(): void {
+    if (this.selectedRecipe) {
+      this.loading = true;
+      this.recipeService.delete(this.selectedRecipe.id).subscribe({
+        next: () => {
+          const modal = document.getElementById('deleteConfirmationModal');
+          if (modal) {
+            const modalInstance = bootstrap.Modal.getInstance(modal);
+            if (modalInstance) {
+              modalInstance.hide();
+            }
+          }
+          
+          this.toastr.success(
+            this.translate.instant('RECIPES.MESSAGES.DELETE_SUCCESS'),
+            this.translate.instant('RECIPES.MESSAGES.SUCCESS')
+          );
+          
+          this.loadRecipes();
+          this.selectedRecipe = null;
+          this.loading = false;
+        },
+        error: (error) => {
+          console.error('Error deleting recipe:', error);
+          this.toastr.error(
+            this.translate.instant('RECIPES.MESSAGES.DELETE_ERROR'),
+            this.translate.instant('RECIPES.MESSAGES.ERROR')
+          );
+          this.loading = false;
+        }
+      });
+    }
   }
 
   downloadRecipePDF(recipe: Recipe): void {

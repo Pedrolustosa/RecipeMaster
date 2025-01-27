@@ -6,18 +6,20 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
 import { RegisterRequest } from '../../models/auth.models';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css'],
+  styleUrls: ['./register.component.scss'],
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
     ToastrModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ]
 })
 export class RegisterComponent {
@@ -31,16 +33,13 @@ export class RegisterComponent {
     private router: Router,
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService
   ) {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
-  }
-
-  togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
   }
 
   onSubmit() {
@@ -61,29 +60,42 @@ export class RegisterComponent {
       next: () => {
         this.spinner.hide();
         this.loading = false;
-        this.toastr.success('Account created successfully!', 'Success');
+        this.toastr.success(
+          this.translate.instant('AUTH.REGISTER.MESSAGES.SUCCESS'),
+          this.translate.instant('COMMON.SUCCESS')
+        );
         this.router.navigate(['/login']);
       },
       error: (error) => {
         this.spinner.hide();
         this.loading = false;
-        
-        if (error.status === 422) { // UnprocessableEntity
-          const errorDetails = error.error?.details;
-          if (errorDetails) {
-            const errorMessages = Object.values(errorDetails).flat();
-            this.errorMessage = errorMessages.join(', ');
-          } else {
-            this.errorMessage = error.error?.error || 'Invalid data provided. Please check your information.';
-          }
-        } else if (error.status === 500) { // InternalServerException
-          this.errorMessage = 'Internal server error. Please try again later.';
-        } else {
-          this.errorMessage = error.error || 'Failed to create account. Please try again.';
-        }
-        
-        this.toastr.error(this.errorMessage, 'Error');
+        this.errorMessage = error?.error?.message || this.translate.instant('AUTH.REGISTER.MESSAGES.ERROR');
+        this.toastr.error(
+          this.errorMessage,
+          this.translate.instant('COMMON.ERROR')
+        );
       }
     });
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
+
+  getValidationMessage(field: string): string {
+    const control = this.registerForm.get(field);
+    if (!control?.errors) return '';
+
+    if (control.errors['required']) {
+      return this.translate.instant(`AUTH.REGISTER.VALIDATION.${field.toUpperCase()}_REQUIRED`);
+    }
+    if (control.errors['email']) {
+      return this.translate.instant('AUTH.REGISTER.VALIDATION.EMAIL_INVALID');
+    }
+    if (control.errors['minlength']) {
+      return this.translate.instant('AUTH.REGISTER.VALIDATION.PASSWORD_MIN_LENGTH');
+    }
+
+    return '';
   }
 }
