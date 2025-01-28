@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <!-- Header Section -->
-  <div class="row mb-4">
+  <div class="row mb-3 mt-2">
     <div class="col">
       <div class="d-flex justify-content-between align-items-center">
         <div>
@@ -8,8 +8,8 @@
         </div>
         <div>
           <button class="btn btn-primary shadow-sm-hover" routerLink="create">
-            <i class="fas fa-plus me-2"></i>
-            {{ 'INGREDIENTS.LIST.ADD_INGREDIENT' | translate }}
+            <i class="fas fa-plus"></i>
+            {{ 'INGREDIENTS.LIST.ADD_BUTTON' | translate }}
           </button>
         </div>
       </div>
@@ -27,6 +27,7 @@
           type="text"
           class="form-control border-start-0 ps-0"
           [(ngModel)]="searchTerm"
+          [placeholder]="'INGREDIENTS.LIST.SEARCH_PLACEHOLDER' | translate"
         >
       </div>
     </div>
@@ -38,7 +39,7 @@
       <div class="card shadow-sm">
         <div class="card-body p-0">
           <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+            <table class="table table-hover align-middle mb-1">
               <thead class="table-light">
                 <tr>
                   <th scope="col" class="cursor-pointer py-3" (click)="sortIngredients('name')">
@@ -51,7 +52,7 @@
                       }"></i>
                     </div>
                   </th>
-                  <th scope="col" class="cursor-pointer py-3" (click)="sortIngredients('unit')">
+                  <th scope="col" class="cursor-pointer py-1" (click)="sortIngredients('unit')">
                     <div class="d-flex align-items-center">
                       <span>{{ 'INGREDIENTS.LIST.TABLE.UNIT' | translate }}</span>
                       <i class="fas ms-2" [ngClass]="{
@@ -61,9 +62,9 @@
                       }"></i>
                     </div>
                   </th>
-                  <th scope="col" class="cursor-pointer py-3" (click)="sortIngredients('cost')">
+                  <th scope="col" class="cursor-pointer py-1" (click)="sortIngredients('cost')">
                     <div class="d-flex align-items-center">
-                      <span>{{ 'INGREDIENTS.LIST.TABLE.PRICE' | translate }}</span>
+                      <span>{{ 'INGREDIENTS.LIST.TABLE.COST' | translate }}</span>
                       <i class="fas ms-2" [ngClass]="{
                         'fa-sort': sortColumn !== 'cost',
                         'fa-sort-up': sortColumn === 'cost' && sortDirection === 'asc',
@@ -71,7 +72,7 @@
                       }"></i>
                     </div>
                   </th>
-                  <th scope="col" class="cursor-pointer py-3" (click)="sortIngredients('stockQuantity')">
+                  <th scope="col" class="cursor-pointer py-1" (click)="sortIngredients('stockQuantity')">
                     <div class="d-flex align-items-center">
                       <span>{{ 'INGREDIENTS.LIST.TABLE.STOCK' | translate }}</span>
                       <i class="fas ms-2" [ngClass]="{
@@ -81,7 +82,7 @@
                       }"></i>
                     </div>
                   </th>
-                  <th scope="col" class="cursor-pointer py-3" (click)="sortIngredients('supplierName')">
+                  <th scope="col" class="cursor-pointer py-1" (click)="sortIngredients('supplierName')">
                     <div class="d-flex align-items-center">
                       <span>{{ 'INGREDIENTS.LIST.TABLE.SUPPLIER' | translate }}</span>
                       <i class="fas ms-2" [ngClass]="{
@@ -91,8 +92,8 @@
                       }"></i>
                     </div>
                   </th>
-                  <th scope="col" class="text-center py-3">{{ 'INGREDIENTS.LIST.TABLE.STATUS' | translate }}</th>
-                  <th scope="col" class="text-end py-3" style="min-width: 140px;">{{ 'INGREDIENTS.LIST.TABLE.ACTIONS' | translate }}</th>
+                  <th scope="col" class="text-center py-1">{{ 'COMMON.STATUS' | translate }}</th>
+                  <th scope="col" class="text-end py-3" style="min-width: 140px;">{{ 'COMMON.ACTIONS' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -103,7 +104,7 @@
                     </div>
                   </td>
                   <td class="py-3">
-                    <span class="badge bg-light text-dark">{{ ingredient.unit }}</span>
+                    <span class="badge bg-light text-dark">{{ 'INGREDIENTS.UNITS.' + ingredient.unit | translate }}</span>
                   </td>
                   <td class="py-3">
                     <span class="text-success fw-medium">{{ ingredient.cost | currency:'BRL' }}</span>
@@ -121,8 +122,8 @@
                         </div>
                       </div>
                       <div class="d-flex justify-content-between mt-1">
-                        <small class="text-muted">{{ 'INGREDIENTS.LIST.TABLE.STOCK_LABEL' | translate }} {{ ingredient.stockQuantity }}</small>
-                        <small class="text-muted">{{ 'INGREDIENTS.LIST.TABLE.MIN_STOCK_LABEL' | translate }} {{ ingredient.minimumStockLevel }}</small>
+                        <small class="text-muted">{{ ingredient.stockQuantity }}</small>
+                        <small class="text-muted">{{ ingredient.minimumStockLevel }}</small>
                       </div>
                     </div>
                   </td>
@@ -134,8 +135,8 @@
                       <span class="badge" [ngClass]="{
                         'bg-success': ingredient.isActive,
                         'bg-danger': !ingredient.isActive
-                      }">{{ ingredient.isActive ? ('INGREDIENTS.LIST.TABLE.STATUS_ACTIVE' | translate) : ('INGREDIENTS.LIST.TABLE.STATUS_INACTIVE' | translate) }}</span>
-                      <span *ngIf="ingredient.isPerishable" class="badge bg-warning mt-1">{{ 'INGREDIENTS.LIST.TABLE.STATUS_PERISHABLE' | translate }}</span>
+                      }">{{ ingredient.isActive ? ('INGREDIENTS.EDIT.FORM.IS_ACTIVE' | translate) : ('INGREDIENTS.EDIT.FORM.IS_INACTIVE' | translate) }}</span>
+                      <span *ngIf="ingredient.isPerishable" class="badge bg-warning mt-1">{{ 'INGREDIENTS.EDIT.FORM.IS_PERISHABLE' | translate }}</span>
                     </div>
                   </td>
                   <td>
@@ -143,18 +144,16 @@
                       <button 
                         class="btn btn-sm btn-outline-primary" 
                         [routerLink]="['edit', ingredient.id]"
-                        title="Edit ingredient">
+                        [title]="'COMMON.BUTTONS.UPDATE' | translate">
                         <i class="fas fa-edit"></i>
-                        {{ 'INGREDIENTS.LIST.TABLE.EDIT' | translate }}
                       </button>
                       <button 
                         class="btn btn-sm btn-outline-danger" 
                         data-bs-toggle="modal" 
                         data-bs-target="#deleteConfirmationModal"
                         (click)="selectIngredient(ingredient)"
-                        title="Delete ingredient">
+                        [title]="'COMMON.BUTTONS.DELETE' | translate">
                         <i class="fas fa-trash"></i>
-                        {{ 'INGREDIENTS.LIST.TABLE.DELETE' | translate }}
                       </button>
                     </div>
                   </td>
@@ -163,10 +162,10 @@
                   <td colspan="8" class="text-center py-5">
                     <div class="py-4">
                       <i class="fas fa-box-open text-muted display-4 mb-3 d-block"></i>
-                      <p class="text-muted mb-4">{{ 'INGREDIENTS.LIST.TABLE.NO_INGREDIENTS' | translate }}</p>
+                      <p class="text-muted mb-4">{{ 'INGREDIENTS.LIST.NO_INGREDIENTS' | translate }}</p>
                       <button class="btn btn-primary" [routerLink]="['create']">
                         <i class="fas fa-plus me-2"></i>
-                        {{ 'INGREDIENTS.LIST.ADD_INGREDIENT' | translate }}
+                        {{ 'INGREDIENTS.LIST.ADD_BUTTON' | translate }}
                       </button>
                     </div>
                   </td>
@@ -184,52 +183,24 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header border-bottom-0">
-          <h5 class="modal-title" id="deleteConfirmationModalLabel">{{ 'INGREDIENTS.LIST.DELETE_CONFIRM.TITLE' | translate }}</h5>
+          <h5 class="modal-title" id="deleteConfirmationModalLabel">{{ 'INGREDIENTS.LIST.DELETE_MODAL.TITLE' | translate }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body py-4">
           <div class="text-center">
             <i class="fas fa-exclamation-triangle text-warning display-4 mb-3"></i>
-            <p class="mb-1">{{ 'INGREDIENTS.LIST.DELETE_CONFIRM.MESSAGE' | translate }} <strong>{{ selectedIngredient?.name }}</strong>?</p>
-            <p class="text-muted small">{{ 'INGREDIENTS.LIST.DELETE_CONFIRM.WARNING' | translate }}</p>
+            <p class="mb-1">{{ 'INGREDIENTS.LIST.DELETE_MODAL.MESSAGE' | translate }}</p>
           </div>
         </div>
         <div class="modal-footer border-top-0">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-            <i class="fas fa-times me-2"></i>
-            {{ 'INGREDIENTS.LIST.DELETE_CONFIRM.CANCEL' | translate }}
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+            {{ 'INGREDIENTS.LIST.DELETE_MODAL.CANCEL' | translate }}
           </button>
           <button type="button" class="btn btn-danger" (click)="deleteIngredient()">
-            <i class="fas fa-trash me-2"></i>
-            {{ 'INGREDIENTS.LIST.DELETE_CONFIRM.CONFIRM' | translate }}
+            {{ 'INGREDIENTS.LIST.DELETE_MODAL.CONFIRM' | translate }}
           </button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Pagination Section -->
-  <div class="row mt-4" *ngIf="filteredIngredients.length > pageSize">
-    <div class="col">
-      <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" [class.disabled]="currentPage === 1">
-            <button class="page-link" (click)="changePage(currentPage - 1)">
-              <i class="fas fa-chevron-left"></i>
-            </button>
-          </li>
-          <li class="page-item">
-            <span class="page-link">
-              {{ 'INGREDIENTS.LIST.PAGINATION.PAGE' | translate }} {{ currentPage }} {{ 'INGREDIENTS.LIST.PAGINATION.OF' | translate }} {{ totalPages }}
-            </span>
-          </li>
-          <li class="page-item" [class.disabled]="currentPage === totalPages">
-            <button class="page-link" (click)="changePage(currentPage + 1)">
-              <i class="fas fa-chevron-right"></i>
-            </button>
-          </li>
-        </ul>
-      </nav>
     </div>
   </div>
 </div>
