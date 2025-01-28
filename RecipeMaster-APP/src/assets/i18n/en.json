@@ -2,105 +2,98 @@
   "APP_NAME": "RecipeMaster",
   "COMMON": {
     "SUCCESS": "Success",
-    "ERROR": "Error"
-  },
-  "AUTH": {
-    "REGISTER": {
-      "TITLE": "Create Account",
-      "FORM": {
-        "EMAIL_PLACEHOLDER": "Email",
-        "PASSWORD_PLACEHOLDER": "Password",
-        "CREATE_ACCOUNT": "Create Account",
-        "CREATING_ACCOUNT": "Creating Account...",
-        "HAVE_ACCOUNT": "Already have an account?",
-        "LOGIN_LINK": "Login here"
-      },
-      "VALIDATION": {
-        "EMAIL_REQUIRED": "Email is required",
-        "EMAIL_INVALID": "Please enter a valid email",
-        "PASSWORD_REQUIRED": "Password is required",
-        "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters"
-      },
-      "MESSAGES": {
-        "SUCCESS": "Account created successfully!",
-        "ERROR": "Failed to create account. Please try again."
-      }
-    }
-  },
-  "LOGIN": {
-    "TITLE": "Login",
-    "SUBTITLE": "Confectionery Management System",
-    "USERNAME": "Email",
-    "PASSWORD": "Password",
-    "SIGN_IN": "Sign In",
-    "SIGNING_IN": "Signing in...",
-    "FORGOT_PASSWORD": "Forgot Password?",
-    "EMAIL_REQUIRED": "Email is required",
-    "EMAIL_INVALID": "Invalid email",
-    "PASSWORD_REQUIRED": "Password is required",
-    "PASSWORD_MINLENGTH": "Password must be at least 6 characters",
-    "DONT_HAVE_ACCOUNT": "Don't have an account?",
-    "REGISTER_HERE": "Register here"
-  },
-  "DASHBOARD": {
-    "TITLE": "Dashboard",
-    "SUBTITLE": "Overview of your recipe management system",
-    "TOTAL_RECIPES": "Total Recipes",
-    "TOTAL_INGREDIENTS": "Total Ingredients",
-    "AVERAGE_RECIPE_COST": "Average Recipe Cost",
-    "TOTAL_RECIPE_COST": "Total Recipe Cost",
-    "MOST_EXPENSIVE_INGREDIENTS": "Most Expensive Ingredients",
-    "TOP_5": "Top 5",
-    "RECIPE_DISTRIBUTION": "Recipe Distribution",
-    "BY_CATEGORY": "By Category",
-    "RECENT_ACTIVITIES": "Recent Activities",
-    "VIEW_ALL": "View All",
-    "NO_ACTIVITIES": "No recent activities"
+    "ERROR": "Error",
+    "VALIDATION": {
+      "REQUIRED": "This field is required",
+      "MIN_LENGTH": "Minimum {{value}} characters",
+      "MAX_LENGTH": "Maximum {{value}} characters",
+      "MIN_VALUE": "Minimum value is {{value}}",
+      "MAX_VALUE": "Maximum value is {{value}}",
+      "INVALID_FORMAT": "Invalid format"
+    },
+    "BUTTONS": {
+      "SAVE": "Save",
+      "CANCEL": "Cancel",
+      "UPDATE": "Update",
+      "DELETE": "Delete",
+      "ADD": "Add"
+    },
+    "STATUS": "Status",
+    "ACTIONS": "Actions"
   },
   "SIDEBAR": {
     "MENU": "Menu",
-    "COLLAPSE_MENU": "Collapse menu",
-    "EXPAND_MENU": "Expand menu",
-    "INSTAGRAM": "Instagram",
-    "LOGOUT": "Logout",
     "NAV": {
       "DASHBOARD": "Dashboard",
-      "DASHBOARD_DESC": "Overview",
+      "DASHBOARD_DESC": "System overview",
       "RECIPES": "Recipes",
       "RECIPES_DESC": "Manage recipes",
       "INGREDIENTS": "Ingredients",
       "INGREDIENTS_DESC": "Manage ingredients"
-    }
+    },
+    "COLLAPSE_MENU": "Collapse menu",
+    "EXPAND_MENU": "Expand menu",
+    "LOGOUT": "Logout",
+    "INSTAGRAM": "Follow us on Instagram"
   },
   "INGREDIENTS": {
     "LIST": {
       "TITLE": "Ingredients",
       "SUBTITLE": "Manage your ingredients",
-      "ADD_INGREDIENT": "Add Ingredient",
-      "SEARCH": "Search ingredients...",
+      "ADD_BUTTON": "Add Ingredient",
+      "SEARCH_PLACEHOLDER": "Search ingredients...",
+      "NO_INGREDIENTS": "No ingredients found",
       "TABLE": {
         "NAME": "Name",
+        "DESCRIPTION": "Description",
         "UNIT": "Unit",
-        "PRICE": "Price",
+        "COST": "Cost",
         "STOCK": "Stock",
         "SUPPLIER": "Supplier",
         "STATUS": "Status",
-        "ACTIONS": "Actions",
-        "EDIT": "Edit",
-        "DELETE": "Delete",
-        "NO_INGREDIENTS": "No ingredients found",
-        "STOCK_LABEL": "Stock:",
-        "MIN_STOCK_LABEL": "Min:",
-        "STATUS_ACTIVE": "Active",
-        "STATUS_INACTIVE": "Inactive",
-        "STATUS_PERISHABLE": "Perishable"
+        "ACTIONS": "Actions"
       },
-      "DELETE_CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure you want to delete the ingredient",
-        "WARNING": "This action cannot be undone.",
-        "CANCEL": "Cancel",
-        "CONFIRM": "Yes, Delete"
+      "DELETE_MODAL": {
+        "TITLE": "Confirm Delete",
+        "MESSAGE": "Are you sure you want to delete this ingredient?",
+        "CONFIRM": "Yes, Delete",
+        "CANCEL": "Cancel"
+      }
+    },
+    "UNITS": {
+      "KG": "Kilogram",
+      "G": "Gram",
+      "L": "Liter",
+      "ML": "Milliliter",
+      "UNIT": "Unit",
+      "DOZEN": "Dozen"
+    },
+    "EDIT": {
+      "TITLE": "Edit Ingredient",
+      "SUBTITLE": "Update ingredient information",
+      "TABS": {
+        "BASIC": "Basic Information",
+        "DETAILS": "Details",
+        "STORAGE": "Storage"
+      },
+      "FORM": {
+        "NAME": "Name",
+        "UNIT": "Unit",
+        "UNIT_SELECT": "Select unit",
+        "DESCRIPTION": "Description",
+        "COST": "Cost",
+        "STOCK_QUANTITY": "Stock Quantity",
+        "MINIMUM_STOCK": "Minimum Stock",
+        "SUPPLIER": "Supplier",
+        "ORIGIN": "Country of Origin",
+        "STORAGE_INSTRUCTIONS": "Storage Instructions",
+        "IS_PERISHABLE": "Perishable",
+        "IS_ACTIVE": "Active"
+      },
+      "MESSAGES": {
+        "UPDATE_SUCCESS": "Ingredient updated successfully",
+        "CREATE_SUCCESS": "Ingredient created successfully",
+        "ERROR": "An error occurred while saving the ingredient"
       }
     },
     "CREATE": {
@@ -170,75 +163,6 @@
         "PRICE": "Set the price per unit",
         "STOCK": "Keep stock levels updated",
         "STORAGE": "Specify storage requirements"
-      }
-    },
-    "EDIT": {
-      "TITLE": "Edit Ingredient",
-      "SUBTITLE": "Modify ingredient details",
-      "TABS": {
-        "BASIC": "Basic Information",
-        "DETAILS": "Details",
-        "STORAGE": "Storage"
-      },
-      "FORM": {
-        "NAME": "Name",
-        "NAME_REQUIRED": "Name is required",
-        "NAME_MINLENGTH": "Name must be at least 3 characters",
-        "NAME_MAXLENGTH": "Name cannot exceed 100 characters",
-        "NAME_INSTRUCTIONS": "Enter the ingredient name",
-        "UNIT": "Unit",
-        "SELECT_UNIT": "Select a unit",
-        "UNIT_REQUIRED": "Unit is required",
-        "UNIT_INSTRUCTIONS": "Choose the measurement unit",
-        "DESCRIPTION": "Description",
-        "DESCRIPTION_REQUIRED": "Description is required",
-        "DESCRIPTION_MINLENGTH": "Description must be at least 10 characters",
-        "DESCRIPTION_MAXLENGTH": "Description cannot exceed 500 characters",
-        "DESCRIPTION_INSTRUCTIONS": "Describe the ingredient characteristics",
-        "PRICE": "Price",
-        "PRICE_REQUIRED": "Price is required",
-        "PRICE_MIN": "Price must be greater than 0",
-        "PRICE_MAX": "Price cannot exceed 999.99",
-        "PRICE_INSTRUCTIONS": "Enter the price per unit",
-        "STOCK_QUANTITY": "Stock Quantity",
-        "STOCK_QUANTITY_REQUIRED": "Stock quantity is required",
-        "STOCK_QUANTITY_MIN": "Stock quantity cannot be negative",
-        "STOCK_QUANTITY_MAX": "Stock quantity cannot exceed 9999",
-        "STOCK_QUANTITY_INSTRUCTIONS": "Enter the current stock quantity",
-        "MIN_STOCK_LEVEL": "Minimum Stock Level",
-        "MIN_STOCK_LEVEL_REQUIRED": "Minimum stock level is required",
-        "MIN_STOCK_LEVEL_MIN": "Minimum stock level cannot be negative",
-        "MIN_STOCK_LEVEL_MAX": "Minimum stock level cannot exceed 9999",
-        "MIN_STOCK_LEVEL_INSTRUCTIONS": "Enter the minimum stock level for alerts",
-        "SUPPLIER_NAME": "Supplier Name",
-        "SUPPLIER_NAME_REQUIRED": "Supplier name is required",
-        "SUPPLIER_NAME_MINLENGTH": "Supplier name must be at least 2 characters",
-        "SUPPLIER_NAME_MAXLENGTH": "Supplier name cannot exceed 100 characters",
-        "SUPPLIER_NAME_INSTRUCTIONS": "Enter the supplier name",
-        "ORIGIN_COUNTRY": "Country of Origin",
-        "ORIGIN_COUNTRY_REQUIRED": "Country of origin is required",
-        "ORIGIN_COUNTRY_MINLENGTH": "Country name must be at least 2 characters",
-        "ORIGIN_COUNTRY_MAXLENGTH": "Country name cannot exceed 100 characters",
-        "ORIGIN_COUNTRY_INSTRUCTIONS": "Enter the country of origin",
-        "IS_PERISHABLE": "Perishable Item",
-        "IS_PERISHABLE_INSTRUCTIONS": "Check if the item is perishable",
-        "IS_ACTIVE": "Active Ingredient",
-        "IS_ACTIVE_INSTRUCTIONS": "Check if the ingredient is active",
-        "STORAGE_INSTRUCTIONS": "Storage Instructions",
-        "STORAGE_INSTRUCTIONS_REQUIRED": "Storage instructions are required",
-        "STORAGE_INSTRUCTIONS_MINLENGTH": "Instructions must be at least 10 characters",
-        "STORAGE_INSTRUCTIONS_MAXLENGTH": "Instructions cannot exceed 500 characters",
-        "STORAGE_INSTRUCTIONS_HELP": "Enter storage instructions",
-        "SUBMIT": "Update Ingredient",
-        "CANCEL": "Cancel"
-      },
-      "TIPS": {
-        "TITLE": "Tips for Editing Ingredients",
-        "REVIEW_NAME": "Review and update name if needed",
-        "VERIFY_UNIT": "Verify measurement unit is appropriate",
-        "UPDATE_COST": "Update cost if it has changed",
-        "MAINTAIN_STOCK": "Maintain accurate stock levels",
-        "CHECK_STORAGE": "Check storage requirements"
       }
     },
     "MESSAGES": {
@@ -357,5 +281,58 @@
         "INVALID_FIELD": "Invalid field"
       }
     }
+  },
+  "AUTH": {
+    "REGISTER": {
+      "TITLE": "Create Account",
+      "FORM": {
+        "EMAIL_PLACEHOLDER": "Email",
+        "PASSWORD_PLACEHOLDER": "Password",
+        "CREATE_ACCOUNT": "Create Account",
+        "CREATING_ACCOUNT": "Creating Account...",
+        "HAVE_ACCOUNT": "Already have an account?",
+        "LOGIN_LINK": "Login here"
+      },
+      "VALIDATION": {
+        "EMAIL_REQUIRED": "Email is required",
+        "EMAIL_INVALID": "Please enter a valid email",
+        "PASSWORD_REQUIRED": "Password is required",
+        "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters"
+      },
+      "MESSAGES": {
+        "SUCCESS": "Account created successfully!",
+        "ERROR": "Failed to create account. Please try again."
+      }
+    }
+  },
+  "LOGIN": {
+    "TITLE": "Login",
+    "SUBTITLE": "Confectionery Management System",
+    "USERNAME": "Email",
+    "PASSWORD": "Password",
+    "SIGN_IN": "Sign In",
+    "SIGNING_IN": "Signing in...",
+    "FORGOT_PASSWORD": "Forgot Password?",
+    "EMAIL_REQUIRED": "Email is required",
+    "EMAIL_INVALID": "Invalid email",
+    "PASSWORD_REQUIRED": "Password is required",
+    "PASSWORD_MINLENGTH": "Password must be at least 6 characters",
+    "DONT_HAVE_ACCOUNT": "Don't have an account?",
+    "REGISTER_HERE": "Register here"
+  },
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "SUBTITLE": "Overview of your recipe management system",
+    "TOTAL_RECIPES": "Total Recipes",
+    "TOTAL_INGREDIENTS": "Total Ingredients",
+    "AVERAGE_RECIPE_COST": "Average Recipe Cost",
+    "TOTAL_RECIPE_COST": "Total Recipe Cost",
+    "MOST_EXPENSIVE_INGREDIENTS": "Most Expensive Ingredients",
+    "TOP_5": "Top 5",
+    "RECIPE_DISTRIBUTION": "Recipe Distribution",
+    "BY_CATEGORY": "By Category",
+    "RECENT_ACTIVITIES": "Recent Activities",
+    "VIEW_ALL": "View All",
+    "NO_ACTIVITIES": "No recent activities"
   }
 }
