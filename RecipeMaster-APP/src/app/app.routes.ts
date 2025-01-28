@@ -36,5 +36,6 @@ export const routes: Routes = [
       { path: 'edit/:id', component: RecipeEditComponent }
     ]
   },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
 ];

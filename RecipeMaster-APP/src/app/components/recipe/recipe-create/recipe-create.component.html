@@ -33,41 +33,66 @@
               <div class="tab-pane fade show active" id="basic" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="name" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.NAME' | translate }}</label>
-                    <input type="text" class="form-control" id="name" formControlName="name" 
-                      [placeholder]="'RECIPES.CREATE.FORM.NAME_INSTRUCTIONS' | translate"
-                      [ngClass]="{'is-invalid': submitted && f['name'].errors}">
+                    <label for="name" class="form-label">{{ 'RECIPES.CREATE.FORM.NAME' | translate }} *</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      id="name" 
+                      formControlName="name"
+                      [ngClass]="{'is-invalid': submitted && f['name'].errors}"
+                    >
                     <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                      <div *ngIf="f['name'].errors['required']">{{ 'RECIPES.CREATE.FORM.NAME_REQUIRED' | translate }}</div>
-                      <div *ngIf="f['name'].errors['minlength']">{{ 'RECIPES.CREATE.FORM.NAME_MINLENGTH' | translate }}</div>
-                      <div *ngIf="f['name'].errors['maxlength']">{{ 'RECIPES.CREATE.FORM.NAME_MAXLENGTH' | translate }}</div>
+                      <div *ngIf="f['name'].errors['required']">
+                        {{ 'RECIPES.CREATE.FORM.NAME_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['name'].errors['minlength']">
+                        {{ 'RECIPES.CREATE.FORM.NAME_MINLENGTH' | translate }}
+                      </div>
+                      <div *ngIf="f['name'].errors['maxlength']">
+                        {{ 'RECIPES.CREATE.FORM.NAME_MAXLENGTH' | translate }}
+                      </div>
                     </div>
                   </div>
 
                   <div class="col-md-6">
-                    <label for="difficulty" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.DIFFICULTY' | translate }}</label>
-                    <select class="form-select" id="difficulty" formControlName="difficulty"
-                      [ngClass]="{'is-invalid': submitted && f['difficulty'].errors}">
+                    <label for="difficulty" class="form-label">{{ 'RECIPES.CREATE.FORM.DIFFICULTY' | translate }} *</label>
+                    <select 
+                      class="form-select" 
+                      id="difficulty" 
+                      formControlName="difficulty"
+                      [ngClass]="{'is-invalid': submitted && f['difficulty'].errors}"
+                    >
                       <option value="">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_SELECT' | translate }}</option>
-                      <option value="Easy">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_LEVELS.EASY' | translate }}</option>
-                      <option value="Medium">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_LEVELS.MEDIUM' | translate }}</option>
-                      <option value="Hard">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_LEVELS.HARD' | translate }}</option>
-                      <option value="Expert">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_LEVELS.EXPERT' | translate }}</option>
+                      <option *ngFor="let level of difficultyLevels" [value]="level">
+                        {{ 'RECIPES.CREATE.FORM.DIFFICULTY_LEVELS.' + level.toUpperCase() | translate }}
+                      </option>
                     </select>
                     <div *ngIf="submitted && f['difficulty'].errors" class="invalid-feedback">
-                      <div *ngIf="f['difficulty'].errors['required']">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_REQUIRED' | translate }}</div>
+                      <div *ngIf="f['difficulty'].errors['required']">
+                        {{ 'RECIPES.CREATE.FORM.DIFFICULTY_REQUIRED' | translate }}
+                      </div>
                     </div>
                   </div>
 
                   <div class="col-12">
-                    <label for="description" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.DESCRIPTION' | translate }}</label>
-                    <textarea class="form-control" id="description" rows="3" formControlName="description"
-                      [placeholder]="'RECIPES.CREATE.FORM.DESCRIPTION_INSTRUCTIONS' | translate"
-                      [ngClass]="{'is-invalid': submitted && f['description'].errors}"></textarea>
+                    <label for="description" class="form-label">{{ 'RECIPES.CREATE.FORM.DESCRIPTION' | translate }} *</label>
+                    <textarea 
+                      class="form-control" 
+                      id="description" 
+                      rows="3" 
+                      formControlName="description"
+                      [ngClass]="{'is-invalid': submitted && f['description'].errors}"
+                    ></textarea>
                     <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
-                      <div *ngIf="f['description'].errors['required']">{{ 'RECIPES.CREATE.FORM.DESCRIPTION_REQUIRED' | translate }}</div>
-                      <div *ngIf="f['description'].errors['minlength']">{{ 'RECIPES.CREATE.FORM.DESCRIPTION_MINLENGTH' | translate }}</div>
-                      <div *ngIf="f['description'].errors['maxlength']">{{ 'RECIPES.CREATE.FORM.DESCRIPTION_MAXLENGTH' | translate }}</div>
+                      <div *ngIf="f['description'].errors['required']">
+                        {{ 'RECIPES.CREATE.FORM.DESCRIPTION_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['description'].errors['minlength']">
+                        {{ 'RECIPES.CREATE.FORM.DESCRIPTION_MINLENGTH' | translate }}
+                      </div>
+                      <div *ngIf="f['description'].errors['maxlength']">
+                        {{ 'RECIPES.CREATE.FORM.DESCRIPTION_MAXLENGTH' | translate }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -76,42 +101,97 @@
               <!-- Details Tab -->
               <div class="tab-pane fade" id="details" role="tabpanel">
                 <div class="row g-3">
-                  <div class="col-md-4">
-                    <label for="preparationTime" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.PREPARATION_TIME' | translate }}</label>
+                  <div class="col-md-6">
+                    <label for="preparationTime" class="form-label">{{ 'RECIPES.CREATE.FORM.PREPARATION_TIME' | translate }} *</label>
                     <div class="input-group">
-                      <input type="number" class="form-control" id="preparationTime" formControlName="preparationTime"
-                        [ngClass]="{'is-invalid': submitted && f['preparationTime'].errors}">
+                      <input 
+                        type="number" 
+                        class="form-control" 
+                        id="preparationTime" 
+                        formControlName="preparationTime"
+                        [ngClass]="{'is-invalid': submitted && f['preparationTime'].errors}"
+                      >
                       <span class="input-group-text">min</span>
                     </div>
-                    <div *ngIf="submitted && f['preparationTime'].errors" class="invalid-feedback">
-                      <div *ngIf="f['preparationTime'].errors['required']">{{ 'RECIPES.CREATE.FORM.PREPARATION_TIME_REQUIRED' | translate }}</div>
-                      <div *ngIf="f['preparationTime'].errors['min']">{{ 'RECIPES.CREATE.FORM.PREPARATION_TIME_MIN' | translate }}</div>
-                      <div *ngIf="f['preparationTime'].errors['max']">{{ 'RECIPES.CREATE.FORM.PREPARATION_TIME_MAX' | translate }}</div>
+                    <div *ngIf="submitted && f['preparationTime'].errors" class="invalid-feedback d-block">
+                      <div *ngIf="f['preparationTime'].errors['required']">
+                        {{ 'RECIPES.CREATE.FORM.PREPARATION_TIME_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['preparationTime'].errors['min']">
+                        {{ 'RECIPES.CREATE.FORM.PREPARATION_TIME_MIN' | translate }}
+                      </div>
+                      <div *ngIf="f['preparationTime'].errors['max']">
+                        {{ 'RECIPES.CREATE.FORM.PREPARATION_TIME_MAX' | translate }}
+                      </div>
                     </div>
                   </div>
 
-                  <div class="col-md-4">
-                    <label for="cookingTime" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.COOKING_TIME' | translate }}</label>
+                  <div class="col-md-6">
+                    <label for="cookingTime" class="form-label">{{ 'RECIPES.CREATE.FORM.COOKING_TIME' | translate }} *</label>
                     <div class="input-group">
-                      <input type="number" class="form-control" id="cookingTime" formControlName="cookingTime"
-                        [ngClass]="{'is-invalid': submitted && f['cookingTime'].errors}">
+                      <input 
+                        type="number" 
+                        class="form-control" 
+                        id="cookingTime" 
+                        formControlName="cookingTime"
+                        [ngClass]="{'is-invalid': submitted && f['cookingTime'].errors}"
+                      >
                       <span class="input-group-text">min</span>
                     </div>
-                    <div *ngIf="submitted && f['cookingTime'].errors" class="invalid-feedback">
-                      <div *ngIf="f['cookingTime'].errors['required']">{{ 'RECIPES.CREATE.FORM.COOKING_TIME_REQUIRED' | translate }}</div>
-                      <div *ngIf="f['cookingTime'].errors['min']">{{ 'RECIPES.CREATE.FORM.COOKING_TIME_MIN' | translate }}</div>
-                      <div *ngIf="f['cookingTime'].errors['max']">{{ 'RECIPES.CREATE.FORM.COOKING_TIME_MAX' | translate }}</div>
+                    <div *ngIf="submitted && f['cookingTime'].errors" class="invalid-feedback d-block">
+                      <div *ngIf="f['cookingTime'].errors['required']">
+                        {{ 'RECIPES.CREATE.FORM.COOKING_TIME_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['cookingTime'].errors['min']">
+                        {{ 'RECIPES.CREATE.FORM.COOKING_TIME_MIN' | translate }}
+                      </div>
+                      <div *ngIf="f['cookingTime'].errors['max']">
+                        {{ 'RECIPES.CREATE.FORM.COOKING_TIME_MAX' | translate }}
+                      </div>
                     </div>
                   </div>
 
-                  <div class="col-md-4">
-                    <label for="servings" class="form-label fw-bold">{{ 'RECIPES.CREATE.FORM.SERVINGS' | translate }}</label>
-                    <input type="number" class="form-control" id="servings" formControlName="servings"
-                      [ngClass]="{'is-invalid': submitted && f['servings'].errors}">
+                  <div class="col-md-6">
+                    <label for="servings" class="form-label">{{ 'RECIPES.CREATE.FORM.SERVINGS' | translate }} *</label>
+                    <input 
+                      type="number" 
+                      class="form-control" 
+                      id="servings" 
+                      formControlName="servings"
+                      [ngClass]="{'is-invalid': submitted && f['servings'].errors}"
+                    >
                     <div *ngIf="submitted && f['servings'].errors" class="invalid-feedback">
-                      <div *ngIf="f['servings'].errors['required']">{{ 'RECIPES.CREATE.FORM.SERVINGS_REQUIRED' | translate }}</div>
-                      <div *ngIf="f['servings'].errors['min']">{{ 'RECIPES.CREATE.FORM.SERVINGS_MIN' | translate }}</div>
-                      <div *ngIf="f['servings'].errors['max']">{{ 'RECIPES.CREATE.FORM.SERVINGS_MAX' | translate }}</div>
+                      <div *ngIf="f['servings'].errors['required']">
+                        {{ 'RECIPES.CREATE.FORM.SERVINGS_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['servings'].errors['min']">
+                        {{ 'RECIPES.CREATE.FORM.SERVINGS_MIN' | translate }}
+                      </div>
+                      <div *ngIf="f['servings'].errors['max']">
+                        {{ 'RECIPES.CREATE.FORM.SERVINGS_MAX' | translate }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="instructions" class="form-label">{{ 'RECIPES.CREATE.FORM.INSTRUCTIONS' | translate }} *</label>
+                    <textarea 
+                      class="form-control" 
+                      id="instructions" 
+                      rows="5" 
+                      formControlName="instructions"
+                      [ngClass]="{'is-invalid': submitted && f['instructions'].errors}"
+                    ></textarea>
+                    <div *ngIf="submitted && f['instructions'].errors" class="invalid-feedback">
+                      <div *ngIf="f['instructions'].errors['required']">
+                        {{ 'RECIPES.CREATE.FORM.INSTRUCTIONS_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['instructions'].errors['minlength']">
+                        {{ 'RECIPES.CREATE.FORM.INSTRUCTIONS_MINLENGTH' | translate }}
+                      </div>
+                      <div *ngIf="f['instructions'].errors['maxlength']">
+                        {{ 'RECIPES.CREATE.FORM.INSTRUCTIONS_MAXLENGTH' | translate }}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -145,7 +225,6 @@
                       <div class="col">
                         <div class="input-group">
                           <input type="number" class="form-control" formControlName="quantity"
-                            [placeholder]="'RECIPES.CREATE.FORM.INGREDIENTS.QUANTITY' | translate"
                             [ngClass]="{'is-invalid': submitted && ingredient.get('quantity')?.errors}">
                           <button type="button" class="btn btn-outline-danger" (click)="removeIngredient(i)">
                             <i class="fas fa-times"></i>
@@ -178,6 +257,132 @@
               </div>
             </div>
           </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card bg-light border-0 shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">
+            <i class="fas fa-question-circle me-2"></i>{{ 'RECIPES.FORM.HELP_TEXTS.TITLE' | translate }}
+          </h5>
+          <hr>
+          
+          <p><i class="fas fa-check-circle text-success me-2"></i>{{ 'RECIPES.FORM.HELP_TEXTS.REQUIRED_FIELDS' | translate }}</p>
+
+          <div class="accordion accordion-flush" id="helpAccordion">
+            <!-- Informações Básicas -->
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#basicInfo">
+                  <i class="fas fa-info-circle me-2"></i>Informações Básicas
+                </button>
+              </h2>
+              <div id="basicInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help mb-2">
+                    <strong>Nome da Receita:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.name}}</p>
+                  </div>
+                  <div class="field-help mb-2">
+                    <strong>Descrição:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.description}}</p>
+                  </div>
+                  <div class="field-help">
+                    <strong>Nível de Dificuldade:</strong>
+                    <p class="small text-muted mb-0">{{fieldInstructions.difficulty}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tempos -->
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#timingInfo">
+                  <i class="fas fa-clock me-2"></i>Tempos
+                </button>
+              </h2>
+              <div id="timingInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help mb-2">
+                    <strong>Tempo de Preparo:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.preparationTime}}</p>
+                  </div>
+                  <div class="field-help">
+                    <strong>Tempo de Cozimento:</strong>
+                    <p class="small text-muted mb-0">{{fieldInstructions.cookingTime}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Porções e Custos -->
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#portionsInfo">
+                  <i class="fas fa-calculator me-2"></i>Porções e Custos
+                </button>
+              </h2>
+              <div id="portionsInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help mb-2">
+                    <strong>Porções:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.servings}}</p>
+                  </div>
+                  <div class="field-help mb-2">
+                    <strong>Custo Total:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.totalCost}}</p>
+                  </div>
+                  <div class="field-help">
+                    <strong>Rendimento por Porção:</strong>
+                    <p class="small text-muted mb-0">{{fieldInstructions.yieldPerPortion}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preparo -->
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#instructionsInfo">
+                  <i class="fas fa-list-ol me-2"></i>Modo de Preparo
+                </button>
+              </h2>
+              <div id="instructionsInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help">
+                    <p class="small text-muted mb-0">{{fieldInstructions.instructions}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ingredientes -->
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ingredientsInfo">
+                  <i class="fas fa-carrot me-2"></i>Ingredientes
+                </button>
+              </h2>
+              <div id="ingredientsInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help">
+                    <p class="small text-muted mb-2">{{fieldInstructions.ingredients}}</p>
+                    <p class="small text-muted mb-0">{{fieldInstructions.recipeIngredients}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="need-help mt-3">
+            <p class="small mb-0">
+              <i class="fas fa-info-circle me-2"></i>
+              {{ 'RECIPES.EDIT.HELP.CONTACT_SUPPORT' | translate }}
+            </p>
+          </div>
         </div>
       </div>
     </div>

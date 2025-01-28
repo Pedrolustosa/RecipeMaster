@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Recipe } from '../../../models/recipe.models';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { RecipeService } from '../../../services/recipe.service';
+import { Recipe } from '../../../models/recipe.models';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import jsPDF from 'jspdf';
@@ -14,14 +14,20 @@ declare var bootstrap: any;
 @Component({
   selector: 'app-recipe-list',
   templateUrl: './recipe-list.component.html',
-  styleUrls: ['./recipe-list.component.css'],
+  styleUrls: ['./recipe-list.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, NgxSpinnerModule]
+  imports: [
+    CommonModule,
+    FormsModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    RouterModule
+  ]
 })
 export class RecipeListComponent implements OnInit {
   recipes: Recipe[] = [];
   loading = false;
-  searchTerm = '';
+  searchTerm: string = '';
   filteredRecipes: Recipe[] = [];
   selectedRecipe: Recipe | null = null;
 
@@ -65,6 +71,10 @@ export class RecipeListComponent implements OnInit {
       recipe.name.toLowerCase().includes(searchTermLower) ||
       recipe.description.toLowerCase().includes(searchTermLower)
     );
+  }
+
+  onSearch(): void {
+    this.filterRecipes();
   }
 
   setSelectedRecipe(recipe: Recipe): void {

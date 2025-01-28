@@ -105,8 +105,8 @@
               <table class="table table-sm">
                 <thead>
                   <tr>
-                    <th>Ingredient</th>
-                    <th class="text-end">Cost</th>
+                    <th>{{ 'DASHBOARD.INGREDIENT_TABLE.INGREDIENT' | translate }}</th>
+                    <th class="text-end">{{ 'DASHBOARD.INGREDIENT_TABLE.COST' | translate }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -157,8 +157,8 @@
                 <table class="table table-sm">
                   <thead>
                     <tr>
-                      <th>Ingredient</th>
-                      <th class="text-end">Usage</th>
+                      <th>{{ 'DASHBOARD.INGREDIENT_TABLE.INGREDIENT' | translate }}</th>
+                      <th class="text-end">{{ 'DASHBOARD.INGREDIENT_TABLE.USAGE' | translate }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -177,7 +177,7 @@
                         </ng-container>
                         <span class="ms-2">{{ ingredient.name }}</span>
                       </td>
-                      <td class="text-end">{{ ingredient.recipeCount }} recipes</td>
+                      <td class="text-end">{{ ingredient.recipeCount }} {{ 'DASHBOARD.INGREDIENT_TABLE.RECIPES' | translate }}</td>
                     </tr>
                   </tbody>
                 </table>

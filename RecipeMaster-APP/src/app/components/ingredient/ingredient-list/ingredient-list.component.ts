@@ -18,7 +18,7 @@ declare var bootstrap: any;
 })
 export class IngredientListComponent implements OnInit {
   ingredients: Ingredient[] = [];
-  searchTerm = '';
+  searchTerm: string = '';
   sortColumn = 'name';
   sortDirection = 'asc';
   currentPage = 1;
@@ -106,6 +106,11 @@ export class IngredientListComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  onSearch(): void {
+    // Implement search logic here
+    this.loadIngredients();
   }
 
   sortIngredients(column: keyof Ingredient): void {

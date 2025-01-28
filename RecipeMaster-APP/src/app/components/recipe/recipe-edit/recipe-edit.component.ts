@@ -1,24 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, FormArray, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { RecipeService } from '../../../services/recipe.service';
 import { IngredientService } from '../../../services/ingredient.service';
 import { UpdateRecipeRequest } from '../../../models/recipe.models';
 import { Ingredient } from '../../../models/ingredient.model';
-import { firstValueFrom } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-edit',
   templateUrl: './recipe-edit.component.html',
   styleUrls: ['./recipe-edit.component.scss'],
   standalone: true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule, NgxSpinnerModule]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    NgxSpinnerModule,
+    RouterModule
+  ]
 })
 export class RecipeEditComponent implements OnInit {
   recipeForm!: FormGroup;
@@ -28,6 +33,12 @@ export class RecipeEditComponent implements OnInit {
   ingredientList: Ingredient[] = [];
   availableIngredients: Ingredient[] = [];
   fieldInstructions: any;
+  difficultyLevels = [
+    { key: 'EASY', value: 'easy' },
+    { key: 'MEDIUM', value: 'medium' },
+    { key: 'HARD', value: 'hard' },
+    { key: 'EXPERT', value: 'expert' }
+  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -54,17 +65,17 @@ export class RecipeEditComponent implements OnInit {
 
   private initFieldInstructions(): void {
     this.fieldInstructions = {
-      name: this.translate.instant('RECIPES.FORM.HELP_TEXTS.NAME'),
-      description: this.translate.instant('RECIPES.FORM.HELP_TEXTS.DESCRIPTION'),
-      preparationTime: this.translate.instant('RECIPES.FORM.HELP_TEXTS.PREPARATION_TIME'),
-      cookingTime: this.translate.instant('RECIPES.FORM.HELP_TEXTS.COOKING_TIME'),
-      servings: this.translate.instant('RECIPES.FORM.HELP_TEXTS.SERVINGS'),
-      difficulty: this.translate.instant('RECIPES.FORM.HELP_TEXTS.DIFFICULTY'),
-      instructions: this.translate.instant('RECIPES.FORM.HELP_TEXTS.INSTRUCTIONS'),
-      totalCost: this.translate.instant('RECIPES.FORM.HELP_TEXTS.TOTAL_COST'),
-      yieldPerPortion: this.translate.instant('RECIPES.FORM.HELP_TEXTS.YIELD_PER_PORTION'),
-      ingredients: this.translate.instant('RECIPES.FORM.HELP_TEXTS.INGREDIENTS'),
-      recipeIngredients: this.translate.instant('RECIPES.FORM.HELP_TEXTS.RECIPE_INGREDIENTS')
+      name: 'Digite um nome único e descritivo para sua receita (ex: "Bolo de Chocolate Cremoso", "Risoto de Funghi")',
+      description: 'Descreva brevemente sua receita, incluindo suas principais características e sabores (ex: "Um bolo macio e úmido com cobertura de ganache")',
+      difficulty: 'Escolha o nível que melhor representa a complexidade do preparo (Fácil, Médio ou Difícil)',
+      preparationTime: 'Tempo necessário para separar e preparar todos os ingredientes antes de começar a cozinhar',
+      cookingTime: 'Tempo total necessário para cozinhar ou assar a receita até o ponto ideal',
+      servings: 'Quantidade de porções que esta receita rende (ex: 4 pessoas, 8 fatias)',
+      instructions: 'Descreva o passo a passo completo do preparo. Seja claro e específico em cada etapa',
+      totalCost: 'Custo total aproximado de todos os ingredientes utilizados na receita',
+      yieldPerPortion: 'Valor sugerido por porção para venda (calculado automaticamente)',
+      ingredients: 'Selecione os ingredientes necessários e especifique a quantidade de cada um',
+      recipeIngredients: 'Lista dos ingredientes já adicionados à receita com suas respectivas quantidades'
     };
   }
 
@@ -161,45 +172,41 @@ export class RecipeEditComponent implements OnInit {
 
   private async loadRecipe(): Promise<void> {
     try {
-      this.loading = true;
+      this.spinner.show();
       const recipe = await firstValueFrom(this.recipeService.getById(this.recipeId));
       
       while (this.ingredients.length) {
         this.ingredients.removeAt(0);
       }
 
-      recipe.ingredients.forEach(ingredient => {
-        const ingredientForm = this.formBuilder.group({
-          ingredientId: [ingredient.ingredientId, [Validators.required]],
-          quantity: [ingredient.quantity, [
-            Validators.required,
-            Validators.min(0.01),
-            Validators.max(9999.99)
-          ]]
-        });
-        this.ingredients.push(ingredientForm);
-      });
-
       this.recipeForm.patchValue({
         name: recipe.name,
         description: recipe.description,
+        difficulty: recipe.difficulty,
         preparationTime: recipe.preparationTime,
         cookingTime: recipe.cookingTime,
         servings: recipe.servings,
-        difficulty: recipe.difficulty,
         instructions: recipe.instructions,
         totalCost: recipe.totalCost,
         yieldPerPortion: recipe.yieldPerPortion
       });
 
+      recipe.ingredients.forEach(ingredient => {
+        this.ingredients.push(this.formBuilder.group({
+          ingredientId: [ingredient.ingredientId, Validators.required],
+          quantity: [ingredient.quantity, [Validators.required, Validators.min(0.01)]]
+        }));
+      });
+
+      this.spinner.hide();
     } catch (error) {
+      console.error('Error loading recipe:', error);
       this.toastr.error(
-        this.translate.instant('RECIPES.MESSAGES.LOAD_ERROR'),
-        this.translate.instant('RECIPES.MESSAGES.ERROR')
+        this.translate.instant('RECIPES.EDIT.MESSAGES.LOAD_ERROR'),
+        this.translate.instant('COMMON.ERROR')
       );
+      this.spinner.hide();
       this.router.navigate(['/recipes']);
-    } finally {
-      this.loading = false;
     }
   }
 
@@ -214,93 +221,71 @@ export class RecipeEditComponent implements OnInit {
     }
   }
 
-  getValidationMessage(fieldName: string): string {
-    const control = this.f[fieldName];
-    if (!control || !control.errors || !control.touched) return '';
-
-    const errors = control.errors;
-    if (errors['required']) {
-      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.REQUIRED', { fieldName });
+  getValidationMessage(field: string): string {
+    const control = this.recipeForm.get(field);
+    if (control?.errors) {
+      if (control.errors['required']) {
+        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_REQUIRED`);
+      }
+      if (control.errors['minlength']) {
+        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_MIN_LENGTH`);
+      }
+      if (control.errors['maxlength']) {
+        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_MAX_LENGTH`);
+      }
+      if (control.errors['min']) {
+        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_MIN`);
+      }
+      if (control.errors['max']) {
+        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_MAX`);
+      }
     }
-    if (errors['minlength']) {
-      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.MIN_LENGTH', {
-        fieldName,
-        requiredLength: errors['minlength'].requiredLength
-      });
-    }
-    if (errors['maxlength']) {
-      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.MAX_LENGTH', {
-        fieldName,
-        requiredLength: errors['maxlength'].requiredLength
-      });
-    }
-    if (errors['min']) {
-      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.MIN', {
-        fieldName,
-        min: errors['min'].min
-      });
-    }
-    if (errors['max']) {
-      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.MAX', {
-        fieldName,
-        max: errors['max'].max
-      });
-    }
-    if (errors['email']) {
-      return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.EMAIL');
-    }
-
-    return this.translate.instant('RECIPES.FORM.VALIDATION_MESSAGES.INVALID_FIELD');
+    return '';
   }
 
   async onSubmit(): Promise<void> {
     this.submitted = true;
-
     if (this.recipeForm.invalid) {
-      this.toastr.error(
-        this.translate.instant('RECIPES.MESSAGES.PLEASE_CORRECT_ERRORS')
-      );
       return;
     }
 
     try {
-      this.loading = true;
+      this.spinner.show();
       const formValue = this.recipeForm.value;
-      
-      const recipe: UpdateRecipeRequest = {
-        id: formValue.id,
+      const updateRequest: UpdateRecipeRequest = {
+        id: this.recipeId,
         name: formValue.name,
         description: formValue.description,
+        difficulty: formValue.difficulty,
         preparationTime: formValue.preparationTime,
         cookingTime: formValue.cookingTime,
         servings: formValue.servings,
-        difficulty: formValue.difficulty,
         instructions: formValue.instructions,
         totalCost: formValue.totalCost,
         yieldPerPortion: formValue.yieldPerPortion,
-        ingredients: formValue.ingredients.map((ing: any) => {
-          const ingredient = this.ingredientList.find(i => i.id === ing.ingredientId);
-          return {
-            ingredientId: ing.ingredientId,
-            ingredientName: ingredient ? ingredient.name : '',
-            quantity: ing.quantity
-          };
-        })
+        ingredients: formValue.ingredients
       };
 
-      await firstValueFrom(this.recipeService.update(this.recipeId, recipe));
+      await firstValueFrom(this.recipeService.update(this.recipeId, updateRequest));
       this.toastr.success(
-        this.translate.instant('RECIPES.MESSAGES.UPDATE_SUCCESS'),
-        this.translate.instant('RECIPES.MESSAGES.SUCCESS')
+        this.translate.instant('RECIPES.EDIT.MESSAGES.SUCCESS'),
+        this.translate.instant('COMMON.SUCCESS')
       );
       this.router.navigate(['/recipes']);
     } catch (error) {
+      console.error('Error updating recipe:', error);
       this.toastr.error(
-        this.translate.instant('RECIPES.MESSAGES.UPDATE_ERROR'),
-        this.translate.instant('RECIPES.MESSAGES.ERROR')
+        this.translate.instant('RECIPES.EDIT.MESSAGES.SAVE_ERROR'),
+        this.translate.instant('COMMON.ERROR')
       );
     } finally {
-      this.loading = false;
+      this.spinner.hide();
+    }
+  }
+
+  onCancel(): void {
+    if (confirm(this.translate.instant('RECIPES.EDIT.MESSAGES.CONFIRM_CANCEL'))) {
+      this.router.navigate(['/recipes']);
     }
   }
 

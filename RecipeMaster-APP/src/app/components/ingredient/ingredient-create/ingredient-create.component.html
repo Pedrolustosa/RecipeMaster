@@ -34,7 +34,6 @@
             </ul>
 
             <div class="tab-content" id="ingredientTabContent">
-              <!-- Basic Info Tab -->
               <div class="tab-pane fade show active" id="basic" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-6">
@@ -44,7 +43,6 @@
                       class="form-control" 
                       id="name" 
                       formControlName="name"
-                      [placeholder]="'INGREDIENTS.CREATE.FORM.NAME' | translate"
                       [ngClass]="{'is-invalid': submitted && f['name'].errors}"
                     >
                     <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
@@ -58,7 +56,6 @@
                         {{ 'INGREDIENTS.CREATE.FORM.NAME_MAXLENGTH' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.CREATE.FORM.NAME_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
@@ -77,7 +74,6 @@
                         {{ 'INGREDIENTS.CREATE.FORM.UNIT_REQUIRED' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.CREATE.FORM.UNIT_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-12">
@@ -87,7 +83,6 @@
                       id="description" 
                       rows="3" 
                       formControlName="description"
-                      [placeholder]="'INGREDIENTS.CREATE.FORM.DESCRIPTION' | translate"
                       [ngClass]="{'is-invalid': submitted && f['description'].errors}"
                     ></textarea>
                     <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
@@ -101,12 +96,10 @@
                         {{ 'INGREDIENTS.CREATE.FORM.DESCRIPTION_MAXLENGTH' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.CREATE.FORM.DESCRIPTION_INSTRUCTIONS' | translate }}</small>
                   </div>
                 </div>
               </div>
 
-              <!-- Details Tab -->
               <div class="tab-pane fade" id="details" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-6">
@@ -119,7 +112,6 @@
                         id="cost" 
                         formControlName="cost"
                         step="0.01"
-                        [placeholder]="'INGREDIENTS.CREATE.FORM.PRICE' | translate"
                         [ngClass]="{'is-invalid': submitted && f['cost'].errors}"
                       >
                     </div>
@@ -134,12 +126,10 @@
                         {{ 'INGREDIENTS.CREATE.FORM.PRICE_MAX' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.CREATE.FORM.PRICE_INSTRUCTIONS' | translate }}</small>
                   </div>
                 </div>
               </div>
 
-              <!-- Storage Tab -->
               <div class="tab-pane fade" id="storage" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-6">
@@ -162,7 +152,6 @@
                         {{ 'INGREDIENTS.CREATE.FORM.STOCK_QUANTITY_MAX' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.CREATE.FORM.STOCK_QUANTITY_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
@@ -185,7 +174,6 @@
                         {{ 'INGREDIENTS.CREATE.FORM.MIN_STOCK_LEVEL_MAX' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.CREATE.FORM.MIN_STOCK_LEVEL_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
@@ -208,7 +196,6 @@
                         {{ 'INGREDIENTS.CREATE.FORM.SUPPLIER_NAME_MAXLENGTH' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.CREATE.FORM.SUPPLIER_NAME_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
@@ -231,7 +218,6 @@
                         {{ 'INGREDIENTS.CREATE.FORM.ORIGIN_COUNTRY_MAXLENGTH' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.CREATE.FORM.ORIGIN_COUNTRY_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
@@ -246,7 +232,6 @@
                         {{ 'INGREDIENTS.CREATE.FORM.IS_PERISHABLE' | translate }}
                       </label>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.CREATE.FORM.IS_PERISHABLE_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-12">
@@ -269,7 +254,6 @@
                         {{ 'INGREDIENTS.CREATE.FORM.STORAGE_INSTRUCTIONS_MAXLENGTH' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.CREATE.FORM.STORAGE_INSTRUCTIONS_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
@@ -284,16 +268,14 @@
                         {{ 'INGREDIENTS.CREATE.FORM.IS_ACTIVE' | translate }}
                       </label>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.CREATE.FORM.IS_ACTIVE_INSTRUCTIONS' | translate }}</small>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Fixed bottom action buttons -->
             <div class="position-sticky bottom-0 bg-white pt-3 border-top mt-3">
               <div class="d-flex gap-2 justify-content-end">
-                <button type="button" class="btn btn-secondary" routerLink="/ingredients">
+                <button type="button" class="btn btn-secondary" [routerLink]="['/ingredients']">
                   {{ 'INGREDIENTS.CREATE.FORM.CANCEL' | translate }}
                 </button>
                 <button type="submit" class="btn btn-primary">
@@ -310,32 +292,109 @@
     <div class="col-md-3">
       <div class="card bg-light border-0 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title mb-3">
-            <i class="fas fa-lightbulb text-warning me-2"></i>
-            {{ 'INGREDIENTS.CREATE.TIPS.TITLE' | translate }}
+          <h5 class="card-title">
+            <i class="fas fa-question-circle me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.TITLE' | translate }}
           </h5>
-          <ul class="list-unstyled mb-0">
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              {{ 'INGREDIENTS.CREATE.TIPS.USE_CLEAR_NAMES' | translate }}
-            </li>
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              {{ 'INGREDIENTS.CREATE.TIPS.CHOOSE_UNIT' | translate }}
-            </li>
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              {{ 'INGREDIENTS.CREATE.TIPS.SET_COST' | translate }}
-            </li>
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              {{ 'INGREDIENTS.CREATE.TIPS.MAINTAIN_STOCK' | translate }}
-            </li>
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              {{ 'INGREDIENTS.CREATE.TIPS.INCLUDE_STORAGE_INSTRUCTIONS' | translate }}
-            </li>
-          </ul>
+          <hr>
+          
+          <p><i class="fas fa-check-circle text-success me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.REQUIRED_FIELDS' | translate }}</p>
+
+          <div class="accordion accordion-flush" id="helpAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#basicInfo">
+                  <i class="fas fa-info-circle me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.SECTIONS.BASIC_INFO' | translate }}
+                </button>
+              </h2>
+              <div id="basicInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.CREATE.FORM.NAME' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.name}}</p>
+                  </div>
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.CREATE.FORM.DESCRIPTION' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.description}}</p>
+                  </div>
+                  <div class="field-help">
+                    <strong>{{ 'INGREDIENTS.CREATE.FORM.UNIT' | translate }}:</strong>
+                    <p class="small text-muted mb-0">{{fieldInstructions.unit}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#stockInfo">
+                  <i class="fas fa-boxes me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.SECTIONS.COSTS_STOCK' | translate }}
+                </button>
+              </h2>
+              <div id="stockInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.CREATE.FORM.PRICE' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.cost}}</p>
+                  </div>
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.CREATE.FORM.STOCK_QUANTITY' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.stockQuantity}}</p>
+                  </div>
+                  <div class="field-help">
+                    <strong>{{ 'INGREDIENTS.CREATE.FORM.MIN_STOCK_LEVEL' | translate }}:</strong>
+                    <p class="small text-muted mb-0">{{fieldInstructions.minimumStockLevel}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#supplierInfo">
+                  <i class="fas fa-truck me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.SECTIONS.SUPPLIER_ORIGIN' | translate }}
+                </button>
+              </h2>
+              <div id="supplierInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.CREATE.FORM.SUPPLIER_NAME' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.supplierName}}</p>
+                  </div>
+                  <div class="field-help">
+                    <strong>{{ 'INGREDIENTS.CREATE.FORM.ORIGIN_COUNTRY' | translate }}:</strong>
+                    <p class="small text-muted mb-0">{{fieldInstructions.originCountry}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#storageInfo">
+                  <i class="fas fa-warehouse me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.SECTIONS.STORAGE' | translate }}
+                </button>
+              </h2>
+              <div id="storageInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.CREATE.FORM.IS_PERISHABLE' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.isPerishable}}</p>
+                  </div>
+                  <div class="field-help">
+                    <strong>{{ 'INGREDIENTS.CREATE.FORM.STORAGE_INSTRUCTIONS' | translate }}:</strong>
+                    <p class="small text-muted mb-0">{{fieldInstructions.storageInstructions}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="need-help mt-3">
+            <p class="small mb-0">
+              <i class="fas fa-info-circle me-2"></i>
+              {{ 'INGREDIENTS.CREATE.HELP.CONTACT_SUPPORT' | translate }}
+            </p>
+          </div>
         </div>
       </div>
     </div>

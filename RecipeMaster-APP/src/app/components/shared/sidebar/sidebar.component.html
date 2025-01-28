@@ -25,7 +25,8 @@
     <ul class="nav-links">
       <li *ngFor="let item of navItems" 
           [class.active]="isCurrentRoute(item.route)"
-          [routerLink]="item.route"
+          [routerLinkActive]="'active'"
+          [routerLink]="[item.route]"
           [title]="!isExpanded ? (item.translationKey | translate) : ''">
         <div class="nav-item">
           <i [class]="item.icon"></i>
@@ -60,11 +61,9 @@
       <i class="fab fa-instagram"></i>
       <span *ngIf="isExpanded">{{ 'SIDEBAR.INSTAGRAM' | translate }}</span>
     </a>
-    <button class="logout-btn" 
-            (click)="logout()" 
-            [title]="!isExpanded ? ('SIDEBAR.LOGOUT' | translate) : ''">
+    <button class="btn btn-outline-danger w-100 mt-2" (click)="logout()">
       <i class="fas fa-sign-out-alt"></i>
-      <span *ngIf="isExpanded">{{ 'SIDEBAR.LOGOUT' | translate }}</span>
+      <span *ngIf="isExpanded" class="ms-2">{{ 'SIDEBAR.LOGOUT' | translate }}</span>
     </button>
   </div>
 </nav>

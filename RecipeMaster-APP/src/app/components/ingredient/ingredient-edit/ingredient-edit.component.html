@@ -34,74 +34,65 @@
             </ul>
 
             <div class="tab-content" id="ingredientTabContent">
-              <!-- Basic Info Tab -->
               <div class="tab-pane fade show active" id="basic" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="name" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.NAME' | translate }}</label>
+                    <label for="name" class="form-label">{{ 'INGREDIENTS.EDIT.FORM.NAME' | translate }} *</label>
                     <input 
                       type="text" 
                       class="form-control" 
                       id="name" 
                       formControlName="name"
-                      [placeholder]="'INGREDIENTS.EDIT.FORM.NAME' | translate"
                       [ngClass]="{'is-invalid': submitted && f['name'].errors}"
                     >
                     <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
                       <div *ngIf="f['name'].errors['required']">
-                        {{ 'INGREDIENTS.EDIT.FORM.NAME_REQUIRED' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.NAME_REQUIRED' | translate }}
                       </div>
                       <div *ngIf="f['name'].errors['minlength']">
-                        {{ 'INGREDIENTS.EDIT.FORM.NAME_MINLENGTH' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.NAME_MINLENGTH' | translate }}
                       </div>
                       <div *ngIf="f['name'].errors['maxlength']">
-                        {{ 'INGREDIENTS.EDIT.FORM.NAME_MAXLENGTH' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.NAME_MAXLENGTH' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.NAME_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
-                    <label for="unit" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.UNIT' | translate }}</label>
-                    <select 
-                      class="form-select" 
-                      id="unit" 
-                      formControlName="unit"
-                      [ngClass]="{'is-invalid': submitted && f['unit'].errors}"
-                    >
-                      <option value="">{{ 'INGREDIENTS.EDIT.FORM.SELECT_UNIT' | translate }}</option>
-                      <option *ngFor="let unit of measurementUnits" [value]="unit">{{unit}}</option>
-                    </select>
-                    <div *ngIf="submitted && f['unit'].errors" class="invalid-feedback">
-                      <div *ngIf="f['unit'].errors['required']">
-                        {{ 'INGREDIENTS.EDIT.FORM.UNIT_REQUIRED' | translate }}
-                      </div>
-                    </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.UNIT_INSTRUCTIONS' | translate }}</small>
+                    <label for="unit" class="form-label">{{ 'INGREDIENTS.EDIT.FORM.UNIT' | translate }} *</label>
+                    <mat-form-field class="w-full">
+                      <mat-label>{{ 'INGREDIENTS.EDIT.FORM.UNIT' | translate }}</mat-label>
+                      <mat-select formControlName="unit">
+                        <mat-option *ngFor="let unit of units" [value]="unit.value">
+                          {{ 'INGREDIENTS.UNITS.' + unit.key | translate }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="ingredientForm.get('unit')?.errors?.['required']">
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.UNIT_REQUIRED' | translate }}
+                      </mat-error>
+                    </mat-form-field>
                   </div>
 
                   <div class="col-12">
-                    <label for="description" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION' | translate }}</label>
+                    <label for="description" class="form-label">{{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION' | translate }} *</label>
                     <textarea 
                       class="form-control" 
                       id="description" 
                       rows="3" 
                       formControlName="description"
-                      [placeholder]="'INGREDIENTS.EDIT.FORM.DESCRIPTION' | translate"
                       [ngClass]="{'is-invalid': submitted && f['description'].errors}"
                     ></textarea>
                     <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
                       <div *ngIf="f['description'].errors['required']">
-                        {{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION_REQUIRED' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.DESCRIPTION_REQUIRED' | translate }}
                       </div>
                       <div *ngIf="f['description'].errors['minlength']">
-                        {{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION_MINLENGTH' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.DESCRIPTION_MINLENGTH' | translate }}
                       </div>
                       <div *ngIf="f['description'].errors['maxlength']">
-                        {{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION_MAXLENGTH' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.DESCRIPTION_MAXLENGTH' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION_INSTRUCTIONS' | translate }}</small>
                   </div>
                 </div>
               </div>
@@ -110,40 +101,29 @@
               <div class="tab-pane fade" id="details" role="tabpanel">
                 <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="cost" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.PRICE' | translate }}</label>
+                    <label for="cost" class="form-label">{{ 'INGREDIENTS.EDIT.FORM.COST' | translate }} *</label>
                     <div class="input-group">
-                      <span class="input-group-text">$</span>
+                      <span class="input-group-text">R$</span>
                       <input 
                         type="number" 
                         class="form-control" 
                         id="cost" 
                         formControlName="cost"
-                        step="0.01"
-                        [placeholder]="'INGREDIENTS.EDIT.FORM.PRICE' | translate"
                         [ngClass]="{'is-invalid': submitted && f['cost'].errors}"
                       >
                     </div>
-                    <div *ngIf="submitted && f['cost'].errors" class="invalid-feedback">
+                    <div *ngIf="submitted && f['cost'].errors" class="invalid-feedback d-block">
                       <div *ngIf="f['cost'].errors['required']">
-                        {{ 'INGREDIENTS.EDIT.FORM.PRICE_REQUIRED' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.COST_REQUIRED' | translate }}
                       </div>
                       <div *ngIf="f['cost'].errors['min']">
-                        {{ 'INGREDIENTS.EDIT.FORM.PRICE_MIN' | translate }}
-                      </div>
-                      <div *ngIf="f['cost'].errors['max']">
-                        {{ 'INGREDIENTS.EDIT.FORM.PRICE_MAX' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.COST_MIN' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.PRICE_INSTRUCTIONS' | translate }}</small>
                   </div>
-                </div>
-              </div>
 
-              <!-- Storage Tab -->
-              <div class="tab-pane fade" id="storage" role="tabpanel">
-                <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="stockQuantity" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY' | translate }}</label>
+                    <label for="stockQuantity" class="form-label">{{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY' | translate }} *</label>
                     <input 
                       type="number" 
                       class="form-control" 
@@ -153,20 +133,16 @@
                     >
                     <div *ngIf="submitted && f['stockQuantity'].errors" class="invalid-feedback">
                       <div *ngIf="f['stockQuantity'].errors['required']">
-                        {{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY_REQUIRED' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.STOCK_QUANTITY_REQUIRED' | translate }}
                       </div>
                       <div *ngIf="f['stockQuantity'].errors['min']">
-                        {{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY_MIN' | translate }}
-                      </div>
-                      <div *ngIf="f['stockQuantity'].errors['max']">
-                        {{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY_MAX' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.STOCK_QUANTITY_MIN' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
-                    <label for="minimumStockLevel" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.MIN_STOCK_LEVEL' | translate }}</label>
+                    <label for="minimumStockLevel" class="form-label">{{ 'INGREDIENTS.EDIT.FORM.MINIMUM_STOCK' | translate }} *</label>
                     <input 
                       type="number" 
                       class="form-control" 
@@ -176,20 +152,16 @@
                     >
                     <div *ngIf="submitted && f['minimumStockLevel'].errors" class="invalid-feedback">
                       <div *ngIf="f['minimumStockLevel'].errors['required']">
-                        {{ 'INGREDIENTS.EDIT.FORM.MIN_STOCK_LEVEL_REQUIRED' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.MINIMUM_STOCK_REQUIRED' | translate }}
                       </div>
                       <div *ngIf="f['minimumStockLevel'].errors['min']">
-                        {{ 'INGREDIENTS.EDIT.FORM.MIN_STOCK_LEVEL_MIN' | translate }}
-                      </div>
-                      <div *ngIf="f['minimumStockLevel'].errors['max']">
-                        {{ 'INGREDIENTS.EDIT.FORM.MIN_STOCK_LEVEL_MAX' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.MINIMUM_STOCK_MIN' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.MIN_STOCK_LEVEL_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
-                    <label for="supplierName" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.SUPPLIER_NAME' | translate }}</label>
+                    <label for="supplierName" class="form-label">{{ 'INGREDIENTS.EDIT.FORM.SUPPLIER' | translate }}</label>
                     <input 
                       type="text" 
                       class="form-control" 
@@ -198,21 +170,19 @@
                       [ngClass]="{'is-invalid': submitted && f['supplierName'].errors}"
                     >
                     <div *ngIf="submitted && f['supplierName'].errors" class="invalid-feedback">
-                      <div *ngIf="f['supplierName'].errors['required']">
-                        {{ 'INGREDIENTS.EDIT.FORM.SUPPLIER_NAME_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['supplierName'].errors['minlength']">
-                        {{ 'INGREDIENTS.EDIT.FORM.SUPPLIER_NAME_MINLENGTH' | translate }}
-                      </div>
                       <div *ngIf="f['supplierName'].errors['maxlength']">
-                        {{ 'INGREDIENTS.EDIT.FORM.SUPPLIER_NAME_MAXLENGTH' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.SUPPLIER_MAXLENGTH' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.SUPPLIER_NAME_INSTRUCTIONS' | translate }}</small>
                   </div>
+                </div>
+              </div>
 
+              <!-- Storage Tab -->
+              <div class="tab-pane fade" id="storage" role="tabpanel">
+                <div class="row g-3">
                   <div class="col-md-6">
-                    <label for="originCountry" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.ORIGIN_COUNTRY' | translate }}</label>
+                    <label for="originCountry" class="form-label">{{ 'INGREDIENTS.EDIT.FORM.ORIGIN' | translate }}</label>
                     <input 
                       type="text" 
                       class="form-control" 
@@ -221,24 +191,33 @@
                       [ngClass]="{'is-invalid': submitted && f['originCountry'].errors}"
                     >
                     <div *ngIf="submitted && f['originCountry'].errors" class="invalid-feedback">
-                      <div *ngIf="f['originCountry'].errors['required']">
-                        {{ 'INGREDIENTS.EDIT.FORM.ORIGIN_COUNTRY_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['originCountry'].errors['minlength']">
-                        {{ 'INGREDIENTS.EDIT.FORM.ORIGIN_COUNTRY_MINLENGTH' | translate }}
-                      </div>
                       <div *ngIf="f['originCountry'].errors['maxlength']">
-                        {{ 'INGREDIENTS.EDIT.FORM.ORIGIN_COUNTRY_MAXLENGTH' | translate }}
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.ORIGIN_MAXLENGTH' | translate }}
                       </div>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.ORIGIN_COUNTRY_INSTRUCTIONS' | translate }}</small>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="storageInstructions" class="form-label">{{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS' | translate }}</label>
+                    <textarea 
+                      class="form-control" 
+                      id="storageInstructions" 
+                      rows="3" 
+                      formControlName="storageInstructions"
+                      [ngClass]="{'is-invalid': submitted && f['storageInstructions'].errors}"
+                    ></textarea>
+                    <div *ngIf="submitted && f['storageInstructions'].errors" class="invalid-feedback">
+                      <div *ngIf="f['storageInstructions'].errors['maxlength']">
+                        {{ 'INGREDIENTS.EDIT.VALIDATION.STORAGE_INSTRUCTIONS_MAXLENGTH' | translate }}
+                      </div>
+                    </div>
                   </div>
 
                   <div class="col-md-6">
                     <div class="form-check form-switch">
                       <input 
-                        class="form-check-input" 
                         type="checkbox" 
+                        class="form-check-input" 
                         id="isPerishable" 
                         formControlName="isPerishable"
                       >
@@ -246,37 +225,13 @@
                         {{ 'INGREDIENTS.EDIT.FORM.IS_PERISHABLE' | translate }}
                       </label>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.IS_PERISHABLE_INSTRUCTIONS' | translate }}</small>
-                  </div>
-
-                  <div class="col-12">
-                    <label for="storageInstructions" class="form-label fw-bold">{{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS' | translate }}</label>
-                    <textarea 
-                      class="form-control" 
-                      id="storageInstructions" 
-                      rows="2" 
-                      formControlName="storageInstructions"
-                      [ngClass]="{'is-invalid': submitted && f['storageInstructions'].errors}"
-                    ></textarea>
-                    <div *ngIf="submitted && f['storageInstructions'].errors" class="invalid-feedback">
-                      <div *ngIf="f['storageInstructions'].errors['required']">
-                        {{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['storageInstructions'].errors['minlength']">
-                        {{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS_MINLENGTH' | translate }}
-                      </div>
-                      <div *ngIf="f['storageInstructions'].errors['maxlength']">
-                        {{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS_MAXLENGTH' | translate }}
-                      </div>
-                    </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS_INSTRUCTIONS' | translate }}</small>
                   </div>
 
                   <div class="col-md-6">
                     <div class="form-check form-switch">
                       <input 
-                        class="form-check-input" 
                         type="checkbox" 
+                        class="form-check-input" 
                         id="isActive" 
                         formControlName="isActive"
                       >
@@ -284,7 +239,6 @@
                         {{ 'INGREDIENTS.EDIT.FORM.IS_ACTIVE' | translate }}
                       </label>
                     </div>
-                    <small class="text-muted">{{ 'INGREDIENTS.EDIT.FORM.IS_ACTIVE_INSTRUCTIONS' | translate }}</small>
                   </div>
                 </div>
               </div>
@@ -311,32 +265,113 @@
     <div class="col-md-3">
       <div class="card bg-light border-0 shadow-sm">
         <div class="card-body">
-          <h5 class="card-title mb-3">
-            <i class="fas fa-lightbulb text-warning me-2"></i>
-            {{ 'INGREDIENTS.EDIT.TIPS.TITLE' | translate }}
+          <h5 class="card-title">
+            <i class="fas fa-question-circle me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.TITLE' | translate }}
           </h5>
-          <ul class="list-unstyled mb-0">
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              {{ 'INGREDIENTS.EDIT.TIPS.REVIEW_NAME' | translate }}
-            </li>
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              {{ 'INGREDIENTS.EDIT.TIPS.VERIFY_UNIT' | translate }}
-            </li>
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              {{ 'INGREDIENTS.EDIT.TIPS.UPDATE_COST' | translate }}
-            </li>
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              {{ 'INGREDIENTS.EDIT.TIPS.MAINTAIN_STOCK' | translate }}
-            </li>
-            <li class="mb-2">
-              <i class="fas fa-check-circle text-success me-2"></i>
-              {{ 'INGREDIENTS.EDIT.TIPS.CHECK_STORAGE' | translate }}
-            </li>
-          </ul>
+          <hr>
+          
+          <p><i class="fas fa-check-circle text-success me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.REQUIRED_FIELDS' | translate }}</p>
+
+          <div class="accordion accordion-flush" id="helpAccordion">
+            <!-- Informações Básicas -->
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#basicInfo">
+                  <i class="fas fa-info-circle me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.SECTIONS.BASIC_INFO' | translate }}
+                </button>
+              </h2>
+              <div id="basicInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.EDIT.FORM.NAME' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.name}}</p>
+                  </div>
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.EDIT.FORM.DESCRIPTION' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.description}}</p>
+                  </div>
+                  <div class="field-help">
+                    <strong>{{ 'INGREDIENTS.EDIT.FORM.UNIT' | translate }}:</strong>
+                    <p class="small text-muted mb-0">{{fieldInstructions.unit}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Custos e Estoque -->
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#stockInfo">
+                  <i class="fas fa-boxes me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.SECTIONS.COSTS_STOCK' | translate }}
+                </button>
+              </h2>
+              <div id="stockInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.EDIT.FORM.COST' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.cost}}</p>
+                  </div>
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.EDIT.FORM.STOCK_QUANTITY' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.stockQuantity}}</p>
+                  </div>
+                  <div class="field-help">
+                    <strong>{{ 'INGREDIENTS.EDIT.FORM.MINIMUM_STOCK' | translate }}:</strong>
+                    <p class="small text-muted mb-0">{{fieldInstructions.minimumStockLevel}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Fornecedor e Origem -->
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#supplierInfo">
+                  <i class="fas fa-truck me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.SECTIONS.SUPPLIER_ORIGIN' | translate }}
+                </button>
+              </h2>
+              <div id="supplierInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.EDIT.FORM.SUPPLIER' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.supplierName}}</p>
+                  </div>
+                  <div class="field-help">
+                    <strong>{{ 'INGREDIENTS.EDIT.FORM.ORIGIN' | translate }}:</strong>
+                    <p class="small text-muted mb-0">{{fieldInstructions.originCountry}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Armazenamento -->
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#storageInfo">
+                  <i class="fas fa-warehouse me-2"></i>{{ 'INGREDIENTS.FORM.HELP_TEXTS.SECTIONS.STORAGE' | translate }}
+                </button>
+              </h2>
+              <div id="storageInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+                <div class="accordion-body">
+                  <div class="field-help mb-2">
+                    <strong>{{ 'INGREDIENTS.EDIT.FORM.IS_PERISHABLE' | translate }}:</strong>
+                    <p class="small text-muted mb-2">{{fieldInstructions.isPerishable}}</p>
+                  </div>
+                  <div class="field-help">
+                    <strong>{{ 'INGREDIENTS.EDIT.FORM.STORAGE_INSTRUCTIONS' | translate }}:</strong>
+                    <p class="small text-muted mb-0">{{fieldInstructions.storageInstructions}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="need-help mt-3">
+            <p class="small mb-0">
+              <i class="fas fa-info-circle me-2"></i>
+              {{ 'INGREDIENTS.EDIT.HELP.CONTACT_SUPPORT' | translate }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
