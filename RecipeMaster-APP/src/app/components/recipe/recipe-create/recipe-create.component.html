@@ -64,7 +64,7 @@
                     >
                       <option value="">{{ 'RECIPES.CREATE.FORM.DIFFICULTY_SELECT' | translate }}</option>
                       <option *ngFor="let level of difficultyLevels" [value]="level">
-                        {{ 'RECIPES.CREATE.FORM.DIFFICULTY_LEVELS.' + level.toUpperCase() | translate }}
+                        {{ 'RECIPES.CREATE.FORM.DIFFICULTY_LEVELS.' + level.key | translate }}
                       </option>
                     </select>
                     <div *ngIf="submitted && f['difficulty'].errors" class="invalid-feedback">
