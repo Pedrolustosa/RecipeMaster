@@ -1,6 +1,8 @@
 {
   "APP_NAME": "RecipeMaster",
   "COMMON": {
+    "SUCCESS": "Sucesso",
+    "ERROR": "Erro",
     "VALIDATION": {
       "REQUIRED": "Este campo é obrigatório",
       "MIN_LENGTH": "Mínimo de {{value}} caracteres",
@@ -15,7 +17,9 @@
       "UPDATE": "Atualizar",
       "DELETE": "Excluir",
       "ADD": "Adicionar"
-    }
+    },
+    "STATUS": "Status",
+    "ACTIONS": "Ações"
   },
   "SIDEBAR": {
     "MENU": "Menu",
@@ -45,7 +49,15 @@
         "UNIT": "Unidade",
         "COST": "Custo",
         "STOCK": "Estoque",
+        "SUPPLIER": "Fornecedor",
+        "STATUS": "Status",
         "ACTIONS": "Ações"
+      },
+      "DELETE_MODAL": {
+        "TITLE": "Confirmar Exclusão",
+        "MESSAGE": "Tem certeza que deseja excluir este ingrediente?",
+        "CONFIRM": "Sim, Excluir",
+        "CANCEL": "Cancelar"
       }
     },
     "UNITS": {
@@ -78,23 +90,10 @@
         "IS_PERISHABLE": "Perecível",
         "IS_ACTIVE": "Ativo"
       },
-      "VALIDATION": {
-        "NAME_REQUIRED": "Nome é obrigatório",
-        "NAME_MINLENGTH": "Nome deve ter no mínimo 3 caracteres",
-        "NAME_MAXLENGTH": "Nome deve ter no máximo 50 caracteres",
-        "UNIT_REQUIRED": "Unidade de medida é obrigatória",
-        "DESCRIPTION_REQUIRED": "Descrição é obrigatória",
-        "DESCRIPTION_MINLENGTH": "Descrição deve ter no mínimo 10 caracteres",
-        "DESCRIPTION_MAXLENGTH": "Descrição deve ter no máximo 500 caracteres",
-        "COST_REQUIRED": "Custo é obrigatório",
-        "COST_MIN": "Custo deve ser maior que zero",
-        "STOCK_QUANTITY_REQUIRED": "Quantidade em estoque é obrigatória",
-        "STOCK_QUANTITY_MIN": "Quantidade em estoque deve ser maior ou igual a zero",
-        "MINIMUM_STOCK_REQUIRED": "Estoque mínimo é obrigatório",
-        "MINIMUM_STOCK_MIN": "Estoque mínimo deve ser maior que zero",
-        "SUPPLIER_MAXLENGTH": "Nome do fornecedor deve ter no máximo 100 caracteres",
-        "ORIGIN_MAXLENGTH": "País de origem deve ter no máximo 50 caracteres",
-        "STORAGE_INSTRUCTIONS_MAXLENGTH": "Instruções de armazenamento devem ter no máximo 500 caracteres"
+      "MESSAGES": {
+        "UPDATE_SUCCESS": "Ingrediente atualizado com sucesso",
+        "CREATE_SUCCESS": "Ingrediente criado com sucesso",
+        "ERROR": "Ocorreu um erro ao salvar o ingrediente"
       }
     },
     "CREATE": {

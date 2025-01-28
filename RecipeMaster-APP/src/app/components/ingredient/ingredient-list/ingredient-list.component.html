@@ -23,12 +23,8 @@
         <span class="input-group-text bg-white border-end-0">
           <i class="fas fa-search text-muted"></i>
         </span>
-        <input
-          type="text"
-          class="form-control border-start-0 ps-0"
-          [(ngModel)]="searchTerm"
-          [placeholder]="'INGREDIENTS.LIST.SEARCH_PLACEHOLDER' | translate"
-        >
+        <input type="text" class="form-control border-start-0 ps-0" [(ngModel)]="searchTerm"
+          [placeholder]="'INGREDIENTS.LIST.SEARCH_PLACEHOLDER' | translate">
       </div>
     </div>
   </div>
@@ -36,13 +32,13 @@
   <!-- Table Section -->
   <div class="row">
     <div class="col">
-      <div class="card shadow-sm">
-        <div class="card-body p-0">
+      <div class="card shadow-sm mb-3">
+        <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-hover align-middle mb-1">
+            <table class="table table-hover align-middle">
               <thead class="table-light">
                 <tr>
-                  <th scope="col" class="cursor-pointer py-3" (click)="sortIngredients('name')">
+                  <th scope="col" class="cursor-pointer " (click)="sortIngredients('name')">
                     <div class="d-flex align-items-center">
                       <span>{{ 'INGREDIENTS.LIST.TABLE.NAME' | translate }}</span>
                       <i class="fas ms-2" [ngClass]="{
@@ -93,32 +89,30 @@
                     </div>
                   </th>
                   <th scope="col" class="text-center py-1">{{ 'COMMON.STATUS' | translate }}</th>
-                  <th scope="col" class="text-end py-3" style="min-width: 140px;">{{ 'COMMON.ACTIONS' | translate }}</th>
+                  <th scope="col" class="text-end " style="min-width: 140px;">{{ 'COMMON.ACTIONS' | translate }}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let ingredient of paginatedIngredients">
-                  <td class="py-3">
+                  <td class="">
                     <div>
                       <span class="fw-medium">{{ ingredient.name }}</span>
                     </div>
                   </td>
-                  <td class="py-3">
-                    <span class="badge bg-light text-dark">{{ 'INGREDIENTS.UNITS.' + ingredient.unit | translate }}</span>
+                  <td class="">
+                    <span class="badge bg-light text-dark">{{ 'INGREDIENTS.UNITS.' + ingredient.unit | translate
+                      }}</span>
                   </td>
-                  <td class="py-3">
+                  <td class="">
                     <span class="text-success fw-medium">{{ ingredient.cost | currency:'BRL' }}</span>
                   </td>
                   <td>
                     <div class="d-flex flex-column">
                       <div class="progress" style="height: 8px;">
-                        <div class="progress-bar" 
-                             [ngClass]="getStockLevelClass(ingredient)"
-                             [style.width.%]="getStockPercentage(ingredient)"
-                             role="progressbar"
-                             [attr.aria-valuenow]="ingredient.stockQuantity"
-                             [attr.aria-valuemin]="0"
-                             [attr.aria-valuemax]="ingredient.minimumStockLevel">
+                        <div class="progress-bar" [ngClass]="getStockLevelClass(ingredient)"
+                          [style.width.%]="getStockPercentage(ingredient)" role="progressbar"
+                          [attr.aria-valuenow]="ingredient.stockQuantity" [attr.aria-valuemin]="0"
+                          [attr.aria-valuemax]="ingredient.minimumStockLevel">
                         </div>
                       </div>
                       <div class="d-flex justify-content-between mt-1">
@@ -127,31 +121,28 @@
                       </div>
                     </div>
                   </td>
-                  <td class="py-3">
+                  <td class="">
                     <span class="text-muted">{{ ingredient.supplierName }}</span>
                   </td>
-                  <td class="text-center py-3">
+                  <td class="text-center ">
                     <div class="d-flex flex-column align-items-center">
                       <span class="badge" [ngClass]="{
                         'bg-success': ingredient.isActive,
                         'bg-danger': !ingredient.isActive
-                      }">{{ ingredient.isActive ? ('INGREDIENTS.EDIT.FORM.IS_ACTIVE' | translate) : ('INGREDIENTS.EDIT.FORM.IS_INACTIVE' | translate) }}</span>
-                      <span *ngIf="ingredient.isPerishable" class="badge bg-warning mt-1">{{ 'INGREDIENTS.EDIT.FORM.IS_PERISHABLE' | translate }}</span>
+                      }">{{ ingredient.isActive ? ('INGREDIENTS.EDIT.FORM.IS_ACTIVE' | translate) :
+                        ('INGREDIENTS.EDIT.FORM.IS_INACTIVE' | translate) }}</span>
+                      <span *ngIf="ingredient.isPerishable" class="badge bg-warning mt-1">{{
+                        'INGREDIENTS.EDIT.FORM.IS_PERISHABLE' | translate }}</span>
                     </div>
                   </td>
                   <td>
                     <div class="d-flex gap-2 justify-content-end">
-                      <button 
-                        class="btn btn-sm btn-outline-primary" 
-                        [routerLink]="['edit', ingredient.id]"
+                      <button class="btn btn-sm btn-outline-primary" [routerLink]="['edit', ingredient.id]"
                         [title]="'COMMON.BUTTONS.UPDATE' | translate">
                         <i class="fas fa-edit"></i>
                       </button>
-                      <button 
-                        class="btn btn-sm btn-outline-danger" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#deleteConfirmationModal"
-                        (click)="selectIngredient(ingredient)"
+                      <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                        data-bs-target="#deleteConfirmationModal" (click)="selectIngredient(ingredient)"
                         [title]="'COMMON.BUTTONS.DELETE' | translate">
                         <i class="fas fa-trash"></i>
                       </button>
@@ -179,11 +170,13 @@
   </div>
 
   <!-- Delete Confirmation Modal -->
-  <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+  <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" aria-labelledby="deleteConfirmationModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header border-bottom-0">
-          <h5 class="modal-title" id="deleteConfirmationModalLabel">{{ 'INGREDIENTS.LIST.DELETE_MODAL.TITLE' | translate }}</h5>
+          <h5 class="modal-title" id="deleteConfirmationModalLabel">{{ 'INGREDIENTS.LIST.DELETE_MODAL.TITLE' | translate
+            }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body py-4">
