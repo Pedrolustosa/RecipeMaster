@@ -60,20 +60,17 @@
 
                   <div class="col-md-6">
                     <label for="unit" class="form-label">{{ 'INGREDIENTS.EDIT.FORM.UNIT' | translate }} *</label>
-                    <select 
-                      class="form-select" 
-                      id="unit" 
-                      formControlName="unit"
-                      [ngClass]="{'is-invalid': submitted && f['unit'].errors}"
-                    >
-                      <option value="">{{ 'INGREDIENTS.EDIT.FORM.UNIT_SELECT' | translate }}</option>
-                      <option *ngFor="let unit of measurementUnits" [value]="unit">{{ 'INGREDIENTS.UNITS.' + unit | translate }}</option>
-                    </select>
-                    <div *ngIf="submitted && f['unit'].errors" class="invalid-feedback">
-                      <div *ngIf="f['unit'].errors['required']">
+                    <mat-form-field class="w-full">
+                      <mat-label>{{ 'INGREDIENTS.EDIT.FORM.UNIT' | translate }}</mat-label>
+                      <mat-select formControlName="unit">
+                        <mat-option *ngFor="let unit of units" [value]="unit.value">
+                          {{ 'INGREDIENTS.UNITS.' + unit.key | translate }}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="ingredientForm.get('unit')?.errors?.['required']">
                         {{ 'INGREDIENTS.EDIT.VALIDATION.UNIT_REQUIRED' | translate }}
-                      </div>
-                    </div>
+                      </mat-error>
+                    </mat-form-field>
                   </div>
 
                   <div class="col-12">

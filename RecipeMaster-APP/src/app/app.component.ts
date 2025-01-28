@@ -25,17 +25,9 @@ export class AppComponent {
     private router: Router,
     private translate: TranslateService
   ) {
-    // Configurar idiomas disponíveis
     translate.addLangs(['pt', 'en']);
-    
-    // Definir idioma padrão
     translate.setDefaultLang('pt');
-    
-    // Obter o idioma do navegador
-    const browserLang = translate.getBrowserLang();
-    
-    // Usar o idioma do navegador se disponível, senão usar o padrão
-    translate.use(browserLang?.match(/pt|en/) ? browserLang : 'pt');
+    translate.use('pt');
   }
 
   onSidebarToggle(isExpanded: boolean): void {
@@ -43,7 +35,6 @@ export class AppComponent {
   }
 
   shouldShowSidebar(): boolean {
-    const publicRoutes = ['/login', '/register'];
-    return !publicRoutes.some(route => this.router.url.includes(route));
+    return !['/login', '/register'].includes(this.router.url);
   }
 }

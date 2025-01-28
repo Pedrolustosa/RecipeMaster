@@ -51,16 +51,9 @@ export class SidebarComponent implements OnInit {
       this.currentUser = user;
     });
     
-    // Configurar idiomas disponíveis
     this.translate.addLangs(['pt', 'en']);
-    
-    // Definir idioma padrão
     this.translate.setDefaultLang('pt');
-    
-    // Obter o idioma do navegador
     const browserLang = this.translate.getBrowserLang();
-    
-    // Usar o idioma do navegador se disponível, senão usar o padrão
     this.translate.use(browserLang?.match(/pt|en/) ? browserLang : 'pt');
   }
 
@@ -79,7 +72,7 @@ export class SidebarComponent implements OnInit {
   }
 
   isCurrentRoute(route: string): boolean {
-    return this.router.url === route;
+    return this.router.url.startsWith(route);
   }
 
   logout(): void {
