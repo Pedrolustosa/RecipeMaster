@@ -21,15 +21,22 @@ export class IngredientEditComponent implements OnInit {
   submitted = false;
   isLoading = false;
   originalIngredient: Ingredient | null = null;
-  units = [
-    { key: 'KG', value: 'kg' },
-    { key: 'G', value: 'g' },
-    { key: 'L', value: 'l' },
-    { key: 'ML', value: 'ml' },
-    { key: 'UNIT', value: 'unit' },
-    { key: 'DOZEN', value: 'dozen' }
-  ];
-  fieldInstructions: any = {};
+  measurementUnits = Object.values(MeasurementUnit);
+
+  // Field instructions
+  fieldInstructions = {
+    name: 'Enter a unique, descriptive name for the ingredient (e.g., "Fresh Organic Tomatoes", "All-Purpose Flour")',
+    description: 'Provide details about the ingredient including variety, quality, or special characteristics (e.g., "Premium grade Italian tomatoes, perfect for sauces")',
+    unit: 'Select the most appropriate measurement unit for this ingredient. Consider how it will be used in recipes',
+    cost: 'Enter the average cost per unit (e.g., cost per kg, per unit). Use current market prices',
+    stockQuantity: 'Enter the current quantity available in stock. This helps track inventory levels and plan purchases',
+    minimumStockLevel: 'Set the minimum quantity that should be maintained in stock. You will be alerted when stock falls below this level',
+    supplierName: 'Enter the name of your preferred supplier for this ingredient. This helps with reordering and maintaining supplier relationships',
+    isPerishable: 'Check if this ingredient has a limited shelf life and requires special storage',
+    originCountry: 'Enter the country where this ingredient typically comes from (e.g., "Italy" for specific olive oils)',
+    storageInstructions: 'Specify how to properly store this ingredient (e.g., "Store in a cool, dry place" or "Refrigerate after opening")',
+    isActive: 'Indicate if this ingredient is currently available for use in recipes'
+  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,7 +47,6 @@ export class IngredientEditComponent implements OnInit {
     private translate: TranslateService
   ) {
     this.initForm();
-    this.initFieldInstructions();
   }
 
   private initForm(): void {
@@ -100,22 +106,6 @@ export class IngredientEditComponent implements OnInit {
       }
       storageControl?.updateValueAndValidity();
     });
-  }
-
-  private initFieldInstructions(): void {
-    this.fieldInstructions = {
-      name: 'Digite um nome claro e específico para o ingrediente (ex: "Farinha de Trigo Integral", "Açúcar Refinado")',
-      description: 'Forneça uma descrição detalhada do ingrediente, incluindo características importantes como marca, tipo ou qualidade',
-      unit: 'Escolha a unidade de medida apropriada (ex: gramas, quilos, litros)',
-      cost: 'Informe o custo por unidade do ingrediente. Este valor será usado para calcular o custo das receitas',
-      stockQuantity: 'Quantidade atual disponível em estoque. Mantenha este valor atualizado para controle de inventário',
-      minimumStockLevel: 'Nível mínimo de estoque antes de precisar reabastecer. Ajuda a evitar falta de ingredientes',
-      supplierName: 'Nome do fornecedor principal deste ingrediente. Importante para rastreabilidade e reposição',
-      isPerishable: 'Indique se o ingrediente é perecível. Isso ajuda no controle de validade e armazenamento',
-      originCountry: 'País de origem do ingrediente. Útil para controle de qualidade e rastreabilidade',
-      storageInstructions: 'Instruções específicas de como armazenar o ingrediente (ex: "Manter refrigerado", "Armazenar em local seco")',
-      isActive: 'Indica se o ingrediente está ativo para uso em receitas'
-    };
   }
 
   ngOnInit(): void {

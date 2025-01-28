@@ -18,7 +18,7 @@ declare var bootstrap: any;
 })
 export class IngredientListComponent implements OnInit {
   ingredients: Ingredient[] = [];
-  searchTerm: string = '';
+  searchTerm = '';
   sortColumn = 'name';
   sortDirection = 'asc';
   currentPage = 1;
@@ -108,11 +108,6 @@ export class IngredientListComponent implements OnInit {
     });
   }
 
-  onSearch(): void {
-    // Implement search logic here
-    this.loadIngredients();
-  }
-
   sortIngredients(column: keyof Ingredient): void {
     if (this.sortColumn === column) {
       this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
@@ -158,13 +153,12 @@ export class IngredientListComponent implements OnInit {
 
   getStockLevelClass(ingredient: Ingredient): string {
     const stockPercentage = (ingredient.stockQuantity / ingredient.minimumStockLevel) * 100;
-    
-    if (stockPercentage <= 50) {
-      return 'bg-danger'; // Vermelho para estoque crítico
-    } else if (stockPercentage <= 80) {
-      return 'bg-warning'; // Amarelo para estoque baixo
+    if (stockPercentage <= 30) {
+      return 'bg-danger';
+    } else if (stockPercentage <= 65) {
+      return 'bg-warning';
     } else {
-      return 'bg-success'; // Verde para estoque adequado
+      return 'bg-success';
     }
   }
 
