@@ -40,18 +40,16 @@
   </div>
 
   <div class="sidebar-footer">
-    <div class="language-switcher" *ngIf="isExpanded">
-      <button type="button" 
-              (click)="translate.use('pt')" 
-              class="btn btn-sm btn-outline-secondary me-2"
+    <div class="language-switcher">
+      <button (click)="translate.use('pt')" 
+              class="btn btn-sm text-dark me-2"
               [class.active]="translate.currentLang === 'pt'">
-        PT
+        <span class="flag-icon flag-br"></span>
       </button>
-      <button type="button" 
-              (click)="translate.use('en')" 
-              class="btn btn-sm btn-outline-secondary"
+      <button (click)="translate.use('en')" 
+              class="btn btn-sm text-dark"
               [class.active]="translate.currentLang === 'en'">
-        EN
+        <span class="flag-icon flag-en"></span>
       </button>
     </div>
     <a href="https://www.instagram.com/vivaconfeitariaa?igsh=NXNvbzJlbzljMzlj" 

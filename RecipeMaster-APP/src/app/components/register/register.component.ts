@@ -27,6 +27,7 @@ export class RegisterComponent {
   errorMessage: string = '';
   loading: boolean = false;
   showPassword: boolean = false;
+  currentLang!: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -97,5 +98,10 @@ export class RegisterComponent {
     }
 
     return '';
+  }
+
+  switchLanguage(lang: string) {
+    this.currentLang = "pt";
+    this.translate.use(lang);
   }
 }

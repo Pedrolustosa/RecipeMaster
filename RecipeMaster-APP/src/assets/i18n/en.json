@@ -377,6 +377,13 @@
     }
   },
   "AUTH": {
+    "LOGIN": {
+      "SUBTITLE": "Access your virtual kitchen and manage your recipes",
+      "DONT_HAVE_ACCOUNT": "Don't have an account?",
+      "LOGIN_LINK": "Login",
+      "REGISTER_HERE": "Register here",
+      "SIGN_IN": "Sign In"
+    },
     "REGISTER": {
       "TITLE": "Create Account",
       "FORM": {
