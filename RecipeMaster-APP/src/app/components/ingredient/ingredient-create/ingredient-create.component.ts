@@ -5,7 +5,6 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { IngredientService } from '../../../services/ingredient.service';
-import { CreateIngredientCommand } from '../../../models/ingredient.model';
 import { MeasurementUnit } from '../../../models/measurement-unit.enum';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { firstValueFrom } from 'rxjs';
@@ -96,17 +95,17 @@ export class IngredientCreateComponent implements OnInit {
 
   private initFieldInstructions(): void {
     this.fieldInstructions = {
-      name: 'Digite um nome claro e específico para o ingrediente (ex: "Farinha de Trigo Integral", "Açúcar Refinado")',
-      description: 'Forneça uma descrição detalhada do ingrediente, incluindo características importantes como marca, tipo ou qualidade',
-      unit: 'Escolha a unidade de medida apropriada (ex: gramas, quilos, litros)',
-      cost: 'Informe o custo por unidade do ingrediente. Este valor será usado para calcular o custo das receitas',
-      stockQuantity: 'Quantidade atual disponível em estoque. Mantenha este valor atualizado para controle de inventário',
-      minimumStockLevel: 'Nível mínimo de estoque antes de precisar reabastecer. Ajuda a evitar falta de ingredientes',
-      supplierName: 'Nome do fornecedor principal deste ingrediente. Importante para rastreabilidade e reposição',
-      isPerishable: 'Indique se o ingrediente é perecível. Isso ajuda no controle de validade e armazenamento',
-      originCountry: 'País de origem do ingrediente. Útil para controle de qualidade e rastreabilidade',
-      storageInstructions: 'Instruções específicas de como armazenar o ingrediente (ex: "Manter refrigerado", "Armazenar em local seco")',
-      isActive: 'Indica se o ingrediente está ativo para uso em receitas'
+      name: this.translate.instant('INGREDIENTS.CREATE.FORM.FIELD_INSTRUCTIONS.NAME.HELP'),
+      description: this.translate.instant('INGREDIENTS.CREATE.FORM.FIELD_INSTRUCTIONS.DESCRIPTION.HELP'),
+      unit: this.translate.instant('INGREDIENTS.CREATE.FORM.FIELD_INSTRUCTIONS.UNIT.HELP'),
+      cost: this.translate.instant('INGREDIENTS.CREATE.FORM.FIELD_INSTRUCTIONS.COST.HELP'),
+      stockQuantity: this.translate.instant('INGREDIENTS.CREATE.FORM.FIELD_INSTRUCTIONS.STOCK_QUANTITY.HELP'),
+      minimumStockLevel: this.translate.instant('INGREDIENTS.CREATE.FORM.FIELD_INSTRUCTIONS.MINIMUM_STOCK_LEVEL.HELP'),
+      supplierName: this.translate.instant('INGREDIENTS.CREATE.FORM.FIELD_INSTRUCTIONS.SUPPLIER_NAME.HELP'),
+      isPerishable: this.translate.instant('INGREDIENTS.CREATE.FORM.FIELD_INSTRUCTIONS.IS_PERISHABLE.HELP'),
+      originCountry: this.translate.instant('INGREDIENTS.CREATE.FORM.FIELD_INSTRUCTIONS.ORIGIN_COUNTRY.HELP'),
+      storageInstructions: this.translate.instant('INGREDIENTS.CREATE.FORM.FIELD_INSTRUCTIONS.STORAGE_INSTRUCTIONS.HELP'),
+      isActive: this.translate.instant('INGREDIENTS.CREATE.FORM.FIELD_INSTRUCTIONS.IS_ACTIVE.HELP')
     };
   }
 
