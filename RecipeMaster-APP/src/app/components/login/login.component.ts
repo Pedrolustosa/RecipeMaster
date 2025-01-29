@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   isLoading = false;
   showPassword = false;
-  currentLang = 'pt';
+  currentLang!: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,10 +35,7 @@ export class LoginComponent implements OnInit {
     private toastr: ToastrService,
     private authService: AuthService,
     private translate: TranslateService
-  ) {
-    translate.setDefaultLang('pt');
-    translate.use('pt');
-  }
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -119,7 +116,7 @@ export class LoginComponent implements OnInit {
   }
 
   switchLanguage(lang: string) {
-    this.currentLang = lang;
+    this.currentLang = "pt";
     this.translate.use(lang);
   }
 }

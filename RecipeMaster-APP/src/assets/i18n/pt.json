@@ -415,8 +415,15 @@
     }
   },
   "AUTH": {
+    "LOGIN": {
+      "SUBTITLE": "Acesse sua cozinha virtual e gerencie suas receitas",
+      "DONT_HAVE_ACCOUNT": "Não tem uma conta?",
+      "LOGIN_LINK": "Entrar",
+      "REGISTER_HERE": "Cadastrar aqui",
+      "SIGN_IN": "Entrar"
+    },
     "REGISTER": {
-      "TITLE": "Criar Conta",
+      "TITLE": "Acesse sua cozinha virtual e gerencie suas receitas",
       "FORM": {
         "EMAIL_PLACEHOLDER": "Digite seu e-mail",
         "PASSWORD_PLACEHOLDER": "Digite sua senha",
@@ -424,6 +431,16 @@
         "CREATE_ACCOUNT": "Criar Conta",
         "HAVE_ACCOUNT": "Já tem uma conta?",
         "LOGIN_LINK": "Entrar"
+      },
+      "VALIDATION": {
+        "EMAIL_REQUIRED": "Email é obrigatório",
+        "EMAIL_INVALID": "Por favor, digite um email válido",
+        "PASSWORD_REQUIRED": "Senha é obrigatória",
+        "PASSWORD_MIN_LENGTH": "Senha deve ter pelo menos 6 caracteres"
+      },
+      "MESSAGES": {
+        "SUCCESS": "Conta criada com sucesso!",
+        "ERROR": "Falha ao criar conta. Por favor, tente novamente."
       }
     }
   }
