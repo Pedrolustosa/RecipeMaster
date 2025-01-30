@@ -52,11 +52,6 @@
           <small *ngIf="loginForm.get('password')?.errors?.['minlength']">{{ 'AUTH.LOGIN.PASSWORD_MINLENGTH' | translate }}</small>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid || isLoading">
-          {{ (isLoading ? 'AUTH.LOGIN.SIGNING_IN' : 'AUTH.LOGIN.SIGN_IN') | translate }}
-          <ngx-spinner *ngIf="isLoading" [fullScreen]="false" type="ball-clip-rotate" size="small"></ngx-spinner>
-        </button>
-
         <div class="text-center mt-3">
           <p>{{ 'AUTH.LOGIN.DONT_HAVE_ACCOUNT' | translate }}
             <button type="button" class="btn btn-link p-0" (click)="navigateToRegister()">
