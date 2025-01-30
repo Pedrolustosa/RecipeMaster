@@ -52,6 +52,11 @@
           <small *ngIf="registerForm.get('password')?.errors?.['minlength']">{{ 'AUTH.REGISTER.VALIDATION.PASSWORD_MIN_LENGTH' | translate }}</small>
         </div>
 
+        <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid || loading">
+          {{ (loading ? 'AUTH.REGISTER.FORM.CREATING_ACCOUNT' : 'AUTH.REGISTER.FORM.CREATE_ACCOUNT') | translate }}
+          <ngx-spinner *ngIf="loading" [fullScreen]="false" type="ball-clip-rotate" size="small"></ngx-spinner>
+        </button>
+
         <div class="text-center mt-3">
           <p>{{ 'AUTH.REGISTER.FORM.HAVE_ACCOUNT' | translate }}
             <button type="button" class="btn btn-link p-0" routerLink="/login">
