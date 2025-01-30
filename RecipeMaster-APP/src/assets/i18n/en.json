@@ -5,8 +5,8 @@
     "ERROR": "Error",
     "VALIDATION": {
       "REQUIRED": "This field is required",
-      "MIN_LENGTH": "Minimum {{value}} characters",
-      "MAX_LENGTH": "Maximum {{value}} characters",
+      "MIN_LENGTH": "Minimum of {{value}} characters",
+      "MAX_LENGTH": "Maximum of {{value}} characters",
       "MIN_VALUE": "Minimum value is {{value}}",
       "MAX_VALUE": "Maximum value is {{value}}",
       "INVALID_FORMAT": "Invalid format"
@@ -54,7 +54,7 @@
         "ACTIONS": "Actions"
       },
       "DELETE_MODAL": {
-        "TITLE": "Confirm Delete",
+        "TITLE": "Confirm Deletion",
         "MESSAGE": "Are you sure you want to delete this ingredient?",
         "CONFIRM": "Yes, Delete",
         "CANCEL": "Cancel"
@@ -69,6 +69,7 @@
       "DOZEN": "Dozen",
       "Gram": "Gram",
       "Kilogram": "Kilogram",
+      "Unit": "Unit",
       "Liter": "Liter",
       "Milliliter": "Milliliter"
     },
@@ -82,8 +83,8 @@
       },
       "FORM": {
         "NAME": "Name",
-        "UNIT": "Unit",
-        "UNIT_SELECT": "Select unit",
+        "UNIT": "Unit of Measure",
+        "UNIT_SELECT": "Select unit of measure",
         "DESCRIPTION": "Description",
         "COST": "Cost",
         "STOCK_QUANTITY": "Stock Quantity",
@@ -106,24 +107,24 @@
       "TABS": {
         "BASIC": "Basic Information",
         "DETAILS": "Details",
-        "STORAGE": "Storage"
+        "STORAGE": "Stock"
       },
       "FORM": {
         "NAME": "Name",
         "NAME_REQUIRED": "Name is required",
-        "NAME_MINLENGTH": "Name must be at least 3 characters long",
+        "NAME_MINLENGTH": "Name must have at least 3 characters",
         "NAME_MAXLENGTH": "Name cannot exceed 100 characters",
         "DESCRIPTION": "Description",
         "DESCRIPTION_REQUIRED": "Description is required",
-        "DESCRIPTION_MINLENGTH": "Description must be at least 10 characters long",
+        "DESCRIPTION_MINLENGTH": "Description must have at least 10 characters",
         "DESCRIPTION_MAXLENGTH": "Description cannot exceed 500 characters",
-        "UNIT": "Unit of Measurement",
+        "UNIT": "Unit of Measure",
         "SELECT_UNIT": "Select a unit",
-        "UNIT_REQUIRED": "Unit of measurement is required",
+        "UNIT_REQUIRED": "Unit of measure is required",
         "PRICE": "Price",
         "PRICE_REQUIRED": "Price is required",
-        "PRICE_MIN": "Price must be greater than $ 0.01",
-        "PRICE_MAX": "Price cannot exceed $ 9,999.99",
+        "PRICE_MIN": "Price must be greater than $0.01",
+        "PRICE_MAX": "Price cannot exceed $9,999.99",
         "STOCK_QUANTITY": "Stock Quantity",
         "STOCK_QUANTITY_REQUIRED": "Stock quantity is required",
         "STOCK_QUANTITY_MIN": "Stock quantity must be greater than or equal to 0",
@@ -134,16 +135,16 @@
         "MIN_STOCK_LEVEL_MAX": "Minimum stock level cannot exceed 9,999",
         "SUPPLIER_NAME": "Supplier",
         "SUPPLIER_NAME_REQUIRED": "Supplier name is required",
-        "SUPPLIER_NAME_MINLENGTH": "Supplier name must be at least 2 characters long",
+        "SUPPLIER_NAME_MINLENGTH": "Supplier name must have at least 2 characters",
         "SUPPLIER_NAME_MAXLENGTH": "Supplier name cannot exceed 100 characters",
         "IS_PERISHABLE": "Perishable",
         "ORIGIN_COUNTRY": "Country of Origin",
         "ORIGIN_COUNTRY_REQUIRED": "Country of origin is required",
-        "ORIGIN_COUNTRY_MINLENGTH": "Country of origin must be at least 2 characters long",
+        "ORIGIN_COUNTRY_MINLENGTH": "Country of origin must have at least 2 characters",
         "ORIGIN_COUNTRY_MAXLENGTH": "Country of origin cannot exceed 100 characters",
         "STORAGE_INSTRUCTIONS": "Storage Instructions",
         "STORAGE_INSTRUCTIONS_REQUIRED": "Storage instructions are required for perishable items",
-        "STORAGE_INSTRUCTIONS_MINLENGTH": "Storage instructions must be at least 10 characters long",
+        "STORAGE_INSTRUCTIONS_MINLENGTH": "Storage instructions must have at least 10 characters",
         "STORAGE_INSTRUCTIONS_MAXLENGTH": "Storage instructions cannot exceed 500 characters",
         "IS_ACTIVE": "Active",
         "SUBMIT": "Save Ingredient",
@@ -159,7 +160,7 @@
           },
           "UNIT": {
             "LABEL": "Unit",
-            "HELP": "Choose the appropriate unit of measurement (e.g., grams, kilograms, liters)"
+            "HELP": "Choose the appropriate unit of measure (e.g., grams, kilograms, liters)"
           },
           "COST": {
             "LABEL": "Cost",
@@ -170,16 +171,16 @@
             "HELP": "Current quantity available in stock. Keep this value updated for inventory control"
           },
           "MINIMUM_STOCK_LEVEL": {
-            "LABEL": "Minimum Stock",
-            "HELP": "Minimum stock level before needing to restock. Helps prevent ingredient shortages"
+            "LABEL": "Minimum Stock Level",
+            "HELP": "Minimum stock level before needing to restock. Helps avoid ingredient shortages"
           },
           "SUPPLIER_NAME": {
             "LABEL": "Supplier",
-            "HELP": "Name of the main supplier for this ingredient. Important for traceability and restocking"
+            "HELP": "Name of the main supplier of this ingredient. Important for traceability and replenishment"
           },
           "IS_PERISHABLE": {
             "LABEL": "Perishable",
-            "HELP": "Indicate if the ingredient is perishable. This helps with expiration date control and storage"
+            "HELP": "Indicate if the ingredient is perishable. This helps with expiration and storage control"
           },
           "ORIGIN_COUNTRY": {
             "LABEL": "Country of Origin",
@@ -196,14 +197,6 @@
         }
       }
     },
-    "MESSAGES": {
-      "SUCCESS": "Success",
-      "ERROR": "Error",
-      "DELETE_SUCCESS": "Ingredient deleted successfully!",
-      "DELETE_ERROR": "Error deleting ingredient. Please try again.",
-      "CREATE_SUCCESS": "Ingredient created successfully",
-      "UPDATE_SUCCESS": "Ingredient updated successfully"
-    },
     "FORM": {
       "HELP_TEXTS": {
         "TITLE": "Help",
@@ -217,19 +210,32 @@
       }
     }
   },
+  "DASHBOARD": {
+    "TITLE": "Dashboard",
+    "SUBTITLE": "Overview of your recipe system",
+    "TOTAL_RECIPES": "Total Recipes",
+    "TOTAL_INGREDIENTS": "Total Ingredients",
+    "AVERAGE_RECIPE_COST": "Average Recipe Cost",
+    "TOTAL_RECIPE_COST": "Total Recipe Cost",
+    "MOST_EXPENSIVE_INGREDIENTS": "Most Expensive Ingredients",
+    "MOST_USED_INGREDIENTS": "Most Used Ingredients",
+    "TOP_5": "Top 5",
+    "INGREDIENT_TABLE": {
+      "INGREDIENT": "Ingredient",
+      "COST": "Cost",
+      "USAGE": "Usage",
+      "RECIPES": "recipes"
+    },
+    "COST": "Cost"
+  },
   "RECIPES": {
     "LIST": {
       "TITLE": "Recipes",
       "SUBTITLE": "Manage your recipes",
+      "ADD_NEW": "Add New Recipe",
       "ADD_RECIPE": "Add Recipe",
-      "SEARCH_PLACEHOLDER": "Search recipes...",
+      "SEARCH": "Search recipes...",
       "EMPTY": "No recipes found",
-      "ACTIONS": {
-        "EDIT": "Edit",
-        "DELETE": "Delete",
-        "VIEW": "View Details",
-        "DOWNLOAD_PDF": "Download PDF"
-      },
       "DETAILS": {
         "PREP_TIME": "Preparation Time",
         "COOK_TIME": "Cooking Time",
@@ -238,22 +244,22 @@
         "INGREDIENTS": "Ingredients",
         "MORE_INGREDIENTS": "more ingredients"
       },
+      "ACTIONS": {
+        "EDIT": "Edit",
+        "DELETE": "Delete",
+        "VIEW": "View Details",
+        "DOWNLOAD_PDF": "Download PDF"
+      },
       "NO_RECIPES": {
         "TITLE": "No Recipes Found",
-        "MESSAGE": "You haven't added any recipes yet.",
+        "MESSAGE": "You don't have any recipes registered yet.",
         "ADD_RECIPE": "Add New Recipe"
       },
       "DELETE_CONFIRM": {
-        "TITLE": "Confirm Delete",
+        "TITLE": "Confirm Deletion",
         "MESSAGE": "Are you sure you want to delete the recipe",
         "WARNING": "This action cannot be undone",
         "CONFIRM": "Yes, Delete",
-        "CANCEL": "Cancel"
-      },
-      "CONFIRM_DELETE": {
-        "TITLE": "Delete Recipe",
-        "MESSAGE": "Are you sure you want to delete this recipe?",
-        "CONFIRM": "Delete",
         "CANCEL": "Cancel"
       }
     },
@@ -263,24 +269,24 @@
         "BASIC_INFO": "Basic Information",
         "DETAILS": "Details",
         "NAME": "Recipe Name",
-        "NAME_INSTRUCTIONS": "Enter recipe name",
+        "NAME_INSTRUCTIONS": "Enter the recipe name",
         "NAME_REQUIRED": "Recipe name is required",
-        "NAME_MINLENGTH": "Name must be at least 3 characters",
+        "NAME_MINLENGTH": "Name must have at least 3 characters",
         "NAME_MAXLENGTH": "Name cannot exceed 100 characters",
-        "DESCRIPTION": "Description",
-        "DESCRIPTION_INSTRUCTIONS": "Describe your recipe",
-        "DESCRIPTION_REQUIRED": "Description is required",
-        "DESCRIPTION_MINLENGTH": "Description must be at least 10 characters",
-        "DESCRIPTION_MAXLENGTH": "Description cannot exceed 500 characters",
-        "DIFFICULTY": "Difficulty Level",
+        "DIFFICULTY": "Difficulty",
         "DIFFICULTY_SELECT": "Select difficulty",
-        "DIFFICULTY_REQUIRED": "Difficulty level is required",
         "DIFFICULTY_LEVELS": {
           "EASY": "Easy",
           "MEDIUM": "Medium",
           "HARD": "Hard",
           "EXPERT": "Expert"
         },
+        "DESCRIPTION": "Description",
+        "DESCRIPTION_INSTRUCTIONS": "Describe your recipe",
+        "DESCRIPTION_REQUIRED": "Description is required",
+        "DESCRIPTION_MINLENGTH": "Description must have at least 10 characters",
+        "DESCRIPTION_MAXLENGTH": "Description cannot exceed 500 characters",
+        "DIFFICULTY_REQUIRED": "Difficulty level is required",
         "PREPARATION_TIME": "Preparation Time",
         "PREPARATION_TIME_REQUIRED": "Preparation time is required",
         "PREPARATION_TIME_MIN": "Preparation time must be at least 1 minute",
@@ -291,157 +297,125 @@
         "COOKING_TIME_MAX": "Cooking time cannot exceed 999 minutes",
         "SERVINGS": "Servings",
         "SERVINGS_REQUIRED": "Number of servings is required",
-        "SERVINGS_MIN": "Must have at least 1 serving",
-        "SERVINGS_MAX": "Cannot exceed 99 servings",
+        "SERVINGS_MIN": "Minimum of 1 serving",
+        "SERVINGS_MAX": "Maximum of 50 servings",
+        "INSTRUCTIONS": "Instructions",
+        "TOTAL_COST": "Total Cost",
+        "YIELD_PER_PORTION": "Yield per Portion",
         "INGREDIENTS": {
           "TITLE": "Ingredients",
           "ADD": "Add Ingredient",
           "SELECT": "Select an ingredient",
-          "SELECT_REQUIRED": "Please select an ingredient",
+          "SELECT_REQUIRED": "Ingredient is required",
           "QUANTITY": "Quantity",
           "QUANTITY_REQUIRED": "Quantity is required",
-          "QUANTITY_MIN": "Quantity must be greater than 0"
+          "QUANTITY_MIN": "Minimum quantity is 0.01",
+          "QUANTITY_MAX": "Quantity cannot exceed 999"
         },
+        "INGREDIENT_NAME": "Ingredient Name",
+        "INGREDIENT_NAME_REQUIRED": "Ingredient name is required",
+        "INGREDIENT_NAME_MINLENGTH": "Ingredient name must have at least 3 characters",
+        "INGREDIENT_NAME_MAXLENGTH": "Ingredient name cannot exceed 100 characters",
+        "SELECT_INGREDIENT": "Select an ingredient",
+        "QUANTITY": "Quantity",
+        "QUANTITY_REQUIRED": "Quantity is required",
         "CANCEL": "Cancel",
-        "SUBMIT": "Create Recipe"
-      }
-    },
-    "EDIT": {
-      "TITLE": "Edit Recipe",
-      "FORM": {
-        "NAME": "Name",
-        "NAME_REQUIRED": "Name is required",
-        "NAME_MINLENGTH": "Name must be at least 3 characters",
-        "NAME_MAXLENGTH": "Name cannot exceed 100 characters",
-        "DIFFICULTY": "Difficulty",
-        "DIFFICULTY_SELECT": "Select difficulty",
-        "DIFFICULTY_REQUIRED": "Difficulty is required",
-        "DESCRIPTION": "Description",
-        "DESCRIPTION_REQUIRED": "Description is required",
-        "DESCRIPTION_MINLENGTH": "Description must be at least 10 characters",
-        "DESCRIPTION_MAXLENGTH": "Description cannot exceed 500 characters",
-        "PREPARATION_TIME": "Preparation Time",
-        "PREPARATION_TIME_REQUIRED": "Preparation time is required",
-        "PREPARATION_TIME_MIN": "Preparation time must be greater than 0",
-        "PREPARATION_TIME_MAX": "Preparation time cannot exceed 999",
-        "COOKING_TIME": "Cooking Time",
-        "COOKING_TIME_REQUIRED": "Cooking time is required",
-        "COOKING_TIME_MIN": "Cooking time must be greater than 0",
-        "COOKING_TIME_MAX": "Cooking time cannot exceed 999",
-        "SERVINGS": "Servings",
-        "SERVINGS_REQUIRED": "Number of servings is required",
-        "SERVINGS_MIN": "Number of servings must be greater than 0",
-        "SERVINGS_MAX": "Number of servings cannot exceed 99",
-        "INSTRUCTIONS": "Instructions",
-        "INSTRUCTIONS_REQUIRED": "Instructions are required",
-        "INSTRUCTIONS_MINLENGTH": "Instructions must be at least 10 characters",
-        "INSTRUCTIONS_MAXLENGTH": "Instructions cannot exceed 2000 characters",
-        "SUBMIT": "Update Recipe"
+        "SUBMIT": "Create Recipe",
+        "ADD_INGREDIENT": "Add Ingredient"
       }
     },
     "MESSAGES": {
       "RECIPE_MUST_HAVE_AT_LEAST_ONE_INGREDIENT": "Recipe must have at least one ingredient",
       "LOAD_INGREDIENTS_ERROR": "Error loading ingredients",
       "LOAD_ERROR": "Error loading recipe",
-      "SAVE_ERROR": "Error saving recipe",
-      "DELETE_SUCCESS": "Recipe deleted successfully",
-      "DELETE_ERROR": "Error deleting recipe",
-      "SUCCESS": "Success",
-      "ERROR": "Error",
-      "CREATE_SUCCESS": "Recipe created successfully!",
-      "CREATE_ERROR": "Error creating recipe. Please try again.",
-      "UPDATE_SUCCESS": "Recipe updated successfully!",
-      "UPDATE_ERROR": "Error updating recipe. Please try again.",
-      "PLEASE_CORRECT_ERRORS": "Please correct the errors in the form before submitting."
+      "SAVE_ERROR": "Error saving recipe"
     },
-    "FORM": {
-      "HELP_TEXTS": {
-        "NAME": "Enter a clear and descriptive name for your recipe. E.g., 'Chocolate Cake with Strawberry Frosting' (3-100 characters)",
-        "DESCRIPTION": "Briefly describe your recipe, including special features and main flavors. E.g., 'A fluffy chocolate cake with fresh strawberry frosting, perfect for parties' (10-500 characters)",
-        "PREPARATION_TIME": "Time needed to prepare all ingredients, including cutting, measuring, and organizing (1-999 minutes)",
-        "COOKING_TIME": "Total cooking/baking time. Enter 0 if no cooking required (e.g., salads) (0-999 minutes)",
-        "SERVINGS": "Number of portions this recipe yields. Consider average portion sizes per person (1-99 servings)",
-        "DIFFICULTY": "Choose difficulty based on required technique: Easy (beginners), Medium (basic knowledge), Hard (experience needed), Expert (advanced techniques)",
-        "INGREDIENTS": "Select required ingredients and specify exact quantities",
-        "RECIPE_INGREDIENTS": "Click 'Add Ingredient' to include ingredients in your recipe. For each ingredient: 1) Select from the list, 2) Specify the exact quantity"
-      },
-      "VALIDATION_MESSAGES": {
-        "REQUIRED": "{{fieldName}} is required",
-        "MIN_LENGTH": "{{fieldName}} must be at least {{requiredLength}} characters",
-        "MAX_LENGTH": "{{fieldName}} cannot exceed {{requiredLength}} characters",
-        "MIN": "{{fieldName}} must be greater than {{min}}",
-        "MAX": "{{fieldName}} must be less than {{max}}",
-        "EMAIL": "Invalid email format",
-        "INVALID_FIELD": "Invalid field"
-      }
-    }
-  },
-  "AUTH": {
-    "LOGIN": {
-      "SUBTITLE": "Access your virtual kitchen and manage your recipes",
-      "DONT_HAVE_ACCOUNT": "Don't have an account?",
-      "LOGIN_LINK": "Login",
-      "REGISTER_HERE": "Register here",
-      "SIGN_IN": "Sign In"
-    },
-    "REGISTER": {
-      "TITLE": "Create Account",
-      "FORM": {
-        "EMAIL_PLACEHOLDER": "Enter your email",
-        "PASSWORD_PLACEHOLDER": "Enter your password",
-        "CREATE_ACCOUNT": "Create Account",
-        "CREATING_ACCOUNT": "Creating account...",
-        "HAVE_ACCOUNT": "Already have an account?",
-        "LOGIN_LINK": "Login"
-      },
+    "EDIT": {
+      "TITLE": "Edit Recipe",
+      "SUBTITLE": "Update your recipe information",
+      "SUCCESS": "Recipe updated successfully!",
+      "ERROR": "Error updating recipe",
       "VALIDATION": {
-        "EMAIL_REQUIRED": "Email is required",
-        "EMAIL_INVALID": "Please enter a valid email",
-        "PASSWORD_REQUIRED": "Password is required",
-        "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters"
+        "NAME_REQUIRED": "Recipe name is required",
+        "NAME_MIN_LENGTH": "Name must have at least 3 characters",
+        "NAME_MAX_LENGTH": "Name cannot exceed 100 characters",
+        "DESCRIPTION_REQUIRED": "Description is required",
+        "DESCRIPTION_MIN_LENGTH": "Description must have at least 10 characters",
+        "DESCRIPTION_MAX_LENGTH": "Description cannot exceed 500 characters",
+        "DIFFICULTY_REQUIRED": "Select difficulty",
+        "PREP_TIME_REQUIRED": "Preparation time is required",
+        "PREP_TIME_MIN": "Minimum preparation time is 1 minute",
+        "PREP_TIME_MAX": "Maximum preparation time is 999 minutes",
+        "COOK_TIME_REQUIRED": "Cooking time is required",
+        "COOK_TIME_MIN": "Minimum cooking time is 0 minutes",
+        "COOK_TIME_MAX": "Maximum cooking time is 999 minutes",
+        "SERVINGS_REQUIRED": "Number of servings is required",
+        "SERVINGS_MIN": "Minimum of 1 serving",
+        "SERVINGS_MAX": "Maximum of 99 servings",
+        "INSTRUCTIONS_REQUIRED": "Instructions are required",
+        "INSTRUCTIONS_MINLENGTH": "Instructions must have at least 10 characters",
+        "INSTRUCTIONS_MAXLENGTH": "Instructions cannot exceed 2000 characters",
+        "TOTAL_COST_REQUIRED": "Total cost is required",
+        "TOTAL_COST_MIN": "Minimum total cost is $0.01",
+        "TOTAL_COST_MAX": "Maximum total cost is $9,999.99",
+        "YIELD_REQUIRED": "Yield per portion is required",
+        "YIELD_MIN": "Minimum yield is $0.01",
+        "YIELD_MAX": "Maximum yield is $999.99"
+      },
+      "HELP": {
+        "CONTACT_SUPPORT": "If you need help, contact our support at support@recipemaster.com"
       },
       "MESSAGES": {
-        "SUCCESS": "Account created successfully!",
-        "ERROR": "Failed to create account. Please try again."
+        "LOADING": "Loading recipe...",
+        "SAVING": "Saving changes...",
+        "LOAD_ERROR": "Error loading recipe",
+        "SAVE_ERROR": "Error saving changes",
+        "SUCCESS": "Recipe updated successfully",
+        "CONFIRM_CANCEL": "Are you sure you want to cancel? All changes will be lost.",
+        "LOAD_INGREDIENTS_ERROR": "Error loading ingredients",
+        "NO_INGREDIENTS": "No ingredients found"
+      },
+      "FORM": {
+        "NAME": "Name",
+        "NAME_REQUIRED": "Name is required",
+        "NAME_MINLENGTH": "Name must have at least 3 characters",
+        "NAME_MAXLENGTH": "Name cannot exceed 100 characters",
+        "DESCRIPTION": "Description",
+        "DESCRIPTION_REQUIRED": "Description is required",
+        "DESCRIPTION_MINLENGTH": "Description must have at least 10 characters",
+        "DESCRIPTION_MAXLENGTH": "Description cannot exceed 500 characters",
+        "UNIT": "Unit of Measure",
+        "UNIT_REQUIRED": "Unit of measure is required",
+        "SELECT_UNIT": "Select a unit",
+        "PRICE": "Price",
+        "PRICE_REQUIRED": "Price is required",
+        "PRICE_MIN": "Price must be greater than $0.01",
+        "PRICE_MAX": "Price cannot exceed $9,999.99",
+        "STOCK_QUANTITY": "Stock Quantity",
+        "STOCK_QUANTITY_REQUIRED": "Stock quantity is required",
+        "STOCK_QUANTITY_MIN": "Stock quantity must be greater than or equal to 0",
+        "STOCK_QUANTITY_MAX": "Stock quantity cannot exceed 9,999",
+        "MIN_STOCK_LEVEL": "Minimum Stock Level",
+        "MIN_STOCK_LEVEL_REQUIRED": "Minimum stock level is required",
+        "MIN_STOCK_LEVEL_MIN": "Minimum stock level must be greater than or equal to 0",
+        "MIN_STOCK_LEVEL_MAX": "Minimum stock level cannot exceed 9,999",
+        "SUPPLIER_NAME": "Supplier",
+        "SUPPLIER_NAME_REQUIRED": "Supplier name is required",
+        "SUPPLIER_NAME_MINLENGTH": "Supplier name must have at least 2 characters",
+        "SUPPLIER_NAME_MAXLENGTH": "Supplier name cannot exceed 100 characters",
+        "ORIGIN_COUNTRY": "Country of Origin",
+        "ORIGIN_COUNTRY_REQUIRED": "Country of origin is required",
+        "ORIGIN_COUNTRY_MINLENGTH": "Country of origin must have at least 2 characters",
+        "ORIGIN_COUNTRY_MAXLENGTH": "Country of origin cannot exceed 100 characters",
+        "STORAGE_INSTRUCTIONS": "Storage Instructions",
+        "STORAGE_INSTRUCTIONS_REQUIRED": "Storage instructions are required for perishable items",
+        "STORAGE_INSTRUCTIONS_MINLENGTH": "Storage instructions must have at least 10 characters",
+        "STORAGE_INSTRUCTIONS_MAXLENGTH": "Storage instructions cannot exceed 500 characters",
+        "IS_PERISHABLE": "Perishable",
+        "IS_ACTIVE": "Active",
+        "SUBMIT": "Save Ingredient",
+        "CANCEL": "Cancel"
       }
-    }
-  },
-  "LOGIN": {
-    "TITLE": "Login",
-    "SUBTITLE": "Confectionery Management System",
-    "USERNAME": "Email",
-    "PASSWORD": "Password",
-    "SIGN_IN": "Sign In",
-    "SIGNING_IN": "Signing in...",
-    "FORGOT_PASSWORD": "Forgot Password?",
-    "EMAIL_REQUIRED": "Email is required",
-    "EMAIL_INVALID": "Invalid email",
-    "PASSWORD_REQUIRED": "Password is required",
-    "PASSWORD_MINLENGTH": "Password must be at least 6 characters",
-    "DONT_HAVE_ACCOUNT": "Don't have an account?",
-    "REGISTER_HERE": "Register here"
-  },
-  "DASHBOARD": {
-    "TITLE": "Dashboard",
-    "SUBTITLE": "Overview of your recipe management system",
-    "TOTAL_RECIPES": "Total Recipes",
-    "TOTAL_INGREDIENTS": "Total Ingredients",
-    "AVERAGE_RECIPE_COST": "Average Recipe Cost",
-    "TOTAL_RECIPE_COST": "Total Recipe Cost",
-    "MOST_EXPENSIVE_INGREDIENTS": "Most Expensive Ingredients",
-    "TOP_5": "Top 5",
-    "RECIPE_DISTRIBUTION": "Recipe Distribution",
-    "BY_CATEGORY": "By Category",
-    "RECENT_ACTIVITIES": "Recent Activities",
-    "VIEW_ALL": "View All",
-    "NO_ACTIVITIES": "No recent activities",
-    "MOST_USED_INGREDIENTS": "Most Used Ingredients",
-    "COST": "Cost",
-    "INGREDIENT_TABLE": {
-      "INGREDIENT": "Ingredient",
-      "COST": "Cost",
-      "USAGE": "Usage",
-      "RECIPES": "recipes"
     }
   }
 }
