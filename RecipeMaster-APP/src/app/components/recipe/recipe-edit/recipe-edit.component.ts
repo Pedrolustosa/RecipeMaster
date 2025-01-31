@@ -34,10 +34,10 @@ export class RecipeEditComponent implements OnInit {
   availableIngredients: Ingredient[] = [];
   fieldInstructions: any;
   difficultyLevels = [
-    { key: 'EASY', value: 'easy' },
-    { key: 'MEDIUM', value: 'medium' },
-    { key: 'HARD', value: 'hard' },
-    { key: 'EXPERT', value: 'expert' }
+    { key: 'RECIPES.DIFFICULTY.EASY', value: 'easy' },
+    { key: 'RECIPES.DIFFICULTY.MEDIUM', value: 'medium' },
+    { key: 'RECIPES.DIFFICULTY.HARD', value: 'hard' },
+    { key: 'RECIPES.DIFFICULTY.EXPERT', value: 'expert' }
   ];
 
   constructor(
@@ -82,48 +82,24 @@ export class RecipeEditComponent implements OnInit {
   private initForm(): void {
     this.recipeForm = this.formBuilder.group({
       id: [''],
-      name: ['', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(100)
-      ]],
-      description: ['', [
-        Validators.required,
-        Validators.minLength(10),
-        Validators.maxLength(500)
-      ]],
-      preparationTime: ['', [
-        Validators.required,
-        Validators.min(1),
-        Validators.max(999)
-      ]],
-      cookingTime: ['', [
-        Validators.required,
-        Validators.min(0),
-        Validators.max(999)
-      ]],
-      servings: ['', [
-        Validators.required,
-        Validators.min(1),
-        Validators.max(50)
-      ]],
-      difficulty: ['', [Validators.required]],
-      instructions: ['', [
-        Validators.required,
-        Validators.minLength(20),
-        Validators.maxLength(2000)
-      ]],
-      totalCost: ['', [
-        Validators.required,
-        Validators.min(0.01),
-        Validators.max(9999.99)
-      ]],
-      yieldPerPortion: ['', [
-        Validators.required,
-        Validators.min(0.01),
-        Validators.max(999.99)
-      ]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
+      preparationTime: ['', [Validators.required, Validators.min(1), Validators.max(1440)]],
+      cookingTime: ['', [Validators.required, Validators.min(1), Validators.max(1440)]],
+      servings: ['', [Validators.required, Validators.min(1), Validators.max(100)]],
+      difficulty: ['', [Validators.required, Validators.pattern('^(easy|medium|hard|expert)$')]],
+      totalCost: ['', [Validators.required, Validators.min(0.01)]],
+      yieldPerPortion: ['', [Validators.required, Validators.min(1)]],
+      instructions: ['', [Validators.required, Validators.minLength(30)]],
       ingredients: this.formBuilder.array([], [Validators.required, Validators.minLength(1)])
+    });
+
+    this.ingredients.valueChanges.subscribe(() => {
+      if (this.ingredients.length === 0) {
+        this.ingredients.setErrors({ required: true });
+      } else {
+        this.ingredients.setErrors(null);
+      }
     });
   }
 
@@ -170,44 +146,44 @@ export class RecipeEditComponent implements OnInit {
     }
   }
 
-  private async loadRecipe(): Promise<void> {
-    try {
-      this.spinner.show();
-      const recipe = await firstValueFrom(this.recipeService.getById(this.recipeId));
-      
-      while (this.ingredients.length) {
-        this.ingredients.removeAt(0);
+  private loadRecipe(): void {
+    this.spinner.show();
+    this.recipeService.getById(this.recipeId).subscribe({
+      next: (recipe) => {
+        const difficultyLevel = this.difficultyLevels.find(level => level.value === recipe.difficulty);
+        
+        this.recipeForm.patchValue({
+          id: recipe.id,
+          name: recipe.name,
+          description: recipe.description,
+          preparationTime: recipe.preparationTime,
+          cookingTime: recipe.cookingTime,
+          servings: recipe.servings,
+          difficulty: difficultyLevel?.value || '',
+          totalCost: recipe.totalCost,
+          yieldPerPortion: recipe.yieldPerPortion,
+          instructions: recipe.instructions
+        });
+
+        recipe.ingredients.forEach(ingredient => {
+          this.ingredients.push(this.createIngredientFormGroup(ingredient));
+        });
+
+        this.spinner.hide();
+      },
+      error: (error) => {
+        this.spinner.hide();
+        this.toastr.error(this.translate.instant('RECIPES.EDIT.ERRORS.LOAD_RECIPE'));
+        console.error('Error loading recipe:', error);
       }
+    });
+  }
 
-      this.recipeForm.patchValue({
-        name: recipe.name,
-        description: recipe.description,
-        difficulty: recipe.difficulty,
-        preparationTime: recipe.preparationTime,
-        cookingTime: recipe.cookingTime,
-        servings: recipe.servings,
-        instructions: recipe.instructions,
-        totalCost: recipe.totalCost,
-        yieldPerPortion: recipe.yieldPerPortion
-      });
-
-      recipe.ingredients.forEach(ingredient => {
-        this.ingredients.push(this.formBuilder.group({
-          ingredientId: [ingredient.ingredientId, Validators.required],
-          quantity: [ingredient.quantity, [Validators.required, Validators.min(0.01)]]
-        }));
-      });
-
-      this.spinner.hide();
-    } catch (error) {
-      console.error('Error loading recipe:', error);
-      this.toastr.error(
-        this.translate.instant('RECIPES.EDIT.MESSAGES.LOAD_ERROR'),
-        this.translate.instant('COMMON.ERROR')
-      );
-      this.spinner.hide();
-      this.router.navigate(['/recipes']);
-    }
+  createIngredientFormGroup(ingredient: any): FormGroup {
+    return this.formBuilder.group({
+      ingredientId: [ingredient.ingredientId, Validators.required],
+      quantity: [ingredient.quantity, [Validators.required, Validators.min(0.01)]]
+    });
   }
 
   onIngredientChange(index: number, event: Event): void {
@@ -238,6 +214,9 @@ export class RecipeEditComponent implements OnInit {
       }
       if (control.errors['max']) {
         return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_MAX`);
+      }
+      if (control.errors['pattern']) {
+        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_PATTERN`);
       }
     }
     return '';

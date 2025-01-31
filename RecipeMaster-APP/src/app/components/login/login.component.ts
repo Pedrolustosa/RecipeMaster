@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,6 +8,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../services/auth.service';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   isLoading = false;
   showPassword = false;
-  currentLang!: string;
+  currentLang = 'pt';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,11 +35,16 @@ export class LoginComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private authService: AuthService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
   ngOnInit(): void {
     this.initializeForm();
+    if (isPlatformBrowser(this.platformId)) {
+      this.currentLang = localStorage.getItem('language') || 'pt';
+      this.translate.use(this.currentLang);
+    }
   }
 
   private initializeForm(): void {
@@ -116,7 +122,10 @@ export class LoginComponent implements OnInit {
   }
 
   switchLanguage(lang: string) {
-    this.currentLang = "pt";
+    this.currentLang = lang;
     this.translate.use(lang);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('language', lang);
+    }
   }
 }

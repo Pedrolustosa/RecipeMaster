@@ -19,7 +19,6 @@ import { User } from '../../../models/auth.models';
 export class SidebarComponent implements OnInit {
   @Input() isExpanded = true;
   @Output() toggleSidebar = new EventEmitter<boolean>();
-  
   currentUser: User | null = null;
 
   navItems = [
@@ -78,9 +77,5 @@ export class SidebarComponent implements OnInit {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
-  }
-
-  changeLanguage(lang: string): void {
-    this.translate.use(lang);
   }
 }

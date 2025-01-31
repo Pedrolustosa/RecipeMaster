@@ -2,31 +2,38 @@
   "APP_NAME": "RecipeMaster",
   "AUTH": {
     "LOGIN": {
-      "SUBTITLE": "Acesse sua cozinha virtual e gerencie suas receitas",
-      "DONT_HAVE_ACCOUNT": "Não tem uma conta?",
-      "LOGIN_LINK": "Entrar",
-      "REGISTER_HERE": "Cadastrar aqui",
-      "SIGN_IN": "Entrar"
+      "SUBTITLE": "Access your virtual kitchen and manage your recipes",
+      "DONT_HAVE_ACCOUNT": "Don't have an account?",
+      "LOGIN_LINK": "Sign In",
+      "REGISTER_HERE": "Register here",
+      "SIGN_IN": "Sign In",
+      "SIGNING_IN": "Signing in...",
+      "EMAIL_PLACEHOLDER": "Enter your email",
+      "PASSWORD_PLACEHOLDER": "Enter your password",
+      "EMAIL_REQUIRED": "Email is required",
+      "EMAIL_INVALID": "Invalid email format",
+      "PASSWORD_REQUIRED": "Password is required",
+      "PASSWORD_MINLENGTH": "Password must be at least 6 characters"
     },
     "REGISTER": {
-      "TITLE": "Acesse sua cozinha virtual e gerencie suas receitas",
+      "TITLE": "Create your account",
       "FORM": {
-        "EMAIL_PLACEHOLDER": "Digite seu e-mail",
-        "PASSWORD_PLACEHOLDER": "Digite sua senha",
-        "CREATING_ACCOUNT": "Criando conta...",
-        "CREATE_ACCOUNT": "Criar Conta",
-        "HAVE_ACCOUNT": "Já tem uma conta?",
-        "LOGIN_LINK": "Entrar"
+        "EMAIL_PLACEHOLDER": "Enter your email",
+        "PASSWORD_PLACEHOLDER": "Enter your password",
+        "CREATING_ACCOUNT": "Creating account...",
+        "CREATE_ACCOUNT": "Create Account",
+        "HAVE_ACCOUNT": "Already have an account?",
+        "LOGIN_LINK": "Sign In"
       },
       "VALIDATION": {
-        "EMAIL_REQUIRED": "Email é obrigatório",
-        "EMAIL_INVALID": "Por favor, digite um email válido",
-        "PASSWORD_REQUIRED": "Senha é obrigatória",
-        "PASSWORD_MIN_LENGTH": "Senha deve ter pelo menos 6 caracteres"
+        "EMAIL_REQUIRED": "Email is required",
+        "EMAIL_INVALID": "Invalid email format",
+        "PASSWORD_REQUIRED": "Password is required",
+        "PASSWORD_MINLENGTH": "Password must be at least 6 characters"
       },
       "MESSAGES": {
-        "SUCCESS": "Conta criada com sucesso!",
-        "ERROR": "Falha ao criar conta. Por favor, tente novamente."
+        "SUCCESS": "Account created successfully!",
+        "ERROR": "Failed to create account. Please try again."
       }
     },
     "COMMON": {
