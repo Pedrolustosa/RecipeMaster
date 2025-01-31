@@ -52,6 +52,11 @@
           <small *ngIf="registerForm.get('password')?.errors?.['minlength']">{{ 'AUTH.REGISTER.VALIDATION.PASSWORD_MIN_LENGTH' | translate }}</small>
         </div>
 
+        <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid || loading">
+          {{ (loading ? 'AUTH.REGISTER.FORM.CREATING_ACCOUNT' : 'AUTH.REGISTER.FORM.CREATE_ACCOUNT') | translate }}
+          <ngx-spinner *ngIf="loading" [fullScreen]="false" type="ball-clip-rotate" size="small"></ngx-spinner>
+        </button>
+
         <div class="text-center mt-3">
           <p>{{ 'AUTH.REGISTER.FORM.HAVE_ACCOUNT' | translate }}
             <button type="button" class="btn btn-link p-0" routerLink="/login">
@@ -61,11 +66,11 @@
         </div>
       </form>
       <div class="language-switcher text-center mt-2">
-        <button (click)="switchLanguage('pt')" class="btn btn-sm text-dark me-2">
-          <span class="flag-icon flag-br"></span>
+        <button (click)="switchLanguage('pt')" class="btn btn-sm text-dark me-2" [class.active]="currentLang === 'pt'">
+          <span class="flag-icon flag-icon-br"></span>
         </button>
-        <button (click)="switchLanguage('en')" class="btn btn-sm text-dark">
-          <span class="flag-icon flag-en"></span>
+        <button (click)="switchLanguage('en')" class="btn btn-sm text-dark" [class.active]="currentLang === 'en'">
+          <span class="flag-icon flag-icon-us"></span>
         </button>
       </div>
     </div>

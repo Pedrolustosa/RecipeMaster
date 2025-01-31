@@ -27,10 +27,10 @@ export class RecipeCreateComponent implements OnInit {
   availableIngredients: Ingredient[] = [];
   fieldInstructions: any;
   difficultyLevels = [
-    { key: 'EASY', value: 'easy' },
-    { key: 'MEDIUM', value: 'medium' },
-    { key: 'HARD', value: 'hard' },
-    { key: 'EXPERT', value: 'expert' }
+    { key: 'RECIPES.DIFFICULTY.EASY', value: 'easy' },
+    { key: 'RECIPES.DIFFICULTY.MEDIUM', value: 'medium' },
+    { key: 'RECIPES.DIFFICULTY.HARD', value: 'hard' },
+    { key: 'RECIPES.DIFFICULTY.EXPERT', value: 'expert' }
   ];
 
   constructor(
@@ -74,11 +74,17 @@ export class RecipeCreateComponent implements OnInit {
       preparationTime: ['', [Validators.required, Validators.min(1), Validators.max(1440)]],
       cookingTime: ['', [Validators.required, Validators.min(1), Validators.max(1440)]],
       servings: ['', [Validators.required, Validators.min(1), Validators.max(100)]],
-      difficulty: ['', [Validators.required]],
-      totalCost: ['', [Validators.required, Validators.min(0)]],
-      yieldPerPortion: ['', [Validators.required, Validators.min(0)]],
+      difficulty: ['', [Validators.required, Validators.pattern('^(easy|medium|hard|expert)$')]],
+      totalCost: ['', [Validators.required, Validators.min(0.01)]],
+      yieldPerPortion: ['', [Validators.required, Validators.min(1)]],
       instructions: ['', [Validators.required, Validators.minLength(30)]],
-      ingredients: this.fb.array([])
+      ingredients: this.fb.array([], [Validators.required, Validators.minLength(1)])
+    });
+
+    this.ingredients.valueChanges.subscribe(() => {
+      if (this.ingredients.length === 0) {
+        this.ingredients.setErrors({ required: true });
+      }
     });
   }
 
@@ -129,57 +135,52 @@ export class RecipeCreateComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
 
-    if (this.recipeForm.valid) {
+    if (this.recipeForm.valid && this.ingredients.length > 0) {
       this.loading = true;
       const formValue = this.recipeForm.value;
-      
+
       const recipe: CreateRecipeRequest = {
-        name: formValue.name,
-        description: formValue.description,
-        difficulty: formValue.difficulty,
-        preparationTime: formValue.preparationTime,
-        cookingTime: formValue.cookingTime,
-        servings: formValue.servings,
-        instructions: formValue.instructions,
-        totalCost: formValue.totalCost,
-        yieldPerPortion: formValue.yieldPerPortion,
+        name: formValue.name.trim(),
+        description: formValue.description.trim(),
+        difficulty: formValue.difficulty.toUpperCase(),
+        preparationTime: Number(formValue.preparationTime),
+        cookingTime: Number(formValue.cookingTime),
+        servings: Number(formValue.servings),
+        instructions: formValue.instructions.trim(),
+        totalCost: Number(formValue.totalCost),
+        yieldPerPortion: Number(formValue.yieldPerPortion),
         ingredients: formValue.ingredients.map((ing: any) => ({
           ingredientId: ing.ingredientId,
           ingredientName: this.getIngredientName(ing.ingredientId),
-          quantity: ing.quantity
+          quantity: Number(ing.quantity)
         }))
       };
 
       this.recipeService.create(recipe).subscribe({
         next: () => {
+          this.loading = false;
           this.toastr.success(
-            this.translate.instant('RECIPES.MESSAGES.CREATE_SUCCESS'),
-            this.translate.instant('RECIPES.MESSAGES.SUCCESS')
+            this.translate.instant('RECIPES.CREATE.MESSAGES.SUCCESS'),
+            this.translate.instant('COMMON.SUCCESS')
           );
           this.router.navigate(['/recipes']);
         },
         error: (error) => {
+          this.loading = false;
           console.error('Error creating recipe:', error);
           this.toastr.error(
-            this.translate.instant('RECIPES.MESSAGES.CREATE_ERROR'),
-            this.translate.instant('RECIPES.MESSAGES.ERROR')
+            this.translate.instant('RECIPES.CREATE.MESSAGES.ERROR'),
+            this.translate.instant('COMMON.ERROR')
           );
-        },
-        complete: () => {
-          this.loading = false;
         }
       });
-    } else {
-      this.toastr.error(
-        this.translate.instant('RECIPES.MESSAGES.PLEASE_CORRECT_ERRORS')
-      );
     }
   }
 
   calculateYieldPerPortion(): void {
     const totalCost = this.f['totalCost'].value;
     const servings = this.f['servings'].value;
-    
+
     if (totalCost && servings && servings > 0) {
       const yieldPerPortion = totalCost / servings;
       this.f['yieldPerPortion'].setValue(yieldPerPortion.toFixed(2));

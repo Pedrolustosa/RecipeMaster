@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, PLATFORM_ID, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -7,6 +7,7 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
 import { RegisterRequest } from '../../models/auth.models';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-register',
@@ -22,12 +23,12 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
     TranslateModule
   ]
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   errorMessage: string = '';
   loading: boolean = false;
   showPassword: boolean = false;
-  currentLang!: string;
+  currentLang = 'pt';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -35,12 +36,20 @@ export class RegisterComponent {
     private spinner: NgxSpinnerService,
     private toastr: ToastrService,
     private authService: AuthService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    @Inject(PLATFORM_ID) private platformId: Object
   ) {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.currentLang = localStorage.getItem('language') || 'pt';
+      this.translate.use(this.currentLang);
+    }
   }
 
   onSubmit() {
@@ -101,7 +110,10 @@ export class RegisterComponent {
   }
 
   switchLanguage(lang: string) {
-    this.currentLang = "pt";
+    this.currentLang = lang;
     this.translate.use(lang);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('language', lang);
+    }
   }
 }

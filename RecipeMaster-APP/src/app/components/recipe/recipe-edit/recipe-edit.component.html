@@ -62,14 +62,17 @@
                       formControlName="difficulty"
                       [ngClass]="{'is-invalid': submitted && f['difficulty'].errors}"
                     >
-                      <option value="">{{ 'RECIPES.EDIT.FORM.DIFFICULTY_SELECT' | translate }}</option>
-                      <option *ngFor="let level of difficultyLevels" [value]="level">
-                        {{ 'RECIPES.EDIT.FORM.DIFFICULTY_LEVELS.' + level.key | translate }}
+                      <option value="">{{ 'RECIPES.EDIT.FORM.SELECT_DIFFICULTY' | translate }}</option>
+                      <option *ngFor="let level of difficultyLevels" [value]="level.value">
+                        {{ level.key | translate }}
                       </option>
                     </select>
                     <div *ngIf="submitted && f['difficulty'].errors" class="invalid-feedback">
                       <div *ngIf="f['difficulty'].errors['required']">
                         {{ 'RECIPES.EDIT.FORM.DIFFICULTY_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="f['difficulty'].errors['pattern']">
+                        {{ 'RECIPES.EDIT.FORM.DIFFICULTY_INVALID' | translate }}
                       </div>
                     </div>
                   </div>
@@ -101,7 +104,8 @@
               <!-- Details Tab -->
               <div class="tab-pane fade" id="details" role="tabpanel">
                 <div class="row g-3">
-                  <div class="col-md-6">
+                  <!-- Tempo de Preparação -->
+                  <div class="col-md-4">
                     <label for="preparationTime" class="form-label">{{ 'RECIPES.EDIT.FORM.PREPARATION_TIME' | translate }} *</label>
                     <div class="input-group">
                       <input 
@@ -109,24 +113,21 @@
                         class="form-control" 
                         id="preparationTime" 
                         formControlName="preparationTime"
+                        min="1"
+                        max="1440"
                         [ngClass]="{'is-invalid': submitted && f['preparationTime'].errors}"
                       >
                       <span class="input-group-text">min</span>
                     </div>
                     <div *ngIf="submitted && f['preparationTime'].errors" class="invalid-feedback d-block">
-                      <div *ngIf="f['preparationTime'].errors['required']">
-                        {{ 'RECIPES.EDIT.FORM.PREPARATION_TIME_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['preparationTime'].errors['min']">
-                        {{ 'RECIPES.EDIT.FORM.PREPARATION_TIME_MIN' | translate }}
-                      </div>
-                      <div *ngIf="f['preparationTime'].errors['max']">
-                        {{ 'RECIPES.EDIT.FORM.PREPARATION_TIME_MAX' | translate }}
-                      </div>
+                      <div *ngIf="f['preparationTime'].errors['required']">{{ 'RECIPES.EDIT.FORM.PREPARATION_TIME_REQUIRED' | translate }}</div>
+                      <div *ngIf="f['preparationTime'].errors['min']">{{ 'RECIPES.EDIT.FORM.PREPARATION_TIME_MIN' | translate }}</div>
+                      <div *ngIf="f['preparationTime'].errors['max']">{{ 'RECIPES.EDIT.FORM.PREPARATION_TIME_MAX' | translate }}</div>
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <!-- Tempo de Cozimento -->
+                  <div class="col-md-4">
                     <label for="cookingTime" class="form-label">{{ 'RECIPES.EDIT.FORM.COOKING_TIME' | translate }} *</label>
                     <div class="input-group">
                       <input 
@@ -134,42 +135,77 @@
                         class="form-control" 
                         id="cookingTime" 
                         formControlName="cookingTime"
+                        min="1"
+                        max="1440"
                         [ngClass]="{'is-invalid': submitted && f['cookingTime'].errors}"
                       >
                       <span class="input-group-text">min</span>
                     </div>
                     <div *ngIf="submitted && f['cookingTime'].errors" class="invalid-feedback d-block">
-                      <div *ngIf="f['cookingTime'].errors['required']">
-                        {{ 'RECIPES.EDIT.FORM.COOKING_TIME_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['cookingTime'].errors['min']">
-                        {{ 'RECIPES.EDIT.FORM.COOKING_TIME_MIN' | translate }}
-                      </div>
-                      <div *ngIf="f['cookingTime'].errors['max']">
-                        {{ 'RECIPES.EDIT.FORM.COOKING_TIME_MAX' | translate }}
-                      </div>
+                      <div *ngIf="f['cookingTime'].errors['required']">{{ 'RECIPES.EDIT.FORM.COOKING_TIME_REQUIRED' | translate }}</div>
+                      <div *ngIf="f['cookingTime'].errors['min']">{{ 'RECIPES.EDIT.FORM.COOKING_TIME_MIN' | translate }}</div>
+                      <div *ngIf="f['cookingTime'].errors['max']">{{ 'RECIPES.EDIT.FORM.COOKING_TIME_MAX' | translate }}</div>
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <!-- Porções -->
+                  <div class="col-md-4">
                     <label for="servings" class="form-label">{{ 'RECIPES.EDIT.FORM.SERVINGS' | translate }} *</label>
                     <input 
                       type="number" 
                       class="form-control" 
                       id="servings" 
                       formControlName="servings"
+                      min="1"
+                      max="100"
                       [ngClass]="{'is-invalid': submitted && f['servings'].errors}"
                     >
                     <div *ngIf="submitted && f['servings'].errors" class="invalid-feedback">
-                      <div *ngIf="f['servings'].errors['required']">
-                        {{ 'RECIPES.EDIT.FORM.SERVINGS_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['servings'].errors['min']">
-                        {{ 'RECIPES.EDIT.FORM.SERVINGS_MIN' | translate }}
-                      </div>
-                      <div *ngIf="f['servings'].errors['max']">
-                        {{ 'RECIPES.EDIT.FORM.SERVINGS_MAX' | translate }}
-                      </div>
+                      <div *ngIf="f['servings'].errors['required']">{{ 'RECIPES.EDIT.FORM.SERVINGS_REQUIRED' | translate }}</div>
+                      <div *ngIf="f['servings'].errors['min']">{{ 'RECIPES.EDIT.FORM.SERVINGS_MIN' | translate }}</div>
+                      <div *ngIf="f['servings'].errors['max']">{{ 'RECIPES.EDIT.FORM.SERVINGS_MAX' | translate }}</div>
+                    </div>
+                  </div>
+
+                  <!-- Custo Total -->
+                  <div class="col-md-6">
+                    <label for="totalCost" class="form-label">{{ 'RECIPES.EDIT.FORM.TOTAL_COST' | translate }} *</label>
+                    <div class="input-group">
+                      <span class="input-group-text">R$</span>
+                      <input 
+                        type="number" 
+                        class="form-control" 
+                        id="totalCost" 
+                        formControlName="totalCost"
+                        min="0.01"
+                        step="0.01"
+                        [ngClass]="{'is-invalid': submitted && f['totalCost'].errors}"
+                      >
+                    </div>
+                    <div *ngIf="submitted && f['totalCost'].errors" class="invalid-feedback d-block">
+                      <div *ngIf="f['totalCost'].errors['required']">{{ 'RECIPES.EDIT.FORM.TOTAL_COST_REQUIRED' | translate }}</div>
+                      <div *ngIf="f['totalCost'].errors['min']">{{ 'RECIPES.EDIT.FORM.TOTAL_COST_MIN' | translate }}</div>
+                    </div>
+                  </div>
+
+                  <!-- Rendimento por Porção -->
+                  <div class="col-md-6">
+                    <label for="yieldPerPortion" class="form-label">{{ 'RECIPES.EDIT.FORM.YIELD_PER_PORTION' | translate }} *</label>
+                    <div class="input-group">
+                      <input 
+                        type="number" 
+                        class="form-control" 
+                        id="yieldPerPortion" 
+                        formControlName="yieldPerPortion"
+                        min="1"
+                        step="1"
+                        [ngClass]="{'is-invalid': submitted && f['yieldPerPortion'].errors}"
+                      >
+                      <span class="input-group-text">g</span>
+                    </div>
+                    <div *ngIf="submitted && f['yieldPerPortion'].errors" class="invalid-feedback d-block">
+                      <div *ngIf="f['yieldPerPortion'].errors['required']">{{ 'RECIPES.EDIT.FORM.YIELD_PER_PORTION_REQUIRED' | translate }}</div>
+                      <div *ngIf="f['yieldPerPortion'].errors['min']">{{ 'RECIPES.EDIT.FORM.YIELD_PER_PORTION_MIN' | translate }}</div>
                     </div>
                   </div>
 
@@ -200,47 +236,71 @@
               <!-- Ingredients Tab -->
               <div class="tab-pane fade" id="ingredients" role="tabpanel">
                 <div class="mb-3">
-                  
+                  <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="mb-0">{{ 'RECIPES.EDIT.FORM.INGREDIENTS.TITLE' | translate }}</h6>
+                    <button type="button" class="btn btn-primary btn-sm" (click)="addIngredient()">
+                      <i class="fas fa-plus me-1"></i>{{ 'RECIPES.EDIT.FORM.INGREDIENTS.ADD' | translate }}
+                    </button>
+                  </div>
+
                   <div formArrayName="ingredients">
-                    <div *ngFor="let ingredient of ingredients.controls; let i=index" [formGroupName]="i" class="row g-3 mb-3">
-                      <div class="col-md-6">
-                        <label [for]="'ingredientId' + i" class="form-label">{{ 'RECIPES.CREATE.FORM.INGREDIENTS.SELECT' | translate }}</label>
-                        <select class="form-select" [id]="'ingredientId' + i" formControlName="ingredientId"
-                          (change)="onIngredientChange(i, $event)"
-                          [ngClass]="{'is-invalid': submitted && ingredient.get('ingredientId')?.errors}">
-                          <option value="">{{ 'RECIPES.CREATE.FORM.INGREDIENTS.SELECT' | translate }}</option>
-                          <option *ngFor="let item of availableIngredients" [value]="item.id">{{item.name}}</option>
+                    <div *ngFor="let ingredient of ingredients.controls; let i=index" [formGroupName]="i" class="row g-2 mb-2">
+                      <div class="col-6">
+                        <select 
+                          class="form-select"
+                          formControlName="ingredientId"
+                          [ngClass]="{'is-invalid': submitted && ingredient.get('ingredientId')?.errors}"
+                        >
+                          <option value="">{{ 'RECIPES.EDIT.FORM.INGREDIENTS.SELECT' | translate }}</option>
+                          <option *ngFor="let ing of availableIngredients" [value]="ing.id">
+                            {{ing.name}}
+                          </option>
                         </select>
                         <div *ngIf="submitted && ingredient.get('ingredientId')?.errors" class="invalid-feedback">
-                          {{ 'RECIPES.CREATE.FORM.INGREDIENTS.SELECT_REQUIRED' | translate }}
+                          <div *ngIf="ingredient.get('ingredientId')?.errors?.['required']">
+                            {{ 'RECIPES.EDIT.FORM.INGREDIENTS.INGREDIENT_REQUIRED' | translate }}
+                          </div>
                         </div>
                       </div>
 
-                      <div class="col-md-5">
-                        <label [for]="'quantity' + i" class="form-label">{{ 'RECIPES.CREATE.FORM.INGREDIENTS.QUANTITY' | translate }}</label>
-                        <input type="number" class="form-control" [id]="'quantity' + i" formControlName="quantity"
-                          [ngClass]="{'is-invalid': submitted && ingredient.get('quantity')?.errors}">
-                        <div *ngIf="submitted && ingredient.get('quantity')?.errors" class="invalid-feedback">
+                      <div class="col-5">
+                        <div class="input-group">
+                          <input 
+                            type="number"
+                            class="form-control"
+                            formControlName="quantity"
+                            min="0.01"
+                            step="0.01"
+                            [ngClass]="{'is-invalid': submitted && ingredient.get('quantity')?.errors}"
+                          >
+                          <span class="input-group-text">g</span>
+                        </div>
+                        <div *ngIf="submitted && ingredient.get('quantity')?.errors" class="invalid-feedback d-block">
                           <div *ngIf="ingredient.get('quantity')?.errors?.['required']">
-                            {{ 'RECIPES.CREATE.FORM.INGREDIENTS.QUANTITY_REQUIRED' | translate }}
+                            {{ 'RECIPES.EDIT.FORM.INGREDIENTS.QUANTITY_REQUIRED' | translate }}
                           </div>
                           <div *ngIf="ingredient.get('quantity')?.errors?.['min']">
-                            {{ 'RECIPES.CREATE.FORM.INGREDIENTS.QUANTITY_MIN' | translate }}
+                            {{ 'RECIPES.EDIT.FORM.INGREDIENTS.QUANTITY_MIN' | translate }}
                           </div>
                         </div>
                       </div>
 
-                      <div class="col-md-1 d-flex align-items-end">
-                        <button type="button" class="btn btn-outline-danger" (click)="removeIngredient(i)">
+                      <div class="col-1">
+                        <button 
+                          type="button" 
+                          class="btn btn-outline-danger btn-sm"
+                          (click)="removeIngredient(i)"
+                          [disabled]="ingredients.length === 1"
+                        >
                           <i class="fas fa-trash"></i>
                         </button>
                       </div>
                     </div>
                   </div>
 
-                  <button type="button" class="btn btn-outline-primary" (click)="addIngredient()">
-                    <i class="fas fa-plus me-2"></i>{{ 'RECIPES.CREATE.FORM.INGREDIENTS.ADD' | translate }}
-                  </button>
+                  <div *ngIf="submitted && ingredients.errors?.['required']" class="alert alert-danger mt-2">
+                    {{ 'RECIPES.EDIT.FORM.INGREDIENTS.AT_LEAST_ONE_REQUIRED' | translate }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -248,11 +308,12 @@
             <!-- Fixed bottom action buttons -->
             <div class="position-sticky bottom-0 bg-white pt-3 border-top mt-3">
               <div class="d-flex gap-2 justify-content-end">
-                <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
-                  {{ 'RECIPES.CREATE.FORM.CANCEL' | translate }}
+                <button type="button" class="btn btn-secondary" routerLink="/recipes">
+                  <i class="fas fa-times me-2"></i>{{ 'COMMON.CANCEL' | translate }}
                 </button>
                 <button type="submit" class="btn btn-primary" [disabled]="loading">
-                  <i class="fas fa-save me-2"></i>{{ 'RECIPES.EDIT.FORM.SUBMIT' | translate }}
+                  <i class="fas fa-save me-2"></i>{{ 'COMMON.SAVE' | translate }}
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm ms-2" role="status"></span>
                 </button>
               </div>
             </div>
