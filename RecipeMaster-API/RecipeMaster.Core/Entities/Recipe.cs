@@ -1,56 +1,72 @@
-﻿using RecipeMaster.Core.ValueObjects;
-
-namespace RecipeMaster.Core.Entities;
+﻿namespace RecipeMaster.Core.Entities;
 
 public class Recipe
 {
     public Guid Id { get; private set; }
-    public string Name { get; private set; }
-    public string Description { get; private set; }
     public IReadOnlyCollection<RecipeIngredient> Ingredients { get; private set; }
-    public int PreparationTime { get; private set; }
-    public int CookingTime { get; private set; }
-    public int Servings { get; private set; }
-    public string Instructions { get; private set; }
-    public DifficultyLevel Difficulty { get; private set; }
-    public decimal TotalCost { get; private set; }
-    public decimal YieldPerPortion { get; private set; }
+    public int Quantity { get; private set; }                   
+    public decimal UnitCost { get; private set; }               
+    public decimal QuantityPerProduction { get; private set; }  
+    public decimal ProductionCost { get; private set; }         
 
-    public Recipe() { }
+    public Recipe()
+    {
+        Ingredients = new List<RecipeIngredient>().AsReadOnly();
+    }
 
-    public Recipe(string name, string description, int preparationTime, int cookingTime, int servings,
-                  string instructions, DifficultyLevel difficulty, decimal totalCost, decimal yieldPerPortion)
+    public Recipe(
+        IReadOnlyCollection<RecipeIngredient> ingredients,
+        int quantity,
+        decimal unitCost,
+        decimal quantityPerProduction,
+        decimal productionCost)
     {
         Id = Guid.NewGuid();
-        Name = name;
-        Description = description;
-        PreparationTime = preparationTime;
-        CookingTime = cookingTime;
-        Servings = servings;
-        Instructions = instructions;
-        Difficulty = difficulty;
-        TotalCost = totalCost;
-        YieldPerPortion = yieldPerPortion;
-        Ingredients = new List<RecipeIngredient>();
+        Ingredients = ingredients;
+        Quantity = quantity;
+        UnitCost = unitCost;
+        QuantityPerProduction = quantityPerProduction;
+        ProductionCost = productionCost;
     }
 
     public void AddIngredient(RecipeIngredient ingredient)
     {
-        if (ingredient == null) throw new ArgumentNullException(nameof(ingredient));
-        var ingredients = Ingredients.ToList();
-        ingredients.Add(ingredient);
-        Ingredients = ingredients.AsReadOnly();
+        ArgumentNullException.ThrowIfNull(ingredient);
+
+        var ingredientList = Ingredients.ToList();
+        ingredientList.Add(ingredient);
+        Ingredients = ingredientList.AsReadOnly();
     }
 
-    public void UpdateTotalCost(decimal totalCost)
+    public void UpdateQuantity(int newQuantity)
     {
-        if (totalCost < 0) throw new ArgumentException("Total cost cannot be negative.");
-        TotalCost = totalCost;
+        if (newQuantity <= 0)
+            throw new ArgumentException("Quantity must be greater than zero.", nameof(newQuantity));
+
+        Quantity = newQuantity;
     }
 
-    public void UpdateYieldPerPortion(decimal yieldPerPortion)
+    public void UpdateUnitCost(decimal newUnitCost)
     {
-        if (yieldPerPortion <= 0) throw new ArgumentException("Yield per portion must be greater than zero.");
-        YieldPerPortion = yieldPerPortion;
+        if (newUnitCost < 0)
+            throw new ArgumentException("Unit cost cannot be negative.", nameof(newUnitCost));
+
+        UnitCost = newUnitCost;
+    }
+
+    public void UpdateQuantityPerProduction(decimal newQuantityPerProduction)
+    {
+        if (newQuantityPerProduction <= 0)
+            throw new ArgumentException("Quantity per production must be greater than zero.", nameof(newQuantityPerProduction));
+
+        QuantityPerProduction = newQuantityPerProduction;
+    }
+
+    public void UpdateProductionCost(decimal newProductionCost)
+    {
+        if (newProductionCost < 0)
+            throw new ArgumentException("Production cost cannot be negative.", nameof(newProductionCost));
+
+        ProductionCost = newProductionCost;
     }
 }

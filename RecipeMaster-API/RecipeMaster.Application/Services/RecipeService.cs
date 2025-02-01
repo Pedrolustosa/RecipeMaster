@@ -1,17 +1,25 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
+using AutoMapper;
 using Microsoft.Extensions.Logging;
+using RecipeMaster.Application.DTOs;
 using RecipeMaster.Application.Queries.Recipes;
 using RecipeMaster.Application.Commands.Recipes;
 using RecipeMaster.Application.Services.Interfaces;
 
 namespace RecipeMaster.Application.Services;
 
-public class RecipeService(IMediator mediator, IMapper mapper, ILogger<RecipeService> logger) : IRecipeService
+public class RecipeService : IRecipeService
 {
-    private readonly IMapper _mapper = mapper;
-    private readonly IMediator _mediator = mediator;
-    private readonly ILogger<RecipeService> _logger = logger;
+    private readonly IMapper _mapper;
+    private readonly IMediator _mediator;
+    private readonly ILogger<RecipeService> _logger;
+
+    public RecipeService(IMediator mediator, IMapper mapper, ILogger<RecipeService> logger)
+    {
+        _mediator = mediator;
+        _mapper = mapper;
+        _logger = logger;
+    }
 
     public async Task<IEnumerable<RecipeDTO>> GetAllAsync()
     {

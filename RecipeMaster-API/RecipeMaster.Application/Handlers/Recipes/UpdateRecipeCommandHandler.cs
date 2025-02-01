@@ -6,7 +6,10 @@ using RecipeMaster.Core.Interfaces.Repositories;
 
 namespace RecipeMaster.Application.Handlers.Recipes;
 
-public class UpdateRecipeCommandHandler(IRecipeRepository repository, IMapper mapper, ILogger<UpdateRecipeCommandHandler> logger) : IRequestHandler<UpdateRecipeCommand, Unit>
+public class UpdateRecipeCommandHandler(
+    IRecipeRepository repository,
+    IMapper mapper,
+    ILogger<UpdateRecipeCommandHandler> logger) : IRequestHandler<UpdateRecipeCommand, Unit>
 {
     private readonly IRecipeRepository _repository = repository;
     private readonly IMapper _mapper = mapper;
@@ -17,8 +20,11 @@ public class UpdateRecipeCommandHandler(IRecipeRepository repository, IMapper ma
         try
         {
             _logger.LogInformation("Updating recipe with ID {Id}...", request.Id);
-            var recipe = await _repository.GetByIdAsync(request.Id) ?? throw new KeyNotFoundException("Recipe not found");
+            var recipe = await _repository.GetByIdAsync(request.Id)
+                         ?? throw new KeyNotFoundException("Recipe not found");
+
             _mapper.Map(request, recipe);
+
             await _repository.UpdateAsync(recipe);
             _logger.LogInformation("Successfully updated recipe with ID {Id}.", request.Id);
             return Unit.Value;

@@ -5,7 +5,9 @@ using RecipeMaster.Core.Interfaces.Repositories;
 
 namespace RecipeMaster.Application.Handlers.Recipes;
 
-public class DeleteRecipeCommandHandler(IRecipeRepository repository, ILogger<DeleteRecipeCommandHandler> logger) : IRequestHandler<DeleteRecipeCommand, Unit>
+public class DeleteRecipeCommandHandler(
+    IRecipeRepository repository,
+    ILogger<DeleteRecipeCommandHandler> logger) : IRequestHandler<DeleteRecipeCommand, Unit>
 {
     private readonly IRecipeRepository _repository = repository;
     private readonly ILogger<DeleteRecipeCommandHandler> _logger = logger;

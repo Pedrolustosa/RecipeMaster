@@ -1,16 +1,27 @@
-﻿using RecipeMaster.Application.DTOs;
+﻿namespace RecipeMaster.Application.DTOs;
 
 public class RecipeDTO
 {
     public Guid Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public int PreparationTime { get; set; }
-    public int CookingTime { get; set; }
-    public int Servings { get; set; }
-    public string Difficulty { get; set; }
-    public string Instructions { get; set; }
-    public decimal TotalCost { get; set; }
-    public decimal YieldPerPortion { get; set; }
+    /// <summary>
+    /// Represents the overall quantity.
+    /// </summary>
+    public int Quantity { get; set; }
+
+    /// <summary>
+    /// Represents the unit cost.
+    /// </summary>
+    public decimal UnitCost { get; set; }
+
+    /// <summary>
+    /// Represents the quantity produced per production cycle.
+    /// </summary>
+    public decimal QuantityPerProduction { get; set; }
+
+    /// <summary>
+    /// Represents the total cost per production.
+    /// </summary>
+    public decimal ProductionCost { get; set; }
+
     public List<RecipeIngredientDTO> Ingredients { get; set; }
 }
