@@ -1,20 +1,14 @@
 ﻿using RecipeMaster.Core.Entities;
-using RecipeMaster.Infra.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace RecipeMaster.Infra.Persistence;
 
-public class RecipeMasterDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+public class RecipeMasterDbContext(DbContextOptions<RecipeMasterDbContext> options) : IdentityDbContext<ApplicationUser, ApplicationRole, string>(options)
 {
     public DbSet<Recipe> Recipes { get; set; }
     public DbSet<Ingredient> Ingredients { get; set; }
     public DbSet<RecipeIngredient> RecipeIngredients { get; set; }
-
-    public RecipeMasterDbContext(DbContextOptions<RecipeMasterDbContext> options)
-        : base(options)
-    {
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

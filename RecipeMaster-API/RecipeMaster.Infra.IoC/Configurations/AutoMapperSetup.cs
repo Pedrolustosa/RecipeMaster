@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using RecipeMaster.Application.Mappings;
+﻿using RecipeMaster.Application.Mappings;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace RecipeMaster.Infra.IoC.Configurations;
 

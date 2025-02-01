@@ -17,6 +17,8 @@ public class Ingredient
     public string StorageInstructions { get; private set; }
     public bool IsActive { get; private set; }
 
+    public Ingredient() { }
+
     public Ingredient(
         string name,
         string description,
