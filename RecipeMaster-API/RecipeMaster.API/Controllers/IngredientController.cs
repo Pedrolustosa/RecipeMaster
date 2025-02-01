@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using RecipeMaster.Application.DTOs;
-using RecipeMaster.Application.Services.Interfaces;
 using RecipeMaster.Core.Exceptions;
+using RecipeMaster.Application.DTOs;
+using Microsoft.AspNetCore.Authorization;
+using RecipeMaster.Application.Services.Interfaces;
 
 namespace RecipeMaster.API.Controllers;
 
@@ -38,13 +38,11 @@ public class IngredientController(IIngredientService ingredientService, ILogger<
         try
         {
             var ingredient = await _ingredientService.GetByIdAsync(id);
-
             if (ingredient == null)
             {
                 _logger.LogWarning("Ingredient with ID {Id} not found.", id);
                 throw new NotFoundException("Ingredient", id);
             }
-
             _logger.LogInformation("Successfully retrieved ingredient with ID {Id}.", id);
             return Ok(ingredient);
         }

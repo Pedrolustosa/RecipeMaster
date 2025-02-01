@@ -7,7 +7,11 @@ using RecipeMaster.Application.Queries.Ingredients;
 
 namespace RecipeMaster.Application.Handlers.Ingredients;
 
-public class GetIngredientByIdQueryHandler(IIngredientRepository repository, IMapper mapper, ILogger<GetIngredientByIdQueryHandler> logger) : IRequestHandler<GetIngredientByIdQuery, IngredientDTO>
+public class GetIngredientByIdQueryHandler(
+    IIngredientRepository repository,
+    IMapper mapper,
+    ILogger<GetIngredientByIdQueryHandler> logger
+) : IRequestHandler<GetIngredientByIdQuery, IngredientDTO>
 {
     private readonly IIngredientRepository _repository = repository;
     private readonly IMapper _mapper = mapper;
@@ -18,7 +22,6 @@ public class GetIngredientByIdQueryHandler(IIngredientRepository repository, IMa
         try
         {
             var ingredient = await _repository.GetByIdAsync(request.Id);
-
             if (ingredient == null)
             {
                 _logger.LogWarning("Ingredient with ID {Id} not found.", request.Id);

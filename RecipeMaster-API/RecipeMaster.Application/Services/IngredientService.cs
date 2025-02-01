@@ -10,8 +10,8 @@ namespace RecipeMaster.Application.Services;
 
 public class IngredientService(IMediator mediator, IMapper mapper, ILogger<IngredientService> logger) : IIngredientService
 {
-    private readonly IMapper _mapper = mapper;
     private readonly IMediator _mediator = mediator;
+    private readonly IMapper _mapper = mapper;
     private readonly ILogger<IngredientService> _logger = logger;
 
     public async Task<IEnumerable<IngredientDTO>> GetAllAsync()

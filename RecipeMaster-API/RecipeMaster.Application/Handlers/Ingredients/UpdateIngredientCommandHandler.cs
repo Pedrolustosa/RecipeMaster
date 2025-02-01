@@ -6,7 +6,11 @@ using RecipeMaster.Application.Commands.Ingredients;
 
 namespace RecipeMaster.Application.Handlers.Ingredients
 {
-    public class UpdateIngredientCommandHandler(IIngredientRepository repository, IMapper mapper, ILogger<UpdateIngredientCommandHandler> logger) : IRequestHandler<UpdateIngredientCommand, Unit>
+    public class UpdateIngredientCommandHandler(
+        IIngredientRepository repository,
+        IMapper mapper,
+        ILogger<UpdateIngredientCommandHandler> logger
+    ) : IRequestHandler<UpdateIngredientCommand, Unit>
     {
         private readonly IIngredientRepository _repository = repository;
         private readonly IMapper _mapper = mapper;
@@ -17,7 +21,6 @@ namespace RecipeMaster.Application.Handlers.Ingredients
             try
             {
                 var ingredient = await _repository.GetByIdAsync(request.Id);
-
                 if (ingredient == null)
                 {
                     _logger.LogWarning("Ingredient with ID {Id} not found.", request.Id);
@@ -27,7 +30,6 @@ namespace RecipeMaster.Application.Handlers.Ingredients
                 _mapper.Map(request, ingredient);
 
                 await _repository.UpdateAsync(ingredient);
-
                 _logger.LogInformation("Ingredient with ID {Id} updated successfully.", request.Id);
 
                 return Unit.Value;
