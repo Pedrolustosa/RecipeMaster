@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RecipeMaster.Core.Exceptions;
+using RecipeMaster.Application.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using RecipeMaster.Application.Services.Interfaces;
-using RecipeMaster.Core.Exceptions;
 
 namespace RecipeMaster.API.Controllers;
 
@@ -32,9 +33,7 @@ public class RecipeController(IRecipeService recipeService) : ControllerBase
         try
         {
             var recipe = await _recipeService.GetByIdAsync(id);
-            return recipe == null
-                ? throw new NotFoundException("Recipe", id)
-                : (IActionResult)Ok(recipe);
+            return recipe == null ? throw new NotFoundException("Recipe", id) : (IActionResult)Ok(recipe);
         }
         catch (NotFoundException ex)
         {

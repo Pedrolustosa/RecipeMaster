@@ -1,9 +1,9 @@
 ﻿using RecipeMaster.Core.Entities;
 using RecipeMaster.Core.Exceptions;
+using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using RecipeMaster.Infra.Persistence;
 using RecipeMaster.Core.Interfaces.Repositories;
-using Microsoft.Extensions.Logging;
 
 namespace RecipeMaster.Infra.Repositories;
 
@@ -55,16 +55,16 @@ public class RecipeRepository(RecipeMasterDbContext context, ILogger<RecipeRepos
 
     public async Task AddAsync(Recipe recipe)
     {
-        _logger.LogInformation("Attempting to add a new recipe: {RecipeName}", recipe.Name);
+        _logger.LogInformation("Attempting to add a new recipe with ID: {RecipeId}", recipe.Id);
         try
         {
             await _context.Recipes.AddAsync(recipe);
             await _context.SaveChangesAsync();
-            _logger.LogInformation("Successfully added recipe: {RecipeName} with ID: {RecipeId}", recipe.Name, recipe.Id);
+            _logger.LogInformation("Successfully added recipe with ID: {RecipeId}", recipe.Id);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error adding a new recipe: {RecipeName}", recipe.Name);
+            _logger.LogError(ex, "Error adding a new recipe with ID: {RecipeId}", recipe.Id);
             throw new RepositoryException("An error occurred while adding the recipe.", ex);
         }
     }
@@ -123,23 +123,9 @@ public class RecipeRepository(RecipeMasterDbContext context, ILogger<RecipeRepos
         _logger.LogInformation("Attempting to calculate average recipe cost.");
         try
         {
-            var recipeCosts = await _context.Recipes
-                .Select(r => new
-                {
-                    TotalCost = r.Ingredients
-                        .Sum(ri => (double)(ri.Quantity * (ri.Ingredient.Cost.Value != null ? ri.Ingredient.Cost.Value : 0)))
-                })
-                .ToListAsync();
-
-            if (!recipeCosts.Any())
-            {
-                _logger.LogWarning("No recipes found to calculate average cost.");
-                return 0m;
-            }
-
-            var averageCost = Math.Round((decimal)recipeCosts.Average(rc => rc.TotalCost), 2);
+            var averageCost = await _context.Recipes.AverageAsync(r => r.ProductionCost);
             _logger.LogInformation("Successfully calculated average recipe cost: {AverageCost}", averageCost);
-            return averageCost;
+            return Math.Round(averageCost, 2);
         }
         catch (Exception ex)
         {
@@ -153,12 +139,7 @@ public class RecipeRepository(RecipeMasterDbContext context, ILogger<RecipeRepos
         _logger.LogInformation("Attempting to calculate total recipe cost.");
         try
         {
-            var recipeCosts = await _context.Recipes
-                .Select(r => r.Ingredients
-                    .Sum(ri => (double)(ri.Quantity * (ri.Ingredient.Cost.Value != null ? ri.Ingredient.Cost.Value : 0))))
-                .ToListAsync();
-
-            var totalCost = recipeCosts.Any() ? (decimal)recipeCosts.Sum() : 0m;
+            var totalCost = await _context.Recipes.SumAsync(r => r.ProductionCost);
             _logger.LogInformation("Successfully calculated total recipe cost: {TotalCost}", totalCost);
             return Math.Round(totalCost, 2);
         }

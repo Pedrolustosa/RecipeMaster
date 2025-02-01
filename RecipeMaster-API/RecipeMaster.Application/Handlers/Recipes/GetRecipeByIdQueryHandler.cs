@@ -1,12 +1,16 @@
 ﻿using MediatR;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using RecipeMaster.Application.DTOs;
 using RecipeMaster.Application.Queries.Recipes;
 using RecipeMaster.Core.Interfaces.Repositories;
 
 namespace RecipeMaster.Application.Handlers.Recipes;
 
-public class GetRecipeByIdQueryHandler(IRecipeRepository repository, IMapper mapper, ILogger<GetRecipeByIdQueryHandler> logger) : IRequestHandler<GetRecipeByIdQuery, RecipeDTO>
+public class GetRecipeByIdQueryHandler(
+    IRecipeRepository repository,
+    IMapper mapper,
+    ILogger<GetRecipeByIdQueryHandler> logger) : IRequestHandler<GetRecipeByIdQuery, RecipeDTO>
 {
     private readonly IRecipeRepository _repository = repository;
     private readonly IMapper _mapper = mapper;

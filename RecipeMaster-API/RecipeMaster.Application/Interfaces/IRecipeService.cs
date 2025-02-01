@@ -1,4 +1,6 @@
-﻿namespace RecipeMaster.Application.Services.Interfaces;
+﻿using RecipeMaster.Application.DTOs;
+
+namespace RecipeMaster.Application.Services.Interfaces;
 
 public interface IRecipeService
 {
