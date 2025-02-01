@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using RecipeMaster.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 using RecipeMaster.Infra.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 

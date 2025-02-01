@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace RecipeMaster.Infra.Identity;
+namespace RecipeMaster.Core.Entities;
 
 public class ApplicationRole : IdentityRole
 {
