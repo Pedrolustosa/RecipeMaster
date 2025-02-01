@@ -17,8 +17,6 @@ public class Ingredient
     public string StorageInstructions { get; private set; }
     public bool IsActive { get; private set; }
 
-    public Ingredient() { }
-
     public Ingredient(
         string name,
         string description,
@@ -30,8 +28,22 @@ public class Ingredient
         bool isPerishable,
         string originCountry,
         string storageInstructions,
-        bool isActive)
+        bool isActive = true)
     {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("Ingredient name cannot be null or empty.", nameof(name));
+        ArgumentNullException.ThrowIfNull(cost);
+        if (stockQuantity < 0)
+            throw new ArgumentException("Stock quantity cannot be negative.", nameof(stockQuantity));
+        if (minimumStockLevel < 0)
+            throw new ArgumentException("Minimum stock level cannot be negative.", nameof(minimumStockLevel));
+        if (string.IsNullOrWhiteSpace(supplierName))
+            throw new ArgumentException("Supplier name cannot be null or empty.", nameof(supplierName));
+        if (string.IsNullOrWhiteSpace(originCountry))
+            throw new ArgumentException("Origin country cannot be null or empty.", nameof(originCountry));
+        if (string.IsNullOrWhiteSpace(storageInstructions))
+            throw new ArgumentException("Storage instructions cannot be null or empty.", nameof(storageInstructions));
+
         Id = Guid.NewGuid();
         Name = name;
         Description = description;
@@ -46,7 +58,19 @@ public class Ingredient
         IsActive = isActive;
     }
 
-    public void UpdateCost(IngredientCost newCost) => Cost = newCost ?? throw new ArgumentNullException(nameof(newCost));
+    public void UpdateCost(IngredientCost newCost)
+    {
+        ArgumentNullException.ThrowIfNull(newCost);
+        Cost = newCost;
+    }
+
+    public void IncreaseStock(decimal quantity)
+    {
+        if (quantity <= 0)
+            throw new ArgumentException("The quantity to increase must be greater than zero.", nameof(quantity));
+
+        StockQuantity += quantity;
+    }
 
     public void DecreaseStock(decimal quantity)
     {
@@ -65,5 +89,16 @@ public class Ingredient
     private void NotifyLowStock()
     {
         Console.WriteLine($"Warning: Stock for {Name} is below the minimum level. Current stock: {StockQuantity}, Minimum level: {MinimumStockLevel}");
+    }
+
+    public void Deactivate() => IsActive = false;
+
+    public void Activate() => IsActive = true;
+
+    public void UpdateSupplier(string newSupplierName)
+    {
+        if (string.IsNullOrWhiteSpace(newSupplierName))
+            throw new ArgumentException("Supplier name cannot be null or empty.", nameof(newSupplierName));
+        SupplierName = newSupplierName;
     }
 }

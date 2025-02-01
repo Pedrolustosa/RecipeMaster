@@ -7,7 +7,11 @@ using RecipeMaster.Application.Queries.Ingredients;
 
 namespace RecipeMaster.Application.Handlers.Ingredients;
 
-public class GetAllIngredientsQueryHandler(IIngredientRepository repository, IMapper mapper, ILogger<GetAllIngredientsQueryHandler> logger) : IRequestHandler<GetAllIngredientsQuery, IEnumerable<IngredientDTO>>
+public class GetAllIngredientsQueryHandler(
+    IIngredientRepository repository,
+    IMapper mapper,
+    ILogger<GetAllIngredientsQueryHandler> logger
+) : IRequestHandler<GetAllIngredientsQuery, IEnumerable<IngredientDTO>>
 {
     private readonly IIngredientRepository _repository = repository;
     private readonly IMapper _mapper = mapper;

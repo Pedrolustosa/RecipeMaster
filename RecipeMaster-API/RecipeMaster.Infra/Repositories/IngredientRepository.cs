@@ -147,12 +147,14 @@ public class IngredientRepository(RecipeMasterDbContext context, ILogger<Ingredi
             var expensiveIngredients = await _context.Ingredients
                 .OrderByDescending(i => i.Cost.Value)
                 .Take(5)
-                .Select(i => new { i.Name, i.Cost.Value })
+                .Select(i => new { i.Name, Cost = i.Cost.Value })
                 .ToListAsync();
 
             _logger.LogInformation("Successfully retrieved top 5 most expensive ingredients.");
 
-            return expensiveIngredients.Select(i => (i.Name, (decimal)i.Value)).ToList();
+            return expensiveIngredients
+                .Select(i => (i.Name, i.Cost))
+                .ToList();
         }
         catch (Exception ex)
         {

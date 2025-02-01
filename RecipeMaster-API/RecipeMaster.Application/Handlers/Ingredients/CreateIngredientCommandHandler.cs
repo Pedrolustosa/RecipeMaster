@@ -7,7 +7,10 @@ using RecipeMaster.Application.Commands.Ingredients;
 
 namespace RecipeMaster.Application.Handlers.Ingredients;
 
-public class CreateIngredientCommandHandler(IIngredientRepository repository, ILogger<CreateIngredientCommandHandler> logger) : IRequestHandler<CreateIngredientCommand, Guid>
+public class CreateIngredientCommandHandler(
+    IIngredientRepository repository,
+    ILogger<CreateIngredientCommandHandler> logger
+) : IRequestHandler<CreateIngredientCommand, Guid>
 {
     private readonly IIngredientRepository _repository = repository;
     private readonly ILogger<CreateIngredientCommandHandler> _logger = logger;

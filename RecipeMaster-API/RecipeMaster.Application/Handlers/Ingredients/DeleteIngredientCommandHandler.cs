@@ -5,7 +5,10 @@ using RecipeMaster.Application.Commands.Ingredients;
 
 namespace RecipeMaster.Application.Handlers.Ingredients;
 
-public class DeleteIngredientCommandHandler(IIngredientRepository repository, ILogger<DeleteIngredientCommandHandler> logger) : IRequestHandler<DeleteIngredientCommand, Unit>
+public class DeleteIngredientCommandHandler(
+    IIngredientRepository repository,
+    ILogger<DeleteIngredientCommandHandler> logger
+) : IRequestHandler<DeleteIngredientCommand, Unit>
 {
     private readonly IIngredientRepository _repository = repository;
     private readonly ILogger<DeleteIngredientCommandHandler> _logger = logger;
@@ -15,7 +18,6 @@ public class DeleteIngredientCommandHandler(IIngredientRepository repository, IL
         try
         {
             var ingredient = await _repository.GetByIdAsync(request.Id);
-
             if (ingredient == null)
             {
                 _logger.LogWarning("Ingredient with ID {Id} not found.", request.Id);
