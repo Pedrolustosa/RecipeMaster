@@ -49,7 +49,6 @@ export class SidebarComponent implements OnInit {
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });
-    
     this.translate.addLangs(['pt', 'en']);
     this.translate.setDefaultLang('pt');
     const browserLang = this.translate.getBrowserLang();
@@ -77,5 +76,12 @@ export class SidebarComponent implements OnInit {
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
+  }
+
+  // Método para alternar entre português e inglês
+  toggleLanguage(): void {
+    const currentLang = this.translate.currentLang;
+    const newLang = currentLang === 'pt' ? 'en' : 'pt';
+    this.translate.use(newLang);
   }
 }

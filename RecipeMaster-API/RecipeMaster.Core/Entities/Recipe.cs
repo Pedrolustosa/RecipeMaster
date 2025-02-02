@@ -1,72 +1,75 @@
-﻿namespace RecipeMaster.Core.Entities;
+﻿using RecipeMaster.Core.ValueObjects;
 
-public class Recipe
+namespace RecipeMaster.Core.Entities
 {
-    public Guid Id { get; private set; }
-    public IReadOnlyCollection<RecipeIngredient> Ingredients { get; private set; }
-    public int Quantity { get; private set; }                   
-    public decimal UnitCost { get; private set; }               
-    public decimal QuantityPerProduction { get; private set; }  
-    public decimal ProductionCost { get; private set; }         
-
-    public Recipe()
+    public class Recipe
     {
-        Ingredients = new List<RecipeIngredient>().AsReadOnly();
-    }
+        public Guid Id { get; private set; }
 
-    public Recipe(
-        IReadOnlyCollection<RecipeIngredient> ingredients,
-        int quantity,
-        decimal unitCost,
-        decimal quantityPerProduction,
-        decimal productionCost)
-    {
-        Id = Guid.NewGuid();
-        Ingredients = ingredients;
-        Quantity = quantity;
-        UnitCost = unitCost;
-        QuantityPerProduction = quantityPerProduction;
-        ProductionCost = productionCost;
-    }
+        private readonly List<RecipeIngredient> _ingredients = new List<RecipeIngredient>();
+        public IReadOnlyCollection<RecipeIngredient> Ingredients => _ingredients.AsReadOnly();
 
-    public void AddIngredient(RecipeIngredient ingredient)
-    {
-        ArgumentNullException.ThrowIfNull(ingredient);
+        public string RecipeName { get; set; }
+        public int Quantity { get; private set; }
+        public decimal UnitCost { get; private set; }
+        public decimal QuantityPerProduction { get; private set; }
+        public decimal ProductionCost { get; private set; }
 
-        var ingredientList = Ingredients.ToList();
-        ingredientList.Add(ingredient);
-        Ingredients = ingredientList.AsReadOnly();
-    }
+        public Recipe() { }
 
-    public void UpdateQuantity(int newQuantity)
-    {
-        if (newQuantity <= 0)
-            throw new ArgumentException("Quantity must be greater than zero.", nameof(newQuantity));
+        public Recipe(
+            IEnumerable<RecipeIngredient> ingredients,
+            string recipeName,
+            int quantity,
+            decimal unitCost,
+            decimal quantityPerProduction,
+            decimal productionCost)
+        {
+            Id = Guid.NewGuid();
+            _ingredients.AddRange(ingredients);
+            RecipeName = recipeName;
+            Quantity = quantity;
+            UnitCost = unitCost;
+            QuantityPerProduction = quantityPerProduction;
+            ProductionCost = productionCost;
+        }
 
-        Quantity = newQuantity;
-    }
+        public void AddIngredient(RecipeIngredient ingredient)
+        {
+            ArgumentNullException.ThrowIfNull(ingredient);
+            _ingredients.Add(ingredient);
+        }
 
-    public void UpdateUnitCost(decimal newUnitCost)
-    {
-        if (newUnitCost < 0)
-            throw new ArgumentException("Unit cost cannot be negative.", nameof(newUnitCost));
+        public void UpdateQuantity(int newQuantity)
+        {
+            if (newQuantity <= 0)
+                throw new ArgumentException("Quantity must be greater than zero.", nameof(newQuantity));
 
-        UnitCost = newUnitCost;
-    }
+            Quantity = newQuantity;
+        }
 
-    public void UpdateQuantityPerProduction(decimal newQuantityPerProduction)
-    {
-        if (newQuantityPerProduction <= 0)
-            throw new ArgumentException("Quantity per production must be greater than zero.", nameof(newQuantityPerProduction));
+        public void UpdateUnitCost(decimal newUnitCost)
+        {
+            if (newUnitCost < 0)
+                throw new ArgumentException("Unit cost cannot be negative.", nameof(newUnitCost));
 
-        QuantityPerProduction = newQuantityPerProduction;
-    }
+            UnitCost = newUnitCost;
+        }
 
-    public void UpdateProductionCost(decimal newProductionCost)
-    {
-        if (newProductionCost < 0)
-            throw new ArgumentException("Production cost cannot be negative.", nameof(newProductionCost));
+        public void UpdateQuantityPerProduction(decimal newQuantityPerProduction)
+        {
+            if (newQuantityPerProduction <= 0)
+                throw new ArgumentException("Quantity per production must be greater than zero.", nameof(newQuantityPerProduction));
 
-        ProductionCost = newProductionCost;
+            QuantityPerProduction = newQuantityPerProduction;
+        }
+
+        public void UpdateProductionCost(decimal newProductionCost)
+        {
+            if (newProductionCost < 0)
+                throw new ArgumentException("Production cost cannot be negative.", nameof(newProductionCost));
+
+            ProductionCost = newProductionCost;
+        }
     }
 }

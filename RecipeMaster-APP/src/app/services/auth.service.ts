@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { LoginRequest, RegisterRequest, TokenResponse, User } from '../models/auth.models';
+import { LoginRequest, RegisterRequest, TokenResponse, User, UpdateUserRequest } from '../models/auth.models';
 import { environment } from '../../environments/environment';
 import { StorageService } from './storage.service';
 
@@ -10,7 +10,6 @@ import { StorageService } from './storage.service';
 })
 export class AuthService {
   private readonly API_URL = `${environment.apiUrl}/api/auth`;
-  private readonly TOKEN_EXPIRATION_TIME = 120; // 2 hours in minutes
   private currentUserSubject: BehaviorSubject<User | null>;
   public currentUser$: Observable<User | null>;
 
@@ -56,14 +55,13 @@ export class AuthService {
 
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      const expiry = payload.exp * 1000; // Convert to milliseconds
+      const expiry = payload.exp * 1000;
       const timeUntilExpiry = expiry - Date.now();
-      
-      // Avisa 5 minutos antes da expiração
+
       if (timeUntilExpiry > 0 && timeUntilExpiry <= 5 * 60 * 1000) {
         console.warn('Token will expire in less than 5 minutes');
       }
-      
+
       return Date.now() >= expiry;
     } catch (error) {
       console.error('Error checking token expiration:', error);
@@ -77,7 +75,7 @@ export class AuthService {
 
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.exp * 1000; // Convert to milliseconds
+      return payload.exp * 1000;
     } catch {
       return null;
     }
@@ -102,11 +100,34 @@ export class AuthService {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       return {
+        id: payload.sub, // user identifier
         email: payload.email,
-        userName: payload[`http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name`]
+        userName: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+        isActive: payload.isActive ? payload.isActive === "true" || payload.isActive === true : true
       };
     } catch (error) {
+      console.error('Error parsing user from token:', error);
       return null;
     }
+  }
+
+  getUserById(id: string): Observable<User> {
+    return this.http.get<User>(`${this.API_URL}/user/${id}`);
+  }
+
+  getUserByEmail(email: string): Observable<User> {
+    return this.http.get<User>(`${this.API_URL}/user/email/${email}`);
+  }
+
+  getUserByUsername(username: string): Observable<User> {
+    return this.http.get<User>(`${this.API_URL}/user/username/${username}`);
+  }
+
+  updateUser(model: UpdateUserRequest): Observable<any> {
+    return this.http.put(`${this.API_URL}/user/${model.id}`, model);
+  }
+
+  deactivateUser(id: string): Observable<any> {
+    return this.http.delete(`${this.API_URL}/user/${id}`);
   }
 }

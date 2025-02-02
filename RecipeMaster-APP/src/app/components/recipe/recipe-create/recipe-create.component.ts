@@ -8,6 +8,9 @@ import { IngredientService } from '../../../services/ingredient.service';
 import { CreateRecipeRequest } from '../../../models/recipe.models';
 import { Ingredient } from '../../../models/ingredient.model';
 import { CommonModule } from '@angular/common';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-recipe-create',
@@ -17,7 +20,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    TranslateModule
+    TranslateModule,
+    NgxSpinnerModule
   ]
 })
 export class RecipeCreateComponent implements OnInit {
@@ -26,12 +30,6 @@ export class RecipeCreateComponent implements OnInit {
   loading = false;
   availableIngredients: Ingredient[] = [];
   fieldInstructions: any;
-  difficultyLevels = [
-    { key: 'RECIPES.DIFFICULTY.EASY', value: 'easy' },
-    { key: 'RECIPES.DIFFICULTY.MEDIUM', value: 'medium' },
-    { key: 'RECIPES.DIFFICULTY.HARD', value: 'hard' },
-    { key: 'RECIPES.DIFFICULTY.EXPERT', value: 'expert' }
-  ];
 
   constructor(
     private fb: FormBuilder,
@@ -39,7 +37,8 @@ export class RecipeCreateComponent implements OnInit {
     private recipeService: RecipeService,
     private ingredientService: IngredientService,
     private toastr: ToastrService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private spinner: NgxSpinnerService
   ) {}
 
   ngOnInit(): void {
@@ -50,64 +49,37 @@ export class RecipeCreateComponent implements OnInit {
 
   private initFieldInstructions(): void {
     this.fieldInstructions = {
-      name: 'Digite um nome único e descritivo para sua receita (ex: "Bolo de Chocolate Cremoso", "Risoto de Funghi")',
-      description: 'Descreva brevemente sua receita, incluindo suas principais características e sabores (ex: "Um bolo macio e úmido com cobertura de ganache")',
-      difficulty: 'Escolha o nível que melhor representa a complexidade do preparo (Fácil, Médio ou Difícil)',
-      preparationTime: 'Tempo necessário para separar e preparar todos os ingredientes antes de começar a cozinhar',
-      cookingTime: 'Tempo total necessário para cozinhar ou assar a receita até o ponto ideal',
-      servings: 'Quantidade de porções que esta receita rende (ex: 4 pessoas, 8 fatias)',
-      totalCost: 'Custo total aproximado para preparar a receita completa',
-      yieldPerPortion: 'Quantidade em gramas por porção (ex: 150g por fatia)',
-      instructions: 'Descreva passo a passo como preparar a receita. Seja claro e específico, incluindo tempos, temperaturas e técnicas necessárias',
-      ingredients: 'Selecione os ingredientes necessários para a receita',
-      recipeIngredients: 'Especifique a quantidade de cada ingrediente em gramas'
+      recipeName: 'Enter a unique and descriptive name for your recipe (e.g., "Creamy Chocolate Cake", "Wild Mushroom Risotto")',
+      quantity: 'Enter the total produced quantity (e.g., 100 units)',
+      unitCost: 'Enter the cost per unit (e.g., $5.00)',
+      quantityPerProduction: 'Enter the quantity produced per production cycle (e.g., 20 units)',
+      productionCost: 'Enter the total production cost (e.g., $500.00)',
+      ingredients: 'Select the ingredients required for the recipe',
+      recipeIngredients: 'Specify the quantity (in grams) for each ingredient'
     };
   }
 
-  get f() { return this.recipeForm.controls; }
-  get ingredients() { return this.f['ingredients'] as FormArray; }
-
   private initForm(): void {
     this.recipeForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
-      preparationTime: ['', [Validators.required, Validators.min(1), Validators.max(1440)]],
-      cookingTime: ['', [Validators.required, Validators.min(1), Validators.max(1440)]],
-      servings: ['', [Validators.required, Validators.min(1), Validators.max(100)]],
-      difficulty: ['', [Validators.required, Validators.pattern('^(easy|medium|hard|expert)$')]],
-      totalCost: ['', [Validators.required, Validators.min(0.01)]],
-      yieldPerPortion: ['', [Validators.required, Validators.min(1)]],
-      instructions: ['', [Validators.required, Validators.minLength(30)]],
+      recipeName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      quantity: ['', [Validators.required, Validators.min(1)]],
+      unitCost: ['', [Validators.required, Validators.min(0.01)]],
+      quantityPerProduction: ['', [Validators.required, Validators.min(1)]],
+      productionCost: ['', [Validators.required, Validators.min(0.01)]],
       ingredients: this.fb.array([], [Validators.required, Validators.minLength(1)])
     });
 
     this.ingredients.valueChanges.subscribe(() => {
       if (this.ingredients.length === 0) {
         this.ingredients.setErrors({ required: true });
+      } else {
+        this.ingredients.setErrors(null);
       }
     });
   }
 
-  private loadIngredients(): void {
-    this.loading = true;
-    this.ingredientService.getAll().subscribe({
-      next: (ingredients) => {
-        this.availableIngredients = ingredients;
-        this.loading = false;
-        if (this.ingredients.length === 0) {
-          this.addIngredient();
-        }
-      },
-      error: (error) => {
-        console.error('Error loading ingredients:', error);
-        this.toastr.error(
-          this.translate.instant('RECIPES.MESSAGES.LOAD_INGREDIENTS_ERROR'),
-          this.translate.instant('RECIPES.MESSAGES.ERROR')
-        );
-        this.loading = false;
-      }
-    });
-  }
+  get f() { return this.recipeForm.controls; }
+  get ingredients() { return this.f['ingredients'] as FormArray; }
 
   addIngredient(): void {
     const ingredientForm = this.fb.group({
@@ -127,63 +99,58 @@ export class RecipeCreateComponent implements OnInit {
     }
   }
 
-  getIngredientName(ingredientId: string): string {
-    const ingredient = this.availableIngredients.find(i => i.id === ingredientId);
-    return ingredient ? ingredient.name : '';
+  private async loadIngredients(): Promise<void> {
+    try {
+      this.spinner.show();
+      const ingredients = await firstValueFrom(this.ingredientService.getAll());
+      this.availableIngredients = ingredients;
+    } catch (error) {
+      this.toastr.error(
+        this.translate.instant('RECIPES.MESSAGES.LOAD_INGREDIENTS_ERROR'),
+        this.translate.instant('RECIPES.MESSAGES.ERROR')
+      );
+      console.error('Error loading ingredients:', error);
+    } finally {
+      this.spinner.hide();
+    }
   }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     this.submitted = true;
+    if (this.recipeForm.invalid) {
+      return;
+    }
 
-    if (this.recipeForm.valid && this.ingredients.length > 0) {
-      this.loading = true;
+    try {
+      this.spinner.show();
       const formValue = this.recipeForm.value;
-
       const recipe: CreateRecipeRequest = {
-        name: formValue.name.trim(),
-        description: formValue.description.trim(),
-        difficulty: formValue.difficulty.toUpperCase(),
-        preparationTime: Number(formValue.preparationTime),
-        cookingTime: Number(formValue.cookingTime),
-        servings: Number(formValue.servings),
-        instructions: formValue.instructions.trim(),
-        totalCost: Number(formValue.totalCost),
-        yieldPerPortion: Number(formValue.yieldPerPortion),
+        recipeName: formValue.recipeName.trim(),
+        quantity: Number(formValue.quantity),
+        unitCost: Number(formValue.unitCost),
+        quantityPerProduction: Number(formValue.quantityPerProduction),
+        productionCost: Number(formValue.productionCost),
         ingredients: formValue.ingredients.map((ing: any) => ({
           ingredientId: ing.ingredientId,
-          ingredientName: this.getIngredientName(ing.ingredientId),
+          ingredientName: this.availableIngredients.find(i => i.id === ing.ingredientId)?.name || '',
           quantity: Number(ing.quantity)
         }))
       };
 
-      this.recipeService.create(recipe).subscribe({
-        next: () => {
-          this.loading = false;
-          this.toastr.success(
-            this.translate.instant('RECIPES.CREATE.MESSAGES.SUCCESS'),
-            this.translate.instant('COMMON.SUCCESS')
-          );
-          this.router.navigate(['/recipes']);
-        },
-        error: (error) => {
-          this.loading = false;
-          console.error('Error creating recipe:', error);
-          this.toastr.error(
-            this.translate.instant('RECIPES.CREATE.MESSAGES.ERROR'),
-            this.translate.instant('COMMON.ERROR')
-          );
-        }
-      });
-    }
-  }
-
-  calculateYieldPerPortion(): void {
-    const totalCost = this.f['totalCost'].value;
-    const servings = this.f['servings'].value;
-
-    if (totalCost && servings && servings > 0) {
-      const yieldPerPortion = totalCost / servings;
-      this.f['yieldPerPortion'].setValue(yieldPerPortion.toFixed(2));
+      await firstValueFrom(this.recipeService.create(recipe));
+      this.toastr.success(
+        this.translate.instant('RECIPES.CREATE.MESSAGES.SUCCESS'),
+        this.translate.instant('COMMON.SUCCESS')
+      );
+      this.router.navigate(['/recipes']);
+    } catch (error) {
+      console.error('Error creating recipe:', error);
+      this.toastr.error(
+        this.translate.instant('RECIPES.CREATE.MESSAGES.ERROR'),
+        this.translate.instant('COMMON.ERROR')
+      );
+    } finally {
+      this.spinner.hide();
     }
   }
 

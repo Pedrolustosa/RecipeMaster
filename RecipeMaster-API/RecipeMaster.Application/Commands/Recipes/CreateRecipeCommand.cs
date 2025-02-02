@@ -5,6 +5,7 @@ namespace RecipeMaster.Application.Commands.Recipes;
 
 public class CreateRecipeCommand : IRequest<Guid>
 {
+    public string RecipeName { get; set; }
     public int Quantity { get; set; }
     public decimal UnitCost { get; set; }
     public decimal QuantityPerProduction { get; set; }

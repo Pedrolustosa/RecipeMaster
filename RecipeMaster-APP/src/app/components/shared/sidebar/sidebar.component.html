@@ -4,13 +4,12 @@
       <img src="assets/logo-preto-transparente.png" alt="RecipeMaster Logo" class="logo-img">
       <span class="app-name" *ngIf="isExpanded">{{ 'APP_NAME' | translate }}</span>
     </div>
-    <button class="toggle-btn" 
-            (click)="handleSidebarToggle()"
-            [title]="(isExpanded ? 'SIDEBAR.COLLAPSE_MENU' : 'SIDEBAR.EXPAND_MENU') | translate">
+    <button class="toggle-btn" (click)="handleSidebarToggle()"
+      [title]="(isExpanded ? 'SIDEBAR.COLLAPSE_MENU' : 'SIDEBAR.EXPAND_MENU') | translate">
       <i class="fas" [class.fa-chevron-left]="isExpanded" [class.fa-chevron-right]="!isExpanded"></i>
     </button>
   </div>
-  
+
   <div class="user-profile">
     <div class="avatar">
       {{ getInitials(currentUser?.email) }}
@@ -23,11 +22,8 @@
   <div class="nav-section">
     <div class="section-header" *ngIf="isExpanded">{{ 'SIDEBAR.MENU' | translate }}</div>
     <ul class="nav-links">
-      <li *ngFor="let item of navItems" 
-          [class.active]="isCurrentRoute(item.route)"
-          [routerLinkActive]="'active'"
-          [routerLink]="[item.route]"
-          [title]="!isExpanded ? (item.translationKey | translate) : ''">
+      <li *ngFor="let item of navItems" [class.active]="isCurrentRoute(item.route)" [routerLinkActive]="'active'"
+        [routerLink]="[item.route]" [title]="!isExpanded ? (item.translationKey | translate) : ''">
         <div class="nav-item">
           <i [class]="item.icon"></i>
           <div class="nav-content" *ngIf="isExpanded">
@@ -40,10 +36,17 @@
   </div>
 
   <div class="sidebar-footer">
-    <a href="https://www.instagram.com/vivaconfeitariaa?igsh=NXNvbzJlbzljMzlj" 
-       target="_blank" 
-       class="social-link"
-       [title]="!isExpanded ? ('SIDEBAR.INSTAGRAM' | translate) : ''">
+    <!-- Language Selector -->
+    <div class="language-selector mb-2">
+      <button class="btn btn-outline-secondary w-100" (click)="toggleLanguage()">
+        <i class="fas fa-language"></i>
+        <span *ngIf="isExpanded" class="ms-2">
+          {{ (translate.currentLang === 'pt' ? 'English' : 'Português') }}
+        </span>
+      </button>
+    </div>
+    <a href="https://www.instagram.com/vivaconfeitariaa?igsh=NXNvbzJlbzljMzlj" target="_blank" class="social-link"
+      [title]="!isExpanded ? ('SIDEBAR.INSTAGRAM' | translate) : ''">
       <i class="fab fa-instagram"></i>
       <span *ngIf="isExpanded">{{ 'SIDEBAR.INSTAGRAM' | translate }}</span>
     </a>

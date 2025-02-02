@@ -47,7 +47,10 @@ export class IngredientListComponent implements OnInit {
         this.loading = false;
       },
       error: (error: Error) => {
-        this.toastr.error('Failed to load ingredients', 'Error');
+        this.toastr.error(
+          this.translate.instant('INGREDIENTS.LIST.MESSAGES.LOAD_ERROR'),
+          this.translate.instant('INGREDIENTS.LIST.MESSAGES.ERROR')
+        );
         console.error('Error loading ingredients:', error);
         this.loading = false;
       }
@@ -71,8 +74,8 @@ export class IngredientListComponent implements OnInit {
           }
           
           this.toastr.success(
-            this.translate.instant('INGREDIENTS.MESSAGES.DELETE_SUCCESS'),
-            this.translate.instant('INGREDIENTS.MESSAGES.SUCCESS')
+            this.translate.instant('INGREDIENTS.LIST.MESSAGES.DELETE_SUCCESS'),
+            this.translate.instant('INGREDIENTS.LIST.MESSAGES.SUCCESS')
           );
           
           this.loadIngredients();
@@ -80,8 +83,8 @@ export class IngredientListComponent implements OnInit {
         error: (error) => {
           console.error('Error deleting ingredient:', error);
           this.toastr.error(
-            this.translate.instant('INGREDIENTS.MESSAGES.DELETE_ERROR'),
-            this.translate.instant('INGREDIENTS.MESSAGES.ERROR')
+            this.translate.instant('INGREDIENTS.LIST.MESSAGES.DELETE_ERROR'),
+            this.translate.instant('INGREDIENTS.LIST.MESSAGES.ERROR')
           );
         }
       });

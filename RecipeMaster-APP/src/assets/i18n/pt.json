@@ -1,447 +1,435 @@
 {
-  "APP_NAME": "RecipeMaster",
-  "COMMON": {
-    "SUCCESS": "Sucesso",
-    "ERROR": "Erro",
-    "VALIDATION": {
-      "REQUIRED": "Este campo é obrigatório",
-      "MIN_LENGTH": "Mínimo de {{value}} caracteres",
-      "MAX_LENGTH": "Máximo de {{value}} caracteres",
-      "MIN_VALUE": "Valor mínimo é {{value}}",
-      "MAX_VALUE": "Valor máximo é {{value}}",
-      "INVALID_FORMAT": "Formato inválido"
-    },
-    "BUTTONS": {
-      "SAVE": "Salvar",
-      "CANCEL": "Cancelar",
-      "UPDATE": "Atualizar",
-      "DELETE": "Excluir",
-      "ADD": "Adicionar"
-    },
-    "STATUS": "Status",
-    "ACTIONS": "Ações"
-  },
-  "SIDEBAR": {
-    "MENU": "Menu",
-    "NAV": {
-      "DASHBOARD": "Dashboard",
-      "DASHBOARD_DESC": "Visão geral do sistema",
-      "RECIPES": "Receitas",
-      "RECIPES_DESC": "Gerenciar receitas",
-      "INGREDIENTS": "Ingredientes",
-      "INGREDIENTS_DESC": "Gerenciar ingredientes"
-    },
-    "COLLAPSE_MENU": "Recolher menu",
-    "EXPAND_MENU": "Expandir menu",
-    "LOGOUT": "Sair",
-    "INSTAGRAM": "Siga-nos no Instagram"
-  },
-  "INGREDIENTS": {
-    "LIST": {
-      "TITLE": "Ingredientes",
-      "SUBTITLE": "Gerencie seus ingredientes",
-      "ADD_BUTTON": "Adicionar Ingrediente",
-      "SEARCH_PLACEHOLDER": "Buscar ingredientes...",
-      "NO_INGREDIENTS": "Nenhum ingrediente encontrado",
-      "TABLE": {
-        "NAME": "Nome",
-        "DESCRIPTION": "Descrição",
-        "UNIT": "Unidade",
-        "COST": "Custo",
-        "STOCK": "Estoque",
-        "SUPPLIER": "Fornecedor",
-        "STATUS": "Status",
-        "ACTIONS": "Ações"
-      },
-      "DELETE_MODAL": {
-        "TITLE": "Confirmar Exclusão",
-        "MESSAGE": "Tem certeza que deseja excluir este ingrediente?",
-        "CONFIRM": "Sim, Excluir",
-        "CANCEL": "Cancelar"
-      }
-    },
-    "UNITS": {
-      "KG": "Quilograma",
-      "G": "Grama",
-      "L": "Litro",
-      "ML": "Mililitro",
-      "UNIT": "Unidade",
-      "DOZEN": "Dúzia",
-      "Gram": "Grama",
-      "Kilogram": "Quilograma",
-      "Unit": "Unidade",
-      "Liter": "Litro",
-      "Milliliter": "Mililitro"
-    },
-    "EDIT": {
-      "TITLE": "Editar Ingrediente",
-      "SUBTITLE": "Atualize as informações do ingrediente",
-      "TABS": {
-        "BASIC": "Informações Básicas",
-        "DETAILS": "Detalhes",
-        "STORAGE": "Armazenamento"
-      },
-      "FORM": {
-        "NAME": "Nome",
-        "UNIT": "Unidade de Medida",
-        "UNIT_SELECT": "Selecione a unidade de medida",
-        "DESCRIPTION": "Descrição",
-        "COST": "Custo",
-        "STOCK_QUANTITY": "Quantidade em Estoque",
-        "MINIMUM_STOCK": "Estoque Mínimo",
-        "SUPPLIER": "Fornecedor",
-        "ORIGIN": "País de Origem",
-        "STORAGE_INSTRUCTIONS": "Instruções de Armazenamento",
-        "IS_PERISHABLE": "Perecível",
-        "IS_ACTIVE": "Ativo"
-      },
-      "MESSAGES": {
-        "UPDATE_SUCCESS": "Ingrediente atualizado com sucesso",
-        "CREATE_SUCCESS": "Ingrediente criado com sucesso",
-        "ERROR": "Ocorreu um erro ao salvar o ingrediente"
-      }
-    },
-    "CREATE": {
-      "TITLE": "Novo Ingrediente",
-      "SUBTITLE": "Preencha os dados do ingrediente",
-      "TABS": {
-        "BASIC": "Informações Básicas",
-        "DETAILS": "Detalhes",
-        "STORAGE": "Estoque"
-      },
-      "FORM": {
-        "NAME": "Nome",
-        "NAME_REQUIRED": "Nome é obrigatório",
-        "NAME_MINLENGTH": "Nome deve ter no mínimo 3 caracteres",
-        "NAME_MAXLENGTH": "Nome deve ter no máximo 100 caracteres",
-        "DESCRIPTION": "Descrição",
-        "DESCRIPTION_REQUIRED": "Descrição é obrigatória",
-        "DESCRIPTION_MINLENGTH": "Descrição deve ter no mínimo 10 caracteres",
-        "DESCRIPTION_MAXLENGTH": "Descrição deve ter no máximo 500 caracteres",
-        "UNIT": "Unidade de Medida",
-        "SELECT_UNIT": "Selecione uma unidade",
-        "UNIT_REQUIRED": "Unidade de medida é obrigatória",
-        "PRICE": "Preço",
-        "PRICE_REQUIRED": "Preço é obrigatório",
-        "PRICE_MIN": "Preço deve ser maior que R$ 0,01",
-        "PRICE_MAX": "Preço não pode exceder R$ 9.999,99",
-        "STOCK_QUANTITY": "Quantidade em Estoque",
-        "STOCK_QUANTITY_REQUIRED": "Quantidade em estoque é obrigatória",
-        "STOCK_QUANTITY_MIN": "Quantidade em estoque deve ser maior ou igual a 0",
-        "STOCK_QUANTITY_MAX": "Quantidade em estoque não pode exceder 9.999",
-        "MIN_STOCK_LEVEL": "Nível Mínimo de Estoque",
-        "MIN_STOCK_LEVEL_REQUIRED": "Nível mínimo de estoque é obrigatório",
-        "MIN_STOCK_LEVEL_MIN": "Nível mínimo de estoque deve ser maior ou igual a 0",
-        "MIN_STOCK_LEVEL_MAX": "Nível mínimo de estoque não pode exceder 9.999",
-        "SUPPLIER_NAME": "Fornecedor",
-        "SUPPLIER_NAME_REQUIRED": "Nome do fornecedor é obrigatório",
-        "SUPPLIER_NAME_MINLENGTH": "Nome do fornecedor deve ter no mínimo 2 caracteres",
-        "SUPPLIER_NAME_MAXLENGTH": "Nome do fornecedor deve ter no máximo 100 caracteres",
-        "IS_PERISHABLE": "Perecível",
-        "ORIGIN_COUNTRY": "País de Origem",
-        "ORIGIN_COUNTRY_REQUIRED": "País de origem é obrigatório",
-        "ORIGIN_COUNTRY_MINLENGTH": "País de origem deve ter no mínimo 2 caracteres",
-        "ORIGIN_COUNTRY_MAXLENGTH": "País de origem deve ter no máximo 100 caracteres",
-        "STORAGE_INSTRUCTIONS": "Instruções de Armazenamento",
-        "STORAGE_INSTRUCTIONS_REQUIRED": "Instruções de armazenamento são obrigatórias para itens perecíveis",
-        "STORAGE_INSTRUCTIONS_MINLENGTH": "Instruções de armazenamento devem ter no mínimo 10 caracteres",
-        "STORAGE_INSTRUCTIONS_MAXLENGTH": "Instruções de armazenamento devem ter no máximo 500 caracteres",
-        "IS_ACTIVE": "Ativo",
-        "SUBMIT": "Salvar Ingrediente",
+    "APP_NAME": "RecipeMaster",
+    "COMMON": {
         "CANCEL": "Cancelar",
-        "FIELD_INSTRUCTIONS": {
-          "NAME": {
-            "LABEL": "Nome",
-            "HELP": "Digite um nome claro e específico para o ingrediente (ex: \"Farinha de Trigo Integral\", \"Açúcar Refinado\")"
-          },
-          "DESCRIPTION": {
-            "LABEL": "Descrição",
-            "HELP": "Forneça uma descrição detalhada do ingrediente, incluindo características importantes como marca, tipo ou qualidade"
-          },
-          "UNIT": {
-            "LABEL": "Unidade",
-            "HELP": "Escolha a unidade de medida apropriada (ex: gramas, quilos, litros)"
-          },
-          "COST": {
-            "LABEL": "Custo",
-            "HELP": "Informe o custo por unidade do ingrediente. Este valor será usado para calcular o custo das receitas"
-          },
-          "STOCK_QUANTITY": {
-            "LABEL": "Quantidade em Estoque",
-            "HELP": "Quantidade atual disponível em estoque. Mantenha este valor atualizado para controle de inventário"
-          },
-          "MINIMUM_STOCK_LEVEL": {
-            "LABEL": "Estoque Mínimo",
-            "HELP": "Nível mínimo de estoque antes de precisar reabastecer. Ajuda a evitar falta de ingredientes"
-          },
-          "SUPPLIER_NAME": {
-            "LABEL": "Fornecedor",
-            "HELP": "Nome do fornecedor principal deste ingrediente. Importante para rastreabilidade e reposição"
-          },
-          "IS_PERISHABLE": {
-            "LABEL": "Perecível",
-            "HELP": "Indique se o ingrediente é perecível. Isso ajuda no controle de validade e armazenamento"
-          },
-          "ORIGIN_COUNTRY": {
-            "LABEL": "País de Origem",
-            "HELP": "País de origem do ingrediente. Útil para controle de qualidade e rastreabilidade"
-          },
-          "STORAGE_INSTRUCTIONS": {
-            "LABEL": "Instruções de Armazenamento",
-            "HELP": "Instruções específicas de como armazenar o ingrediente (ex: \"Manter refrigerado\", \"Armazenar em local seco\")"
-          },
-          "IS_ACTIVE": {
-            "LABEL": "Ativo",
-            "HELP": "Indica se o ingrediente está ativo para uso em receitas"
-          }
-        }
-      }
-    },
-    "FORM": {
-      "HELP_TEXTS": {
-        "TITLE": "Ajuda",
-        "REQUIRED_FIELDS": "Campos obrigatórios",
-        "SECTIONS": {
-          "BASIC_INFO": "Informações Básicas",
-          "COSTS_STOCK": "Custos e Estoque",
-          "SUPPLIER_ORIGIN": "Fornecedor e Origem",
-          "STORAGE": "Armazenamento"
-        }
-      }
-    }
-  },
-  "DASHBOARD": {
-    "TITLE": "Dashboard",
-    "SUBTITLE": "Visão geral do seu sistema de receitas",
-    "TOTAL_RECIPES": "Total de Receitas",
-    "TOTAL_INGREDIENTS": "Total de Ingredientes",
-    "AVERAGE_RECIPE_COST": "Custo Médio por Receita",
-    "TOTAL_RECIPE_COST": "Custo Total de Receitas",
-    "MOST_EXPENSIVE_INGREDIENTS": "Ingredientes Mais Caros",
-    "MOST_USED_INGREDIENTS": "Ingredientes Mais Usados",
-    "TOP_5": "Top 5",
-    "INGREDIENT_TABLE": {
-      "INGREDIENT": "Ingrediente",
-      "COST": "Custo",
-      "USAGE": "Uso",
-      "RECIPES": "receitas"
-    },
-    "COST": "Custo"
-  },
-  "RECIPES": {
-    "LIST": {
-      "TITLE": "Receitas",
-      "SUBTITLE": "Gerencie suas receitas",
-      "ADD_NEW": "Adicionar Nova Receita",
-      "ADD_RECIPE": "Adicionar Receita",
-      "SEARCH": "Buscar receitas...",
-      "EMPTY": "Nenhuma receita encontrada",
-      "DETAILS": {
-        "PREP_TIME": "Tempo de Preparo",
-        "COOK_TIME": "Tempo de Cozimento",
-        "SERVES": "Porções",
-        "COST_PER_SERVING": "Custo por Porção",
-        "INGREDIENTS": "Ingredientes",
-        "MORE_INGREDIENTS": "mais ingredientes"
-      },
-      "ACTIONS": {
-        "EDIT": "Editar",
-        "DELETE": "Excluir",
-        "VIEW": "Ver Detalhes",
-        "DOWNLOAD_PDF": "Baixar PDF"
-      },
-      "NO_RECIPES": {
-        "TITLE": "Nenhuma Receita Encontrada",
-        "MESSAGE": "Você ainda não tem receitas cadastradas.",
-        "ADD_RECIPE": "Adicionar Nova Receita"
-      },
-      "DELETE_CONFIRM": {
-        "TITLE": "Confirmar Exclusão",
-        "MESSAGE": "Tem certeza que deseja excluir a receita",
-        "WARNING": "Esta ação não pode ser desfeita",
-        "CONFIRM": "Sim, Excluir",
-        "CANCEL": "Cancelar"
-      }
-    },
-    "CREATE": {
-      "TITLE": "Criar Nova Receita",
-      "FORM": {
-        "BASIC_INFO": "Informações Básicas",
-        "DETAILS": "Detalhes",
-        "NAME": "Nome da Receita",
-        "NAME_INSTRUCTIONS": "Digite o nome da receita",
-        "NAME_REQUIRED": "Nome da receita é obrigatório",
-        "NAME_MINLENGTH": "Nome deve ter no mínimo 3 caracteres",
-        "NAME_MAXLENGTH": "Nome não pode exceder 100 caracteres",
-        "DIFFICULTY": "Dificuldade",
-        "DIFFICULTY_SELECT": "Selecione a dificuldade",
-        "DIFFICULTY_LEVELS": {
-          "EASY": "Fácil",
-          "MEDIUM": "Médio",
-          "HARD": "Difícil",
-          "EXPERT": "Expert"
+        "SAVE": "Salvar",
+        "BUTTONS": {
+            "UPDATE": "Atualizar",
+            "DELETE": "Excluir"
         },
-        "DESCRIPTION": "Descrição",
-        "DESCRIPTION_INSTRUCTIONS": "Descreva sua receita",
-        "DESCRIPTION_REQUIRED": "Descrição é obrigatória",
-        "DESCRIPTION_MINLENGTH": "Descrição deve ter no mínimo 10 caracteres",
-        "DESCRIPTION_MAXLENGTH": "Descrição não pode exceder 500 caracteres",
-        "DIFFICULTY_REQUIRED": "Nível de dificuldade é obrigatório",
-        "PREPARATION_TIME": "Tempo de Preparação",
-        "PREPARATION_TIME_REQUIRED": "Tempo de preparação é obrigatório",
-        "PREPARATION_TIME_MIN": "Tempo de preparação deve ser de pelo menos 1 minuto",
-        "PREPARATION_TIME_MAX": "Tempo de preparação não pode exceder 999 minutos",
-        "COOKING_TIME": "Tempo de Cozimento",
-        "COOKING_TIME_REQUIRED": "Tempo de cozimento é obrigatório",
-        "COOKING_TIME_MIN": "Tempo de cozimento não pode ser negativo",
-        "COOKING_TIME_MAX": "Tempo de cozimento não pode exceder 999 minutos",
-        "SERVINGS": "Porções",
-        "SERVINGS_REQUIRED": "Número de porções é obrigatório",
-        "SERVINGS_MIN": "Mínimo de 1 porção",
-        "SERVINGS_MAX": "Máximo de 50 porções",
-        "INSTRUCTIONS": "Instruções",
-        "TOTAL_COST": "Custo Total",
-        "YIELD_PER_PORTION": "Rendimento por Porção",
-        "INGREDIENTS": {
-          "TITLE": "Ingredientes",
-          "ADD": "Adicionar Ingrediente",
-          "SELECT": "Selecione um ingrediente",
-          "SELECT_REQUIRED": "Ingrediente é obrigatório",
-          "QUANTITY": "Quantidade",
-          "QUANTITY_REQUIRED": "Quantidade é obrigatória",
-          "QUANTITY_MIN": "Quantidade mínima é 0.01"
+        "SUCCESS": "Sucesso",
+        "ERROR": "Erro"
+    },
+    "SIDEBAR": {
+        "COLLAPSE_MENU": "Recolher menu",
+        "EXPAND_MENU": "Expandir menu",
+        "MENU": "Menu",
+        "NAV": {
+            "DASHBOARD": "Painel",
+            "DASHBOARD_DESC": "Visão geral do sistema",
+            "RECIPES": "Receitas",
+            "RECIPES_DESC": "Gerencie suas receitas",
+            "INGREDIENTS": "Ingredientes",
+            "INGREDIENTS_DESC": "Gerencie seus ingredientes"
         },
-        "CANCEL": "Cancelar",
-        "SUBMIT": "Salvar"
-      }
+        "INSTAGRAM": "Siga-nos no Instagram",
+        "LOGOUT": "Sair"
     },
-    "MESSAGES": {
-      "RECIPE_MUST_HAVE_AT_LEAST_ONE_INGREDIENT": "A receita deve ter pelo menos um ingrediente",
-      "LOAD_INGREDIENTS_ERROR": "Erro ao carregar ingredientes",
-      "LOAD_ERROR": "Erro ao carregar receita",
-      "SAVE_ERROR": "Erro ao salvar receita"
+    "DASHBOARD": {
+        "TITLE": "Painel",
+        "SUBTITLE": "Visão geral do seu sistema de receitas",
+        "TOTAL_RECIPES": "Total de Receitas",
+        "TOTAL_INGREDIENTS": "Total de Ingredientes",
+        "AVERAGE_RECIPE_COST": "Custo Médio da Receita",
+        "TOTAL_RECIPE_COST": "Custo Total das Receitas",
+        "MOST_EXPENSIVE_INGREDIENTS": "Ingredientes Mais Caros",
+        "MOST_USED_INGREDIENTS": "Ingredientes Mais Utilizados",
+        "TOP_5": "Top 5",
+        "INGREDIENT_TABLE": {
+            "INGREDIENT": "Ingrediente",
+            "COST": "Custo",
+            "USAGE": "Uso",
+            "RECIPES": "Receitas"
+        }
     },
-    "EDIT": {
-      "TITLE": "Editar Receita",
-      "SUBTITLE": "Atualize as informações da sua receita",
-      "SUCCESS": "Receita atualizada com sucesso!",
-      "ERROR": "Erro ao atualizar receita",
-      "VALIDATION": {
-        "NAME_REQUIRED": "Nome da receita é obrigatório",
-        "NAME_MIN_LENGTH": "Nome deve ter no mínimo 3 caracteres",
-        "NAME_MAX_LENGTH": "Nome deve ter no máximo 100 caracteres",
-        "DESCRIPTION_REQUIRED": "Descrição é obrigatória",
-        "DESCRIPTION_MIN_LENGTH": "Descrição deve ter no mínimo 10 caracteres",
-        "DESCRIPTION_MAX_LENGTH": "Descrição deve ter no máximo 500 caracteres",
-        "DIFFICULTY_REQUIRED": "Selecione a dificuldade",
-        "PREP_TIME_REQUIRED": "Tempo de preparo é obrigatório",
-        "PREP_TIME_MIN": "Tempo de preparo mínimo é 1 minuto",
-        "PREP_TIME_MAX": "Tempo de preparo máximo é 999 minutos",
-        "COOK_TIME_REQUIRED": "Tempo de cozimento é obrigatório",
-        "COOK_TIME_MIN": "Tempo de cozimento mínimo é 0 minutos",
-        "COOK_TIME_MAX": "Tempo de cozimento máximo é 999 minutos",
-        "SERVINGS_REQUIRED": "Número de porções é obrigatório",
-        "SERVINGS_MIN": "Mínimo de 1 porção",
-        "SERVINGS_MAX": "Máximo de 99 porções",
-        "INSTRUCTIONS_REQUIRED": "As instruções são obrigatórias",
-        "INSTRUCTIONS_MINLENGTH": "As instruções devem ter no mínimo 10 caracteres",
-        "INSTRUCTIONS_MAXLENGTH": "As instruções não podem ter mais de 2000 caracteres",
-        "TOTAL_COST_REQUIRED": "Custo total é obrigatório",
-        "TOTAL_COST_MIN": "Custo total mínimo é R$ 0,01",
-        "TOTAL_COST_MAX": "Custo total máximo é R$ 9.999,99",
-        "YIELD_REQUIRED": "Rendimento por porção é obrigatório",
-        "YIELD_MIN": "Rendimento mínimo é R$ 0,01",
-        "YIELD_MAX": "Rendimento máximo é R$ 999,99"
-      },
-      "HELP": {
-        "CONTACT_SUPPORT": "Se precisar de ajuda, entre em contato com nosso suporte através do e-mail support@recipemaster.com"
-      },
-      "MESSAGES": {
-        "LOADING": "Carregando receita...",
-        "SAVING": "Salvando alterações...",
-        "LOAD_ERROR": "Erro ao carregar receita",
-        "SAVE_ERROR": "Erro ao salvar alterações",
-        "SUCCESS": "Receita atualizada com sucesso",
-        "CONFIRM_CANCEL": "Tem certeza que deseja cancelar? Todas as alterações serão perdidas.",
-        "LOAD_INGREDIENTS_ERROR": "Erro ao carregar ingredientes",
-        "NO_INGREDIENTS": "Nenhum ingrediente encontrado"
-      },
-      "FORM": {
-        "NAME": "Nome",
-        "NAME_REQUIRED": "O nome é obrigatório",
-        "NAME_MINLENGTH": "O nome deve ter no mínimo 3 caracteres",
-        "NAME_MAXLENGTH": "O nome não pode ter mais de 100 caracteres",
-        "DIFFICULTY": "Dificuldade",
-        "DIFFICULTY_SELECT": "Selecione a dificuldade",
-        "DIFFICULTY_REQUIRED": "A dificuldade é obrigatória",
-        "DESCRIPTION": "Descrição",
-        "DESCRIPTION_REQUIRED": "A descrição é obrigatória",
-        "DESCRIPTION_MINLENGTH": "A descrição deve ter no mínimo 10 caracteres",
-        "DESCRIPTION_MAXLENGTH": "A descrição não pode ter mais de 500 caracteres",
-        "PREPARATION_TIME": "Tempo de Preparação",
-        "PREPARATION_TIME_REQUIRED": "O tempo de preparação é obrigatório",
-        "PREPARATION_TIME_MIN": "O tempo de preparação deve ser maior que 0",
-        "PREPARATION_TIME_MAX": "O tempo de preparação não pode ser maior que 999",
-        "COOKING_TIME": "Tempo de Cozimento",
-        "COOKING_TIME_REQUIRED": "O tempo de cozimento é obrigatório",
-        "COOKING_TIME_MIN": "O tempo de cozimento deve ser maior que 0",
-        "COOKING_TIME_MAX": "O tempo de cozimento não pode ser maior que 999",
-        "SERVINGS": "Porções",
-        "SERVINGS_REQUIRED": "O número de porções é obrigatório",
-        "SERVINGS_MIN": "O número de porções deve ser maior que 0",
-        "SERVINGS_MAX": "O número de porções não pode ser maior que 99",
-        "INSTRUCTIONS": "Instruções",
-        "SUBMIT": "Atualizar Receita"
-      }
+    "INGREDIENTS": {
+        "UNITS": {
+            "Kilogram": "Quilograma",
+            "Liter": "Litro",
+            "Unit": "Unidade",
+            "Gram": "Grama",
+            "Milliliter": "Mililitro"
+        },
+        "CREATE": {
+            "TITLE": "Novo Ingrediente",
+            "SUBTITLE": "Preencha os detalhes do ingrediente",
+            "TABS": {
+                "BASIC": "Informações Básicas",
+                "DETAILS": "Detalhes de Custo",
+                "STORAGE": "Armazenamento & Estoque"
+            },
+            "FORM": {
+                "NAME": "Nome",
+                "NAME_REQUIRED": "O nome é obrigatório",
+                "NAME_MINLENGTH": "O nome deve ter pelo menos 3 caracteres",
+                "NAME_MAXLENGTH": "O nome não pode exceder 100 caracteres",
+                "UNIT": "Unidade de Medida",
+                "SELECT_UNIT": "Selecione uma unidade",
+                "UNIT_REQUIRED": "A unidade é obrigatória",
+                "DESCRIPTION": "Descrição",
+                "DESCRIPTION_REQUIRED": "A descrição é obrigatória",
+                "DESCRIPTION_MINLENGTH": "A descrição deve ter pelo menos 10 caracteres",
+                "DESCRIPTION_MAXLENGTH": "A descrição não pode exceder 500 caracteres",
+                "COST": "Custo",
+                "COST_REQUIRED": "O custo é obrigatório",
+                "COST_MIN": "O custo deve ser maior que R$0,01",
+                "COST_MAX": "O custo não pode exceder R$9.999,99",
+                "PRICE": "Preço",
+                "STOCK_QUANTITY": "Quantidade em Estoque",
+                "STOCK_QUANTITY_REQUIRED": "A quantidade em estoque é obrigatória",
+                "STOCK_QUANTITY_MIN": "A quantidade em estoque deve ser pelo menos 0",
+                "STOCK_QUANTITY_MAX": "A quantidade em estoque não pode exceder 9.999",
+                "MIN_STOCK_LEVEL": "Nível Mínimo de Estoque",
+                "MIN_STOCK_LEVEL_REQUIRED": "O nível mínimo de estoque é obrigatório",
+                "MIN_STOCK_LEVEL_MIN": "O nível mínimo de estoque deve ser pelo menos 0",
+                "MIN_STOCK_LEVEL_MAX": "O nível mínimo de estoque não pode exceder 9.999",
+                "SUPPLIER_NAME": "Nome do Fornecedor",
+                "SUPPLIER_NAME_REQUIRED": "O nome do fornecedor é obrigatório",
+                "SUPPLIER_NAME_MINLENGTH": "O nome do fornecedor deve ter pelo menos 2 caracteres",
+                "SUPPLIER_NAME_MAXLENGTH": "O nome do fornecedor não pode exceder 100 caracteres",
+                "ORIGIN_COUNTRY": "País de Origem",
+                "ORIGIN_COUNTRY_REQUIRED": "O país de origem é obrigatório",
+                "ORIGIN_COUNTRY_MINLENGTH": "O país de origem deve ter pelo menos 2 caracteres",
+                "ORIGIN_COUNTRY_MAXLENGTH": "O país de origem não pode exceder 100 caracteres",
+                "STORAGE_INSTRUCTIONS": "Instruções de Armazenamento",
+                "STORAGE_INSTRUCTIONS_REQUIRED": "As instruções de armazenamento são obrigatórias para itens perecíveis",
+                "STORAGE_INSTRUCTIONS_MINLENGTH": "As instruções de armazenamento devem ter pelo menos 10 caracteres",
+                "STORAGE_INSTRUCTIONS_MAXLENGTH": "As instruções de armazenamento não podem exceder 500 caracteres",
+                "IS_PERISHABLE": "Perecível",
+                "IS_ACTIVE": "Ativo",
+                "CANCEL": "Cancelar",
+                "SUBMIT": "Salvar Ingrediente",
+                "FIELD_INSTRUCTIONS": {
+                    "NAME": {
+                        "HELP": "Insira um nome claro e específico para o ingrediente (por exemplo, 'Farinha de Trigo Integral', 'Açúcar Refinado')."
+                    },
+                    "DESCRIPTION": {
+                        "HELP": "Forneça uma descrição detalhada do ingrediente, incluindo características como marca, tipo ou qualidade."
+                    },
+                    "UNIT": {
+                        "HELP": "Escolha a unidade apropriada (por exemplo, Grama, Quilograma, Litro, Mililitro)."
+                    },
+                    "COST": {
+                        "HELP": "Insira o custo por unidade; este valor será usado para calcular os custos das receitas."
+                    },
+                    "STOCK_QUANTITY": {
+                        "HELP": "Insira a quantidade atual em estoque para o gerenciamento do inventário."
+                    },
+                    "MINIMUM_STOCK_LEVEL": {
+                        "HELP": "Insira o nível mínimo de estoque necessário antes de realizar uma nova compra."
+                    },
+                    "SUPPLIER_NAME": {
+                        "HELP": "Insira o nome do fornecedor."
+                    },
+                    "ORIGIN_COUNTRY": {
+                        "HELP": "Insira o país de origem do ingrediente."
+                    },
+                    "STORAGE_INSTRUCTIONS": {
+                        "HELP": "Forneça instruções para armazenamento adequado (por exemplo, 'Manter refrigerado')."
+                    },
+                    "IS_ACTIVE": {
+                        "HELP": "Indica se o ingrediente está ativo."
+                    },
+                    "IS_PERISHABLE": {
+                        "HELP": "Indica se o ingrediente é perecível."
+                    }
+                },
+                "HELP_TEXTS": {
+                    "TITLE": "Ajuda",
+                    "REQUIRED_FIELDS": "Campos obrigatórios",
+                    "SECTIONS": {
+                        "BASIC_INFO": "Informações Básicas",
+                        "COSTS_STOCK": "Custo & Estoque",
+                        "SUPPLIER_ORIGIN": "Fornecedor & Origem",
+                        "STORAGE": "Armazenamento"
+                    }
+                }
+            },
+            "HELP": {
+                "CONTACT_SUPPORT": "Se precisar de ajuda, contate nosso suporte em support@recipemaster.com"
+            }
+        },
+        "EDIT": {
+            "TITLE": "Editar Ingrediente",
+            "SUBTITLE": "Atualize as informações do ingrediente",
+            "TABS": {
+                "BASIC": "Informações Básicas",
+                "DETAILS": "Detalhes de Custo",
+                "STORAGE": "Armazenamento & Estoque"
+            },
+            "FORM": {
+                "NAME": "Nome",
+                "NAME_REQUIRED": "O nome é obrigatório",
+                "NAME_MINLENGTH": "O nome deve ter pelo menos 3 caracteres",
+                "NAME_MAXLENGTH": "O nome não pode exceder 100 caracteres",
+                "NAME_INSTRUCTIONS": "Insira um nome claro e específico para o ingrediente.",
+                "UNIT": "Unidade de Medida",
+                "SELECT_UNIT": "Selecione uma unidade",
+                "UNIT_REQUIRED": "A unidade é obrigatória",
+                "UNIT_INSTRUCTIONS": "Escolha a unidade apropriada (por exemplo, Grama, Quilograma, Litro).",
+                "DESCRIPTION": "Descrição",
+                "DESCRIPTION_REQUIRED": "A descrição é obrigatória",
+                "DESCRIPTION_MINLENGTH": "A descrição deve ter pelo menos 10 caracteres",
+                "DESCRIPTION_MAXLENGTH": "A descrição não pode exceder 500 caracteres",
+                "DESCRIPTION_INSTRUCTIONS": "Forneça uma descrição detalhada.",
+                "PRICE": "Preço",
+                "PRICE_REQUIRED": "O preço é obrigatório",
+                "PRICE_MIN": "O preço deve ser maior que R$0,01",
+                "PRICE_MAX": "O preço não pode exceder R$9.999,99",
+                "PRICE_INSTRUCTIONS": "Insira o custo por unidade.",
+                "STOCK_QUANTITY": "Quantidade em Estoque",
+                "STOCK_QUANTITY_REQUIRED": "A quantidade em estoque é obrigatória",
+                "STOCK_QUANTITY_MIN": "A quantidade em estoque deve ser pelo menos 0",
+                "STOCK_QUANTITY_MAX": "A quantidade em estoque não pode exceder 9.999",
+                "STOCK_QUANTITY_INSTRUCTIONS": "Insira a quantidade atual em estoque.",
+                "MIN_STOCK_LEVEL": "Nível Mínimo de Estoque",
+                "MIN_STOCK_LEVEL_REQUIRED": "O nível mínimo de estoque é obrigatório",
+                "MIN_STOCK_LEVEL_MIN": "O nível mínimo de estoque deve ser pelo menos 0",
+                "MIN_STOCK_LEVEL_MAX": "O nível mínimo de estoque não pode exceder 9.999",
+                "MIN_STOCK_LEVEL_INSTRUCTIONS": "Insira o nível mínimo de estoque antes de reabastecer.",
+                "SUPPLIER_NAME": "Nome do Fornecedor",
+                "SUPPLIER_NAME_REQUIRED": "O nome do fornecedor é obrigatório",
+                "SUPPLIER_NAME_MINLENGTH": "O nome do fornecedor deve ter pelo menos 2 caracteres",
+                "SUPPLIER_NAME_MAXLENGTH": "O nome do fornecedor não pode exceder 100 caracteres",
+                "SUPPLIER_NAME_INSTRUCTIONS": "Insira o nome do fornecedor.",
+                "ORIGIN_COUNTRY": "País de Origem",
+                "ORIGIN_COUNTRY_REQUIRED": "O país de origem é obrigatório",
+                "ORIGIN_COUNTRY_MINLENGTH": "O país de origem deve ter pelo menos 2 caracteres",
+                "ORIGIN_COUNTRY_MAXLENGTH": "O país de origem não pode exceder 100 caracteres",
+                "ORIGIN_COUNTRY_INSTRUCTIONS": "Insira o país de origem.",
+                "IS_PERISHABLE": "Perecível",
+                "IS_PERISHABLE_INSTRUCTIONS": "Indique se o ingrediente é perecível.",
+                "STORAGE_INSTRUCTIONS": "Instruções de Armazenamento",
+                "STORAGE_INSTRUCTIONS_REQUIRED": "As instruções de armazenamento são obrigatórias para itens perecíveis",
+                "STORAGE_INSTRUCTIONS_MINLENGTH": "As instruções de armazenamento devem ter pelo menos 10 caracteres",
+                "STORAGE_INSTRUCTIONS_MAXLENGTH": "As instruções de armazenamento não podem exceder 500 caracteres",
+                "STORAGE_INSTRUCTIONS_INSTRUCTIONS": "Forneça as instruções de armazenamento.",
+                "IS_ACTIVE": "Ativo",
+                "IS_ACTIVE_INSTRUCTIONS": "Indica se o ingrediente está ativo.",
+                "CANCEL": "Cancelar",
+                "SUBMIT": "Salvar Alterações"
+            },
+            "TIPS": {
+                "TITLE": "Dicas para Edição",
+                "REVIEW_NAME": "Revise o nome do ingrediente para garantir clareza.",
+                "VERIFY_UNIT": "Verifique se a unidade correta está selecionada.",
+                "UPDATE_COST": "Atualize o preço se houver alterações.",
+                "MAINTAIN_STOCK": "Atualize regularmente a quantidade em estoque.",
+                "CHECK_STORAGE": "Verifique as instruções de armazenamento para itens perecíveis."
+            }
+        },
+        "LIST": {
+            "TITLE": "Ingredientes",
+            "ADD_BUTTON": "Adicionar Ingrediente",
+            "SEARCH_PLACEHOLDER": "Pesquisar ingredientes...",
+            "MESSAGES": {
+                "LOAD_ERROR": "Erro ao carregar os ingredientes",
+                "DELETE_SUCCESS": "Ingrediente excluído com sucesso",
+                "DELETE_ERROR": "Erro ao excluir o ingrediente"
+            },
+            "TABLE": {
+                "NAME": "Nome",
+                "UNIT": "Unidade",
+                "COST": "Custo",
+                "STOCK": "Estoque",
+                "SUPPLIER": "Fornecedor",
+                "STATUS": "Status",
+                "ACTIONS": "Ações"
+            },
+            "DELETE_MODAL": {
+                "TITLE": "Confirme a Exclusão",
+                "MESSAGE": "Tem certeza de que deseja excluir este ingrediente?",
+                "CANCEL": "Cancelar",
+                "CONFIRM": "Sim, Excluir"
+            }
+        }
     },
-    "FORM": {
-      "HELP_TEXTS": {
-        "TITLE": "Ajuda e Instruções",
-        "VALIDATION": "Regras de Validação",
-        "REQUIRED_FIELDS": "Campos obrigatórios estão marcados com *",
-        "NEED_HELP": "Precisa de ajuda?",
-        "NAME": "Digite um nome único e descritivo para sua receita (3-100 caracteres)",
-        "DESCRIPTION": "Descreva brevemente sua receita, incluindo suas principais características (10-500 caracteres)",
-        "DIFFICULTY": "Escolha o nível de dificuldade que melhor representa sua receita",
-        "PREPARATION_TIME": "Tempo necessário para preparar os ingredientes (em minutos)",
-        "COOKING_TIME": "Tempo necessário para cozinhar a receita (em minutos)",
-        "SERVINGS": "Número de porções que a receita rende (1-99)",
-        "INSTRUCTIONS": "Descreva o passo a passo detalhado do preparo da receita (20-2000 caracteres)",
-        "TOTAL_COST": "Custo total dos ingredientes utilizados na receita",
-        "YIELD_PER_PORTION": "Valor por porção calculado automaticamente",
-        "INGREDIENTS": "Selecione os ingredientes necessários e suas quantidades",
-        "RECIPE_INGREDIENTS": "Lista de ingredientes adicionados à receita"
-      }
+    "RECIPES": {
+        "LIST": {
+            "TITLE": "Receitas",
+            "SUBTITLE": "Gerencie suas receitas",
+            "ADD_RECIPE": "Adicionar Receita",
+            "SEARCH": "Pesquisar receitas...",
+            "DETAILS": {
+                "RECIPE_NAME": "Nome da Receita",
+                "QUANTITY": "Quantidade",
+                "UNIT_COST": "Custo Unitário",
+                "QUANTITY_PER_PRODUCTION": "Quantidade por Produção",
+                "PRODUCTION_COST": "Custo de Produção",
+                "INGREDIENTS": "Ingredientes",
+                "MORE_INGREDIENTS": "mais ingredientes"
+            },
+            "MESSAGES": {
+                "LOAD_ERROR": "Erro ao carregar as receitas",
+                "DELETE_SUCCESS": "Receita excluída com sucesso",
+                "DELETE_ERROR": "Erro ao excluir a receita"
+            },
+            "NO_RECIPES": {
+                "TITLE": "Nenhuma Receita Encontrada",
+                "MESSAGE": "Você ainda não possui nenhuma receita cadastrada.",
+                "ADD_RECIPE": "Adicionar Nova Receita"
+            },
+            "DELETE_CONFIRM": {
+                "TITLE": "Confirme a Exclusão",
+                "MESSAGE": "Tem certeza de que deseja excluir a receita",
+                "WARNING": "Esta ação não poderá ser desfeita",
+                "CANCEL": "Cancelar",
+                "CONFIRM": "Sim, Excluir"
+            }
+        },
+        "CREATE": {
+            "TITLE": "Criar Nova Receita",
+            "FORM": {
+                "PRODUCTION_DETAILS": "Detalhes de Produção",
+                "RECIPE_NAME": "Nome da Receita",
+                "RECIPE_NAME_REQUIRED": "O nome da receita é obrigatório",
+                "RECIPE_NAME_MINLENGTH": "O nome da receita deve ter pelo menos 3 caracteres",
+                "RECIPE_NAME_MAXLENGTH": "O nome da receita não pode exceder 100 caracteres",
+                "QUANTITY": "Quantidade",
+                "QUANTITY_REQUIRED": "A quantidade é obrigatória",
+                "QUANTITY_MIN": "A quantidade mínima é 1",
+                "UNIT_COST": "Custo Unitário",
+                "UNIT_COST_REQUIRED": "O custo unitário é obrigatório",
+                "UNIT_COST_MIN": "O custo unitário deve ser maior que R$0,01",
+                "QUANTITY_PER_PRODUCTION": "Quantidade por Produção",
+                "QUANTITY_PER_PRODUCTION_REQUIRED": "A quantidade por produção é obrigatória",
+                "QUANTITY_PER_PRODUCTION_MIN": "A quantidade mínima por produção é 1",
+                "PRODUCTION_COST": "Custo de Produção",
+                "PRODUCTION_COST_REQUIRED": "O custo de produção é obrigatório",
+                "PRODUCTION_COST_MIN": "O custo de produção deve ser maior que R$0,01",
+                "INGREDIENTS": {
+                    "TITLE": "Ingredientes",
+                    "ADD": "Adicionar Ingrediente",
+                    "SELECT": "Selecione um ingrediente",
+                    "INGREDIENT_REQUIRED": "O ingrediente é obrigatório",
+                    "AT_LEAST_ONE_REQUIRED": "A receita deve ter pelo menos um ingrediente"
+                },
+                "HELP_TEXTS": {
+                    "TITLE": "Criar Nova Receita",
+                    "PRODUCTION_DETAILS_TITLE": "Detalhes de Produção",
+                    "RECIPE_NAME": "Nome da Receita",
+                    "QUANTITY": "Quantidade",
+                    "UNIT_COST": "Custo Unitário",
+                    "QUANTITY_PER_PRODUCTION": "Quantidade por Produção",
+                    "PRODUCTION_COST": "Custo de Produção",
+                    "INGREDIENTS_TITLE": "Ingredientes",
+                    "REQUIRED_FIELDS": "Campos obrigatórios"
+                }
+            },
+            "MESSAGES": {
+                "SUCCESS": "Receita criada com sucesso",
+                "ERROR": "Erro ao criar a receita. Por favor, tente novamente."
+            },
+            "HELP": {
+                "CONTACT_SUPPORT": "Se precisar de ajuda, contate nosso suporte em support@recipemaster.com"
+            }
+        },
+        "EDIT": {
+            "TITLE": "Editar Receita",
+            "FORM": {
+                "PRODUCTION_DETAILS": "Detalhes de Produção",
+                "RECIPE_NAME": "Nome da Receita",
+                "RECIPE_NAME_REQUIRED": "O nome da receita é obrigatório",
+                "RECIPE_NAME_MINLENGTH": "O nome da receita deve ter pelo menos 3 caracteres",
+                "RECIPE_NAME_MAXLENGTH": "O nome da receita não pode exceder 100 caracteres",
+                "QUANTITY": "Quantidade",
+                "QUANTITY_REQUIRED": "A quantidade é obrigatória",
+                "QUANTITY_MIN": "A quantidade mínima é 1",
+                "UNIT_COST": "Custo Unitário",
+                "UNIT_COST_REQUIRED": "O custo unitário é obrigatório",
+                "UNIT_COST_MIN": "O custo unitário deve ser maior que R$0,01",
+                "QUANTITY_PER_PRODUCTION": "Quantidade por Produção",
+                "QUANTITY_PER_PRODUCTION_REQUIRED": "A quantidade por produção é obrigatória",
+                "QUANTITY_PER_PRODUCTION_MIN": "A quantidade mínima por produção é 1",
+                "PRODUCTION_COST": "Custo de Produção",
+                "PRODUCTION_COST_REQUIRED": "O custo de produção é obrigatório",
+                "PRODUCTION_COST_MIN": "O custo de produção deve ser maior que R$0,01",
+                "INGREDIENTS": {
+                    "TITLE": "Ingredientes",
+                    "ADD": "Adicionar Ingrediente",
+                    "SELECT": "Selecione um ingrediente",
+                    "INGREDIENT_REQUIRED": "O ingrediente é obrigatório",
+                    "AT_LEAST_ONE_REQUIRED": "A receita deve ter pelo menos um ingrediente"
+                },
+                "HELP_TEXTS": {
+                    "TITLE": "Editar Receita",
+                    "PRODUCTION_DETAILS_TITLE": "Detalhes de Produção",
+                    "RECIPE_NAME": "Nome da Receita",
+                    "QUANTITY": "Quantidade",
+                    "UNIT_COST": "Custo Unitário",
+                    "QUANTITY_PER_PRODUCTION": "Quantidade por Produção",
+                    "PRODUCTION_COST": "Custo de Produção",
+                    "INGREDIENTS_TITLE": "Ingredientes",
+                    "REQUIRED_FIELDS": "Campos obrigatórios"
+                }
+            },
+            "MESSAGES": {
+                "SUCCESS": "Receita atualizada com sucesso",
+                "SAVE_ERROR": "Erro ao salvar as alterações da receita",
+                "CONFIRM_CANCEL": "Tem certeza de que deseja cancelar? Todas as alterações serão perdidas."
+            },
+            "FORM_HELP_TEXTS": {
+                "PRODUCTION_DETAILS_TITLE": "Detalhes de Produção",
+                "RECIPE_NAME": "Nome da Receita",
+                "QUANTITY": "Quantidade",
+                "UNIT_COST": "Custo Unitário",
+                "QUANTITY_PER_PRODUCTION": "Quantidade por Produção",
+                "PRODUCTION_COST": "Custo de Produção",
+                "INGREDIENTS_TITLE": "Ingredientes"
+            },
+            "HELP": {
+                "CONTACT_SUPPORT": "Se precisar de ajuda, contate nosso suporte em support@recipemaster.com"
+            },
+            "TIPS": {
+                "TITLE": "Dicas para Edição",
+                "REVIEW_NAME": "Revise o nome da receita para garantir clareza.",
+                "VERIFY_UNIT": "Verifique se o custo unitário está correto.",
+                "UPDATE_COST": "Atualize o custo se houver alterações de preço.",
+                "MAINTAIN_STOCK": "Atualize regularmente os valores de estoque e produção.",
+                "CHECK_STORAGE": "Verifique se os ingredientes e as quantidades estão corretos."
+            }
+        },
+        "MESSAGES": {
+            "RECIPE_MUST_HAVE_AT_LEAST_ONE_INGREDIENT": "A receita deve ter pelo menos um ingrediente"
+        }
+    },
+    "AUTH": {
+        "LOGIN": {
+            "TITLE": "Entrar",
+            "SUBTITLE": "Acesse sua conta",
+            "EMAIL_PLACEHOLDER": "Digite seu email",
+            "EMAIL_REQUIRED": "O email é obrigatório",
+            "EMAIL_INVALID": "Formato de email inválido",
+            "PASSWORD_PLACEHOLDER": "Digite sua senha",
+            "PASSWORD_REQUIRED": "A senha é obrigatória",
+            "PASSWORD_MINLENGTH": "A senha deve ter pelo menos 6 caracteres",
+            "SIGN_IN": "Entrar",
+            "SIGNING_IN": "Entrando...",
+            "FORGOT_PASSWORD": "Esqueceu sua senha?",
+            "DONT_HAVE_ACCOUNT": "Não possui uma conta?",
+            "REGISTER_HERE": "Registre-se aqui",
+            "LOGIN_ERROR": "Email ou senha inválidos"
+        },
+        "REGISTER": {
+            "TITLE": "Crie sua conta",
+            "FORM": {
+                "EMAIL_PLACEHOLDER": "Digite seu email",
+                "PASSWORD_PLACEHOLDER": "Digite sua senha",
+                "CREATING_ACCOUNT": "Criando conta...",
+                "CREATE_ACCOUNT": "Criar Conta",
+                "HAVE_ACCOUNT": "Já possui uma conta?",
+                "LOGIN_LINK": "Entrar"
+            },
+            "VALIDATION": {
+                "EMAIL_REQUIRED": "O email é obrigatório",
+                "EMAIL_INVALID": "Formato de email inválido",
+                "PASSWORD_REQUIRED": "A senha é obrigatória",
+                "PASSWORD_MIN_LENGTH": "A senha deve ter pelo menos 6 caracteres"
+            },
+            "MESSAGES": {
+                "SUCCESS": "Conta criada com sucesso!",
+                "ERROR": "Falha ao criar a conta. Por favor, tente novamente."
+            }
+        }
     }
-  },
-  "AUTH": {
-    "LOGIN": {
-      "SUBTITLE": "Acesse sua cozinha virtual e gerencie suas receitas",
-      "DONT_HAVE_ACCOUNT": "Não tem uma conta?",
-      "LOGIN_LINK": "Entrar",
-      "REGISTER_HERE": "Cadastrar aqui",
-      "SIGN_IN": "Entrar"
-    },
-    "REGISTER": {
-      "TITLE": "Acesse sua cozinha virtual e gerencie suas receitas",
-      "FORM": {
-        "EMAIL_PLACEHOLDER": "Digite seu e-mail",
-        "PASSWORD_PLACEHOLDER": "Digite sua senha",
-        "CREATING_ACCOUNT": "Criando conta...",
-        "CREATE_ACCOUNT": "Criar Conta",
-        "HAVE_ACCOUNT": "Já tem uma conta?",
-        "LOGIN_LINK": "Entrar"
-      },
-      "VALIDATION": {
-        "EMAIL_REQUIRED": "Email é obrigatório",
-        "EMAIL_INVALID": "Por favor, digite um email válido",
-        "PASSWORD_REQUIRED": "Senha é obrigatória",
-        "PASSWORD_MIN_LENGTH": "Senha deve ter pelo menos 6 caracteres"
-      },
-      "MESSAGES": {
-        "SUCCESS": "Conta criada com sucesso!",
-        "ERROR": "Falha ao criar conta. Por favor, tente novamente."
-      }
-    }
-  }
 }

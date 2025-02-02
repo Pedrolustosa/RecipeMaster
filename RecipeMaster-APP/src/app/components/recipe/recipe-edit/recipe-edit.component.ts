@@ -30,15 +30,8 @@ export class RecipeEditComponent implements OnInit {
   recipeId!: string;
   loading = false;
   submitted = false;
-  ingredientList: Ingredient[] = [];
   availableIngredients: Ingredient[] = [];
   fieldInstructions: any;
-  difficultyLevels = [
-    { key: 'RECIPES.DIFFICULTY.EASY', value: 'easy' },
-    { key: 'RECIPES.DIFFICULTY.MEDIUM', value: 'medium' },
-    { key: 'RECIPES.DIFFICULTY.HARD', value: 'hard' },
-    { key: 'RECIPES.DIFFICULTY.EXPERT', value: 'expert' }
-  ];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,32 +58,24 @@ export class RecipeEditComponent implements OnInit {
 
   private initFieldInstructions(): void {
     this.fieldInstructions = {
-      name: 'Digite um nome único e descritivo para sua receita (ex: "Bolo de Chocolate Cremoso", "Risoto de Funghi")',
-      description: 'Descreva brevemente sua receita, incluindo suas principais características e sabores (ex: "Um bolo macio e úmido com cobertura de ganache")',
-      difficulty: 'Escolha o nível que melhor representa a complexidade do preparo (Fácil, Médio ou Difícil)',
-      preparationTime: 'Tempo necessário para separar e preparar todos os ingredientes antes de começar a cozinhar',
-      cookingTime: 'Tempo total necessário para cozinhar ou assar a receita até o ponto ideal',
-      servings: 'Quantidade de porções que esta receita rende (ex: 4 pessoas, 8 fatias)',
-      instructions: 'Descreva o passo a passo completo do preparo. Seja claro e específico em cada etapa',
-      totalCost: 'Custo total aproximado de todos os ingredientes utilizados na receita',
-      yieldPerPortion: 'Valor sugerido por porção para venda (calculado automaticamente)',
-      ingredients: 'Selecione os ingredientes necessários e especifique a quantidade de cada um',
-      recipeIngredients: 'Lista dos ingredientes já adicionados à receita com suas respectivas quantidades'
+      recipeName: 'Enter a unique and descriptive name for your recipe (e.g., "Creamy Chocolate Cake", "Wild Mushroom Risotto")',
+      quantity: 'Enter the total produced quantity (e.g., 100 units)',
+      unitCost: 'Enter the cost per unit (e.g., $5.00)',
+      quantityPerProduction: 'Enter the quantity produced per production cycle (e.g., 20 units)',
+      productionCost: 'Enter the total production cost (e.g., $500.00)',
+      ingredients: 'Select the ingredients required for the recipe',
+      recipeIngredients: 'Specify the quantity (in grams) for each ingredient'
     };
   }
 
   private initForm(): void {
     this.recipeForm = this.formBuilder.group({
       id: [''],
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]],
-      preparationTime: ['', [Validators.required, Validators.min(1), Validators.max(1440)]],
-      cookingTime: ['', [Validators.required, Validators.min(1), Validators.max(1440)]],
-      servings: ['', [Validators.required, Validators.min(1), Validators.max(100)]],
-      difficulty: ['', [Validators.required, Validators.pattern('^(easy|medium|hard|expert)$')]],
-      totalCost: ['', [Validators.required, Validators.min(0.01)]],
-      yieldPerPortion: ['', [Validators.required, Validators.min(1)]],
-      instructions: ['', [Validators.required, Validators.minLength(30)]],
+      recipeName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      quantity: ['', [Validators.required, Validators.min(1)]],
+      unitCost: ['', [Validators.required, Validators.min(0.01)]],
+      quantityPerProduction: ['', [Validators.required, Validators.min(1)]],
+      productionCost: ['', [Validators.required, Validators.min(0.01)]],
       ingredients: this.formBuilder.array([], [Validators.required, Validators.minLength(1)])
     });
 
@@ -108,14 +93,9 @@ export class RecipeEditComponent implements OnInit {
 
   addIngredient(): void {
     const ingredientForm = this.formBuilder.group({
-      ingredientId: ['', [Validators.required]],
-      quantity: ['', [
-        Validators.required,
-        Validators.min(0.01),
-        Validators.max(9999.99)
-      ]]
+      ingredientId: ['', Validators.required],
+      quantity: ['', [Validators.required, Validators.min(0.01)]]
     });
-
     this.ingredients.push(ingredientForm);
   }
 
@@ -133,7 +113,6 @@ export class RecipeEditComponent implements OnInit {
     try {
       this.spinner.show();
       const ingredients = await firstValueFrom(this.ingredientService.getAll());
-      this.ingredientList = ingredients;
       this.availableIngredients = ingredients;
     } catch (error) {
       this.toastr.error(
@@ -150,25 +129,19 @@ export class RecipeEditComponent implements OnInit {
     this.spinner.show();
     this.recipeService.getById(this.recipeId).subscribe({
       next: (recipe) => {
-        const difficultyLevel = this.difficultyLevels.find(level => level.value === recipe.difficulty);
-        
         this.recipeForm.patchValue({
           id: recipe.id,
-          name: recipe.name,
-          description: recipe.description,
-          preparationTime: recipe.preparationTime,
-          cookingTime: recipe.cookingTime,
-          servings: recipe.servings,
-          difficulty: difficultyLevel?.value || '',
-          totalCost: recipe.totalCost,
-          yieldPerPortion: recipe.yieldPerPortion,
-          instructions: recipe.instructions
+          recipeName: recipe.recipeName,
+          quantity: recipe.quantity,
+          unitCost: recipe.unitCost,
+          quantityPerProduction: recipe.quantityPerProduction,
+          productionCost: recipe.productionCost
         });
-
-        recipe.ingredients.forEach(ingredient => {
+        // Clear existing ingredients before adding
+        (this.recipeForm.get('ingredients') as FormArray).clear();
+        recipe.ingredients.forEach((ingredient) => {
           this.ingredients.push(this.createIngredientFormGroup(ingredient));
         });
-
         this.spinner.hide();
       },
       error: (error) => {
@@ -186,42 +159,6 @@ export class RecipeEditComponent implements OnInit {
     });
   }
 
-  onIngredientChange(index: number, event: Event): void {
-    const select = event.target as HTMLSelectElement;
-    const ingredientId = select.value;
-    const ingredient = this.availableIngredients.find(i => i.id === ingredientId);
-    
-    if (ingredient) {
-      const ingredientForm = this.ingredients.at(index);
-      ingredientForm.patchValue({ ingredientId: ingredient.id });
-    }
-  }
-
-  getValidationMessage(field: string): string {
-    const control = this.recipeForm.get(field);
-    if (control?.errors) {
-      if (control.errors['required']) {
-        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_REQUIRED`);
-      }
-      if (control.errors['minlength']) {
-        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_MIN_LENGTH`);
-      }
-      if (control.errors['maxlength']) {
-        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_MAX_LENGTH`);
-      }
-      if (control.errors['min']) {
-        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_MIN`);
-      }
-      if (control.errors['max']) {
-        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_MAX`);
-      }
-      if (control.errors['pattern']) {
-        return this.translate.instant(`RECIPES.EDIT.VALIDATION.${field.toUpperCase()}_PATTERN`);
-      }
-    }
-    return '';
-  }
-
   async onSubmit(): Promise<void> {
     this.submitted = true;
     if (this.recipeForm.invalid) {
@@ -233,15 +170,11 @@ export class RecipeEditComponent implements OnInit {
       const formValue = this.recipeForm.value;
       const updateRequest: UpdateRecipeRequest = {
         id: this.recipeId,
-        name: formValue.name,
-        description: formValue.description,
-        difficulty: formValue.difficulty,
-        preparationTime: formValue.preparationTime,
-        cookingTime: formValue.cookingTime,
-        servings: formValue.servings,
-        instructions: formValue.instructions,
-        totalCost: formValue.totalCost,
-        yieldPerPortion: formValue.yieldPerPortion,
+        recipeName: formValue.recipeName.trim(),
+        quantity: Number(formValue.quantity),
+        unitCost: Number(formValue.unitCost),
+        quantityPerProduction: Number(formValue.quantityPerProduction),
+        productionCost: Number(formValue.productionCost),
         ingredients: formValue.ingredients
       };
 
@@ -265,16 +198,6 @@ export class RecipeEditComponent implements OnInit {
   onCancel(): void {
     if (confirm(this.translate.instant('RECIPES.EDIT.MESSAGES.CONFIRM_CANCEL'))) {
       this.router.navigate(['/recipes']);
-    }
-  }
-
-  calculateYieldPerPortion(): void {
-    const totalCost = this.f['totalCost'].value;
-    const servings = this.f['servings'].value;
-    
-    if (totalCost && servings && servings > 0) {
-      const yieldPerPortion = totalCost / servings;
-      this.f['yieldPerPortion'].setValue(yieldPerPortion.toFixed(2));
     }
   }
 }

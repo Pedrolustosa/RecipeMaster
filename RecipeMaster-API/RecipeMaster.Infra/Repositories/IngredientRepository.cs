@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using RecipeMaster.Infra.Persistence;
 using RecipeMaster.Core.Interfaces.Repositories;
+using RecipeMaster.Core.Exceptions;
 
 namespace RecipeMaster.Infra.Repositories;
 
@@ -143,23 +144,22 @@ public class IngredientRepository(RecipeMasterDbContext context, ILogger<Ingredi
         try
         {
             _logger.LogInformation("Retrieving top 5 most expensive ingredients...");
-
             var expensiveIngredients = await _context.Ingredients
-                .OrderByDescending(i => i.Cost.Value)
+                .Select(i => new { i.Name, Cost = (double)i.Cost.Value })
+                .OrderByDescending(x => x.Cost)
                 .Take(5)
-                .Select(i => new { i.Name, Cost = i.Cost.Value })
                 .ToListAsync();
 
             _logger.LogInformation("Successfully retrieved top 5 most expensive ingredients.");
 
             return expensiveIngredients
-                .Select(i => (i.Name, i.Cost))
+                .Select(i => (i.Name, (decimal)i.Cost))
                 .ToList();
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving most expensive ingredients.");
-            throw;
+            throw new RepositoryException("An error occurred while retrieving the most expensive ingredients.", ex);
         }
     }
 }

@@ -1,467 +1,279 @@
 <div class="container-fluid py-3">
   <div class="row">
+    <!-- Main Form Column -->
     <div class="col-md-9">
-      <div class="card">
-        <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+      <div class="card shadow-sm">
+        <!-- Card Header -->
+        <div class="card-header bg-primary text-white">
           <h5 class="mb-0">
             <i class="fas fa-plus-circle me-2"></i>{{ 'RECIPES.CREATE.TITLE' | translate }}
           </h5>
         </div>
-        
+        <!-- Card Body -->
         <div class="card-body">
           <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-            <ul class="nav nav-tabs mb-3" id="recipeTabs" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button" role="tab">
-                  <i class="fas fa-info-circle me-2"></i>{{ 'RECIPES.CREATE.FORM.BASIC_INFO' | translate }}
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab">
-                  <i class="fas fa-list-ul me-2"></i>{{ 'RECIPES.CREATE.FORM.DETAILS' | translate }}
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="ingredients-tab" data-bs-toggle="tab" data-bs-target="#ingredients" type="button" role="tab">
-                  <i class="fas fa-carrot me-2"></i>{{ 'RECIPES.CREATE.FORM.INGREDIENTS.TITLE' | translate }}
-                </button>
-              </li>
-            </ul>
-
-            <div class="tab-content" id="recipeTabContent">
-              <!-- Basic Info Tab -->
-              <div class="tab-pane fade show active" id="basic" role="tabpanel">
-                <div class="row g-3">
-                  <div class="col-md-6">
-                    <label for="name" class="form-label">{{ 'RECIPES.CREATE.FORM.NAME' | translate }} *</label>
-                    <input 
-                      type="text" 
-                      class="form-control" 
-                      id="name" 
-                      formControlName="name"
-                      [ngClass]="{'is-invalid': submitted && f['name'].errors}"
-                    >
-                    <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
-                      <div *ngIf="f['name'].errors['required']">
-                        {{ 'RECIPES.CREATE.FORM.NAME_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['name'].errors['minlength']">
-                        {{ 'RECIPES.CREATE.FORM.NAME_MINLENGTH' | translate }}
-                      </div>
-                      <div *ngIf="f['name'].errors['maxlength']">
-                        {{ 'RECIPES.CREATE.FORM.NAME_MAXLENGTH' | translate }}
-                      </div>
-                    </div>
+            <!-- Production Details Section -->
+            <h6 class="mb-3">{{ 'RECIPES.CREATE.FORM.PRODUCTION_DETAILS' | translate }}</h6>
+            <div class="row gy-3">
+              <!-- Recipe Name -->
+              <div class="col-md-6">
+                <label for="recipeName" class="form-label">{{ 'RECIPES.CREATE.FORM.RECIPE_NAME' | translate }} *</label>
+                <input 
+                  type="text" 
+                  id="recipeName" 
+                  class="form-control" 
+                  formControlName="recipeName"
+                  [ngClass]="{'is-invalid': submitted && f['recipeName'].errors}"
+                >
+                <div *ngIf="submitted && f['recipeName'].errors" class="invalid-feedback">
+                  <div *ngIf="f['recipeName'].errors['required']">
+                    {{ 'RECIPES.CREATE.FORM.RECIPE_NAME_REQUIRED' | translate }}
                   </div>
-
-                  <div class="col-md-6">
-                    <label for="difficulty" class="form-label">{{ 'RECIPES.CREATE.FORM.DIFFICULTY' | translate }} *</label>
-                    <select 
-                      class="form-select" 
-                      id="difficulty" 
-                      formControlName="difficulty"
-                      [ngClass]="{'is-invalid': submitted && f['difficulty'].errors}"
-                    >
-                      <option value="">{{ 'RECIPES.CREATE.FORM.SELECT_DIFFICULTY' | translate }}</option>
-                      <option *ngFor="let level of difficultyLevels" [value]="level.value">
-                        {{ level.key | translate }}
-                      </option>
-                    </select>
-                    <div *ngIf="submitted && f['difficulty'].errors" class="invalid-feedback">
-                      <div *ngIf="f['difficulty'].errors['required']">
-                        {{ 'RECIPES.CREATE.FORM.DIFFICULTY_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['difficulty'].errors['pattern']">
-                        {{ 'RECIPES.CREATE.FORM.DIFFICULTY_INVALID' | translate }}
-                      </div>
-                    </div>
+                  <div *ngIf="f['recipeName'].errors['minlength']">
+                    {{ 'RECIPES.CREATE.FORM.RECIPE_NAME_MINLENGTH' | translate }}
                   </div>
-
-                  <div class="col-12">
-                    <label for="description" class="form-label">{{ 'RECIPES.CREATE.FORM.DESCRIPTION' | translate }} *</label>
-                    <textarea 
-                      class="form-control" 
-                      id="description" 
-                      rows="3" 
-                      formControlName="description"
-                      [ngClass]="{'is-invalid': submitted && f['description'].errors}"
-                    ></textarea>
-                    <div *ngIf="submitted && f['description'].errors" class="invalid-feedback">
-                      <div *ngIf="f['description'].errors['required']">
-                        {{ 'RECIPES.CREATE.FORM.DESCRIPTION_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['description'].errors['minlength']">
-                        {{ 'RECIPES.CREATE.FORM.DESCRIPTION_MINLENGTH' | translate }}
-                      </div>
-                      <div *ngIf="f['description'].errors['maxlength']">
-                        {{ 'RECIPES.CREATE.FORM.DESCRIPTION_MAXLENGTH' | translate }}
-                      </div>
-                    </div>
+                  <div *ngIf="f['recipeName'].errors['maxlength']">
+                    {{ 'RECIPES.CREATE.FORM.RECIPE_NAME_MAXLENGTH' | translate }}
                   </div>
                 </div>
               </div>
 
-              <!-- Details Tab -->
-              <div class="tab-pane fade" id="details" role="tabpanel">
-                <div class="row g-3">
-                  <div class="col-md-4">
-                    <label for="preparationTime" class="form-label">{{ 'RECIPES.CREATE.FORM.PREPARATION_TIME' | translate }} *</label>
-                    <div class="input-group">
-                      <input 
-                        type="number" 
-                        class="form-control" 
-                        id="preparationTime" 
-                        formControlName="preparationTime"
-                        min="1"
-                        max="1440"
-                        [ngClass]="{'is-invalid': submitted && f['preparationTime'].errors}"
-                      >
-                      <span class="input-group-text">min</span>
-                    </div>
-                    <div *ngIf="submitted && f['preparationTime'].errors" class="invalid-feedback d-block">
-                      <div *ngIf="f['preparationTime'].errors['required']">
-                        {{ 'RECIPES.CREATE.FORM.PREPARATION_TIME_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['preparationTime'].errors['min']">
-                        {{ 'RECIPES.CREATE.FORM.PREPARATION_TIME_MIN' | translate }}
-                      </div>
-                      <div *ngIf="f['preparationTime'].errors['max']">
-                        {{ 'RECIPES.CREATE.FORM.PREPARATION_TIME_MAX' | translate }}
-                      </div>
-                    </div>
+              <!-- Quantity -->
+              <div class="col-md-3">
+                <label for="quantity" class="form-label">{{ 'RECIPES.CREATE.FORM.QUANTITY' | translate }} *</label>
+                <input 
+                  type="number" 
+                  id="quantity" 
+                  class="form-control" 
+                  formControlName="quantity"
+                  min="1"
+                  [ngClass]="{'is-invalid': submitted && f['quantity'].errors}"
+                >
+                <div *ngIf="submitted && f['quantity'].errors" class="invalid-feedback">
+                  <div *ngIf="f['quantity'].errors['required']">
+                    {{ 'RECIPES.CREATE.FORM.QUANTITY_REQUIRED' | translate }}
                   </div>
-
-                  <div class="col-md-4">
-                    <label for="cookingTime" class="form-label">{{ 'RECIPES.CREATE.FORM.COOKING_TIME' | translate }} *</label>
-                    <div class="input-group">
-                      <input 
-                        type="number" 
-                        class="form-control" 
-                        id="cookingTime" 
-                        formControlName="cookingTime"
-                        min="1"
-                        max="1440"
-                        [ngClass]="{'is-invalid': submitted && f['cookingTime'].errors}"
-                      >
-                      <span class="input-group-text">min</span>
-                    </div>
-                    <div *ngIf="submitted && f['cookingTime'].errors" class="invalid-feedback d-block">
-                      <div *ngIf="f['cookingTime'].errors['required']">
-                        {{ 'RECIPES.CREATE.FORM.COOKING_TIME_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['cookingTime'].errors['min']">
-                        {{ 'RECIPES.CREATE.FORM.COOKING_TIME_MIN' | translate }}
-                      </div>
-                      <div *ngIf="f['cookingTime'].errors['max']">
-                        {{ 'RECIPES.CREATE.FORM.COOKING_TIME_MAX' | translate }}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-4">
-                    <label for="servings" class="form-label">{{ 'RECIPES.CREATE.FORM.SERVINGS' | translate }} *</label>
-                    <input 
-                      type="number" 
-                      class="form-control" 
-                      id="servings" 
-                      formControlName="servings"
-                      min="1"
-                      max="100"
-                      [ngClass]="{'is-invalid': submitted && f['servings'].errors}"
-                    >
-                    <div *ngIf="submitted && f['servings'].errors" class="invalid-feedback">
-                      <div *ngIf="f['servings'].errors['required']">
-                        {{ 'RECIPES.CREATE.FORM.SERVINGS_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['servings'].errors['min']">
-                        {{ 'RECIPES.CREATE.FORM.SERVINGS_MIN' | translate }}
-                      </div>
-                      <div *ngIf="f['servings'].errors['max']">
-                        {{ 'RECIPES.CREATE.FORM.SERVINGS_MAX' | translate }}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label for="totalCost" class="form-label">{{ 'RECIPES.CREATE.FORM.TOTAL_COST' | translate }} *</label>
-                    <div class="input-group">
-                      <span class="input-group-text">R$</span>
-                      <input 
-                        type="number" 
-                        class="form-control" 
-                        id="totalCost" 
-                        formControlName="totalCost"
-                        min="0.01"
-                        step="0.01"
-                        [ngClass]="{'is-invalid': submitted && f['totalCost'].errors}"
-                      >
-                    </div>
-                    <div *ngIf="submitted && f['totalCost'].errors" class="invalid-feedback d-block">
-                      <div *ngIf="f['totalCost'].errors['required']">
-                        {{ 'RECIPES.CREATE.FORM.TOTAL_COST_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['totalCost'].errors['min']">
-                        {{ 'RECIPES.CREATE.FORM.TOTAL_COST_MIN' | translate }}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-md-6">
-                    <label for="yieldPerPortion" class="form-label">{{ 'RECIPES.CREATE.FORM.YIELD_PER_PORTION' | translate }} *</label>
-                    <div class="input-group">
-                      <input 
-                        type="number" 
-                        class="form-control" 
-                        id="yieldPerPortion" 
-                        formControlName="yieldPerPortion"
-                        min="1"
-                        step="1"
-                        [ngClass]="{'is-invalid': submitted && f['yieldPerPortion'].errors}"
-                      >
-                      <span class="input-group-text">g</span>
-                    </div>
-                    <div *ngIf="submitted && f['yieldPerPortion'].errors" class="invalid-feedback d-block">
-                      <div *ngIf="f['yieldPerPortion'].errors['required']">
-                        {{ 'RECIPES.CREATE.FORM.YIELD_PER_PORTION_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['yieldPerPortion'].errors['min']">
-                        {{ 'RECIPES.CREATE.FORM.YIELD_PER_PORTION_MIN' | translate }}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="col-12">
-                    <label for="instructions" class="form-label">{{ 'RECIPES.CREATE.FORM.INSTRUCTIONS' | translate }} *</label>
-                    <textarea 
-                      class="form-control" 
-                      id="instructions" 
-                      rows="5" 
-                      formControlName="instructions"
-                      [ngClass]="{'is-invalid': submitted && f['instructions'].errors}"
-                    ></textarea>
-                    <div *ngIf="submitted && f['instructions'].errors" class="invalid-feedback">
-                      <div *ngIf="f['instructions'].errors['required']">
-                        {{ 'RECIPES.CREATE.FORM.INSTRUCTIONS_REQUIRED' | translate }}
-                      </div>
-                      <div *ngIf="f['instructions'].errors['minlength']">
-                        {{ 'RECIPES.CREATE.FORM.INSTRUCTIONS_MINLENGTH' | translate }}
-                      </div>
-                      <div *ngIf="f['instructions'].errors['maxlength']">
-                        {{ 'RECIPES.CREATE.FORM.INSTRUCTIONS_MAXLENGTH' | translate }}
-                      </div>
-                    </div>
+                  <div *ngIf="f['quantity'].errors['min']">
+                    {{ 'RECIPES.CREATE.FORM.QUANTITY_MIN' | translate }}
                   </div>
                 </div>
               </div>
 
-              <!-- Ingredients Tab -->
-              <div class="tab-pane fade" id="ingredients" role="tabpanel">
-                <div class="mb-3">
-                  <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h6 class="mb-0">{{ 'RECIPES.CREATE.FORM.INGREDIENTS.TITLE' | translate }}</h6>
-                    <button type="button" class="btn btn-primary btn-sm" (click)="addIngredient()">
-                      <i class="fas fa-plus me-1"></i>{{ 'RECIPES.CREATE.FORM.INGREDIENTS.ADD' | translate }}
-                    </button>
+              <!-- Unit Cost -->
+              <div class="col-md-3">
+                <label for="unitCost" class="form-label">{{ 'RECIPES.CREATE.FORM.UNIT_COST' | translate }} *</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input 
+                    type="number" 
+                    id="unitCost" 
+                    class="form-control" 
+                    formControlName="unitCost"
+                    min="0.01"
+                    step="0.01"
+                    [ngClass]="{'is-invalid': submitted && f['unitCost'].errors}"
+                  >
+                </div>
+                <div *ngIf="submitted && f['unitCost'].errors" class="invalid-feedback d-block">
+                  <div *ngIf="f['unitCost'].errors['required']">
+                    {{ 'RECIPES.CREATE.FORM.UNIT_COST_REQUIRED' | translate }}
                   </div>
-
-                  <div formArrayName="ingredients">
-                    <div *ngFor="let ingredient of ingredients.controls; let i=index" [formGroupName]="i" class="row g-2 mb-2">
-                      <div class="col-6">
-                        <select 
-                          class="form-select"
-                          formControlName="ingredientId"
-                          [ngClass]="{'is-invalid': submitted && ingredient.get('ingredientId')?.errors}"
-                        >
-                          <option value="">{{ 'RECIPES.CREATE.FORM.INGREDIENTS.SELECT' | translate }}</option>
-                          <option *ngFor="let ing of availableIngredients" [value]="ing.id">
-                            {{ing.name}}
-                          </option>
-                        </select>
-                        <div *ngIf="submitted && ingredient.get('ingredientId')?.errors" class="invalid-feedback">
-                          <div *ngIf="ingredient.get('ingredientId')?.errors?.['required']">
-                            {{ 'RECIPES.CREATE.FORM.INGREDIENTS.INGREDIENT_REQUIRED' | translate }}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-5">
-                        <div class="input-group">
-                          <input 
-                            type="number"
-                            class="form-control"
-                            formControlName="quantity"
-                            min="0.01"
-                            step="0.01"
-                            [ngClass]="{'is-invalid': submitted && ingredient.get('quantity')?.errors}"
-                          >
-                          <span class="input-group-text">g</span>
-                        </div>
-                        <div *ngIf="submitted && ingredient.get('quantity')?.errors" class="invalid-feedback d-block">
-                          <div *ngIf="ingredient.get('quantity')?.errors?.['required']">
-                            {{ 'RECIPES.CREATE.FORM.INGREDIENTS.QUANTITY_REQUIRED' | translate }}
-                          </div>
-                          <div *ngIf="ingredient.get('quantity')?.errors?.['min']">
-                            {{ 'RECIPES.CREATE.FORM.INGREDIENTS.QUANTITY_MIN' | translate }}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="col-1">
-                        <button 
-                          type="button" 
-                          class="btn btn-outline-danger btn-sm"
-                          (click)="removeIngredient(i)"
-                          [disabled]="ingredients.length === 1"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                      </div>
-                    </div>
+                  <div *ngIf="f['unitCost'].errors['min']">
+                    {{ 'RECIPES.CREATE.FORM.UNIT_COST_MIN' | translate }}
                   </div>
+                </div>
+              </div>
 
-                  <div *ngIf="submitted && ingredients.errors?.['required']" class="alert alert-danger mt-2">
-                    {{ 'RECIPES.CREATE.FORM.INGREDIENTS.AT_LEAST_ONE_REQUIRED' | translate }}
+              <!-- Quantity Per Production -->
+              <div class="col-md-3">
+                <label for="quantityPerProduction" class="form-label">{{ 'RECIPES.CREATE.FORM.QUANTITY_PER_PRODUCTION' | translate }} *</label>
+                <input 
+                  type="number" 
+                  id="quantityPerProduction" 
+                  class="form-control" 
+                  formControlName="quantityPerProduction"
+                  min="1"
+                  [ngClass]="{'is-invalid': submitted && f['quantityPerProduction'].errors}"
+                >
+                <div *ngIf="submitted && f['quantityPerProduction'].errors" class="invalid-feedback">
+                  <div *ngIf="f['quantityPerProduction'].errors['required']">
+                    {{ 'RECIPES.CREATE.FORM.QUANTITY_PER_PRODUCTION_REQUIRED' | translate }}
+                  </div>
+                  <div *ngIf="f['quantityPerProduction'].errors['min']">
+                    {{ 'RECIPES.CREATE.FORM.QUANTITY_PER_PRODUCTION_MIN' | translate }}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Production Cost -->
+              <div class="col-md-3">
+                <label for="productionCost" class="form-label">{{ 'RECIPES.CREATE.FORM.PRODUCTION_COST' | translate }} *</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input 
+                    type="number" 
+                    id="productionCost" 
+                    class="form-control" 
+                    formControlName="productionCost"
+                    min="0.01"
+                    step="0.01"
+                    [ngClass]="{'is-invalid': submitted && f['productionCost'].errors}"
+                  >
+                </div>
+                <div *ngIf="submitted && f['productionCost'].errors" class="invalid-feedback d-block">
+                  <div *ngIf="f['productionCost'].errors['required']">
+                    {{ 'RECIPES.CREATE.FORM.PRODUCTION_COST_REQUIRED' | translate }}
+                  </div>
+                  <div *ngIf="f['productionCost'].errors['min']">
+                    {{ 'RECIPES.CREATE.FORM.PRODUCTION_COST_MIN' | translate }}
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Fixed bottom action buttons -->
-            <div class="position-sticky bottom-0 bg-white pt-3 border-top mt-3">
-              <div class="d-flex gap-2 justify-content-end">
-                <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
-                  <i class="fas fa-times me-2"></i>{{ 'RECIPES.CREATE.FORM.CANCEL' | translate }}
-                </button>
-                <button type="submit" class="btn btn-primary">
-                  <i class="fas fa-save me-2"></i>{{ 'RECIPES.CREATE.FORM.SUBMIT' | translate }}
+            <hr class="my-4">
+
+            <!-- Ingredients Section -->
+            <h6 class="mb-3">{{ 'RECIPES.CREATE.FORM.INGREDIENTS.TITLE' | translate }}</h6>
+            <div class="mb-3">
+              <div class="d-flex justify-content-end mb-2">
+                <button type="button" class="btn btn-primary btn-sm" (click)="addIngredient()">
+                  <i class="fas fa-plus me-1"></i>{{ 'RECIPES.CREATE.FORM.INGREDIENTS.ADD' | translate }}
                 </button>
               </div>
+              <div formArrayName="ingredients">
+                <div *ngFor="let ingredient of ingredients.controls; let i=index" [formGroupName]="i" class="row g-2 mb-2 align-items-center">
+                  <div class="col-md-8">
+                    <select 
+                      class="form-select"
+                      formControlName="ingredientId"
+                      [ngClass]="{'is-invalid': submitted && ingredient.get('ingredientId')?.errors}"
+                    >
+                      <option value="">{{ 'RECIPES.CREATE.FORM.INGREDIENTS.SELECT' | translate }}</option>
+                      <option *ngFor="let ing of availableIngredients" [value]="ing.id">
+                        {{ ing.name }}
+                      </option>
+                    </select>
+                    <div *ngIf="submitted && ingredient.get('ingredientId')?.errors" class="invalid-feedback">
+                      <div *ngIf="ingredient.get('ingredientId')?.errors?.['required']">
+                        {{ 'RECIPES.CREATE.FORM.INGREDIENTS.INGREDIENT_REQUIRED' | translate }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="input-group">
+                      <input 
+                        type="number"
+                        class="form-control"
+                        formControlName="quantity"
+                        min="0.01"
+                        step="0.01"
+                        [ngClass]="{'is-invalid': submitted && ingredient.get('quantity')?.errors}"
+                      >
+                      <span class="input-group-text">g</span>
+                    </div>
+                    <div *ngIf="submitted && ingredient.get('quantity')?.errors" class="invalid-feedback d-block">
+                      <div *ngIf="ingredient.get('quantity')?.errors?.['required']">
+                        {{ 'RECIPES.CREATE.FORM.INGREDIENTS.QUANTITY_REQUIRED' | translate }}
+                      </div>
+                      <div *ngIf="ingredient.get('quantity')?.errors?.['min']">
+                        {{ 'RECIPES.CREATE.FORM.INGREDIENTS.QUANTITY_MIN' | translate }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-1 text-end">
+                    <button 
+                      type="button" 
+                      class="btn btn-outline-danger btn-sm"
+                      (click)="removeIngredient(i)"
+                      [disabled]="ingredients.length === 1"
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="submitted && ingredients.errors?.['required']" class="alert alert-danger mt-2">
+                {{ 'RECIPES.CREATE.FORM.INGREDIENTS.AT_LEAST_ONE_REQUIRED' | translate }}
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex justify-content-end gap-2 mt-4">
+              <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">
+                <i class="fas fa-times me-2"></i>{{ 'COMMON.CANCEL' | translate }}
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>{{ 'COMMON.SAVE' | translate }}
+              </button>
             </div>
           </form>
         </div>
       </div>
     </div>
 
+    <!-- Help Panel -->
     <div class="col-md-3">
       <div class="card bg-light border-0 shadow-sm">
         <div class="card-body">
           <h5 class="card-title">
-            <i class="fas fa-question-circle me-2"></i>{{ 'RECIPES.FORM.HELP_TEXTS.TITLE' | translate }}
+            <i class="fas fa-question-circle me-2"></i>{{ 'RECIPES.CREATE.FORM.HELP_TEXTS.TITLE' | translate }}
           </h5>
           <hr>
-          
-          <p><i class="fas fa-check-circle text-success me-2"></i>{{ 'RECIPES.FORM.HELP_TEXTS.REQUIRED_FIELDS' | translate }}</p>
-
+          <p><i class="fas fa-check-circle text-success me-2"></i>{{ 'RECIPES.CREATE.FORM.HELP_TEXTS.REQUIRED_FIELDS' | translate }}</p>
           <div class="accordion accordion-flush" id="helpAccordion">
-            <!-- Informações Básicas -->
+            <!-- Production Details Help -->
             <div class="accordion-item">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#basicInfo">
-                  <i class="fas fa-info-circle me-2"></i>Informações Básicas
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#productionDetailsHelp">
+                  <i class="fas fa-info-circle me-2"></i>{{ 'RECIPES.CREATE.FORM.HELP_TEXTS.PRODUCTION_DETAILS_TITLE' | translate }}
                 </button>
               </h2>
-              <div id="basicInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+              <div id="productionDetailsHelp" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
                 <div class="accordion-body">
                   <div class="field-help mb-2">
-                    <strong>Nome da Receita:</strong>
-                    <p class="small text-muted mb-2">{{fieldInstructions.name}}</p>
+                    <strong>{{ 'RECIPES.CREATE.FORM.HELP_TEXTS.RECIPE_NAME' | translate }}</strong>
+                    <p class="small text-muted mb-2">{{ fieldInstructions.recipeName }}</p>
                   </div>
                   <div class="field-help mb-2">
-                    <strong>Descrição:</strong>
-                    <p class="small text-muted mb-2">{{fieldInstructions.description}}</p>
+                    <strong>{{ 'RECIPES.CREATE.FORM.HELP_TEXTS.QUANTITY' | translate }}</strong>
+                    <p class="small text-muted mb-2">{{ fieldInstructions.quantity }}</p>
+                  </div>
+                  <div class="field-help mb-2">
+                    <strong>{{ 'RECIPES.CREATE.FORM.HELP_TEXTS.UNIT_COST' | translate }}</strong>
+                    <p class="small text-muted mb-2">{{ fieldInstructions.unitCost }}</p>
+                  </div>
+                  <div class="field-help mb-2">
+                    <strong>{{ 'RECIPES.CREATE.FORM.HELP_TEXTS.QUANTITY_PER_PRODUCTION' | translate }}</strong>
+                    <p class="small text-muted mb-2">{{ fieldInstructions.quantityPerProduction }}</p>
                   </div>
                   <div class="field-help">
-                    <strong>Nível de Dificuldade:</strong>
-                    <p class="small text-muted mb-0">{{fieldInstructions.difficulty}}</p>
+                    <strong>{{ 'RECIPES.CREATE.FORM.HELP_TEXTS.PRODUCTION_COST' | translate }}</strong>
+                    <p class="small text-muted mb-0">{{ fieldInstructions.productionCost }}</p>
                   </div>
                 </div>
               </div>
             </div>
-
-            <!-- Tempos -->
+            <!-- Ingredients Help -->
             <div class="accordion-item">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#timingInfo">
-                  <i class="fas fa-clock me-2"></i>Tempos
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ingredientsHelp">
+                  <i class="fas fa-carrot me-2"></i>{{ 'RECIPES.CREATE.FORM.HELP_TEXTS.INGREDIENTS_TITLE' | translate }}
                 </button>
               </h2>
-              <div id="timingInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
-                <div class="accordion-body">
-                  <div class="field-help mb-2">
-                    <strong>Tempo de Preparo:</strong>
-                    <p class="small text-muted mb-2">{{fieldInstructions.preparationTime}}</p>
-                  </div>
-                  <div class="field-help">
-                    <strong>Tempo de Cozimento:</strong>
-                    <p class="small text-muted mb-0">{{fieldInstructions.cookingTime}}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Porções e Custos -->
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#portionsInfo">
-                  <i class="fas fa-calculator me-2"></i>Porções e Custos
-                </button>
-              </h2>
-              <div id="portionsInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
-                <div class="accordion-body">
-                  <div class="field-help mb-2">
-                    <strong>Porções:</strong>
-                    <p class="small text-muted mb-2">{{fieldInstructions.servings}}</p>
-                  </div>
-                  <div class="field-help mb-2">
-                    <strong>Custo Total:</strong>
-                    <p class="small text-muted mb-2">{{fieldInstructions.totalCost}}</p>
-                  </div>
-                  <div class="field-help">
-                    <strong>Rendimento por Porção:</strong>
-                    <p class="small text-muted mb-0">{{fieldInstructions.yieldPerPortion}}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Preparo -->
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#instructionsInfo">
-                  <i class="fas fa-list-ol me-2"></i>Modo de Preparo
-                </button>
-              </h2>
-              <div id="instructionsInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
+              <div id="ingredientsHelp" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
                 <div class="accordion-body">
                   <div class="field-help">
-                    <p class="small text-muted mb-0">{{fieldInstructions.instructions}}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Ingredientes -->
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#ingredientsInfo">
-                  <i class="fas fa-carrot me-2"></i>Ingredientes
-                </button>
-              </h2>
-              <div id="ingredientsInfo" class="accordion-collapse collapse" data-bs-parent="#helpAccordion">
-                <div class="accordion-body">
-                  <div class="field-help">
-                    <p class="small text-muted mb-2">{{fieldInstructions.ingredients}}</p>
-                    <p class="small text-muted mb-0">{{fieldInstructions.recipeIngredients}}</p>
+                    <p class="small text-muted mb-2">{{ fieldInstructions.ingredients }}</p>
+                    <p class="small text-muted mb-0">{{ fieldInstructions.recipeIngredients }}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
           <div class="need-help mt-3">
             <p class="small mb-0">
-              <i class="fas fa-info-circle me-2"></i>
-              {{ 'RECIPES.EDIT.HELP.CONTACT_SUPPORT' | translate }}
+              <i class="fas fa-info-circle me-2"></i>{{ 'RECIPES.CREATE.HELP.CONTACT_SUPPORT' | translate }}
             </p>
           </div>
         </div>

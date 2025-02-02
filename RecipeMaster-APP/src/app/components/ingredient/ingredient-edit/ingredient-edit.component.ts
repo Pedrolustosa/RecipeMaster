@@ -24,19 +24,7 @@ export class IngredientEditComponent implements OnInit {
   measurementUnits = Object.values(MeasurementUnit);
 
   // Field instructions
-  fieldInstructions = {
-    name: 'Enter a unique, descriptive name for the ingredient (e.g., "Fresh Organic Tomatoes", "All-Purpose Flour")',
-    description: 'Provide details about the ingredient including variety, quality, or special characteristics (e.g., "Premium grade Italian tomatoes, perfect for sauces")',
-    unit: 'Select the most appropriate measurement unit for this ingredient. Consider how it will be used in recipes',
-    cost: 'Enter the average cost per unit (e.g., cost per kg, per unit). Use current market prices',
-    stockQuantity: 'Enter the current quantity available in stock. This helps track inventory levels and plan purchases',
-    minimumStockLevel: 'Set the minimum quantity that should be maintained in stock. You will be alerted when stock falls below this level',
-    supplierName: 'Enter the name of your preferred supplier for this ingredient. This helps with reordering and maintaining supplier relationships',
-    isPerishable: 'Check if this ingredient has a limited shelf life and requires special storage',
-    originCountry: 'Enter the country where this ingredient typically comes from (e.g., "Italy" for specific olive oils)',
-    storageInstructions: 'Specify how to properly store this ingredient (e.g., "Store in a cool, dry place" or "Refrigerate after opening")',
-    isActive: 'Indicate if this ingredient is currently available for use in recipes'
-  };
+  fieldInstructions: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -47,6 +35,23 @@ export class IngredientEditComponent implements OnInit {
     private translate: TranslateService
   ) {
     this.initForm();
+    this.initFieldInstructions();
+  }
+
+  private initFieldInstructions(): void {
+    this.fieldInstructions = {
+      name: this.translate.instant('INGREDIENTS.EDIT.FORM.FIELD_INSTRUCTIONS.NAME.HELP'),
+      description: this.translate.instant('INGREDIENTS.EDIT.FORM.FIELD_INSTRUCTIONS.DESCRIPTION.HELP'),
+      unit: this.translate.instant('INGREDIENTS.EDIT.FORM.FIELD_INSTRUCTIONS.UNIT.HELP'),
+      cost: this.translate.instant('INGREDIENTS.EDIT.FORM.FIELD_INSTRUCTIONS.COST.HELP'),
+      stockQuantity: this.translate.instant('INGREDIENTS.EDIT.FORM.FIELD_INSTRUCTIONS.STOCK_QUANTITY.HELP'),
+      minimumStockLevel: this.translate.instant('INGREDIENTS.EDIT.FORM.FIELD_INSTRUCTIONS.MINIMUM_STOCK_LEVEL.HELP'),
+      supplierName: this.translate.instant('INGREDIENTS.EDIT.FORM.FIELD_INSTRUCTIONS.SUPPLIER_NAME.HELP'),
+      isPerishable: this.translate.instant('INGREDIENTS.EDIT.FORM.FIELD_INSTRUCTIONS.IS_PERISHABLE.HELP'),
+      originCountry: this.translate.instant('INGREDIENTS.EDIT.FORM.FIELD_INSTRUCTIONS.ORIGIN_COUNTRY.HELP'),
+      storageInstructions: this.translate.instant('INGREDIENTS.EDIT.FORM.FIELD_INSTRUCTIONS.STORAGE_INSTRUCTIONS.HELP'),
+      isActive: this.translate.instant('INGREDIENTS.EDIT.FORM.FIELD_INSTRUCTIONS.IS_ACTIVE.HELP')
+    };
   }
 
   private initForm(): void {
