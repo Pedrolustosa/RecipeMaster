@@ -26,8 +26,9 @@ export class AppComponent {
     private translate: TranslateService
   ) {
     translate.addLangs(['pt', 'en']);
-    translate.setDefaultLang('pt');
-    translate.use('pt');
+    translate.setDefaultLang('en');
+    const browserLang = translate.getBrowserLang();
+    translate.use(browserLang && ['pt', 'en'].includes(browserLang) ? browserLang : 'en');
   }
 
   onSidebarToggle(isExpanded: boolean): void {
@@ -36,5 +37,9 @@ export class AppComponent {
 
   shouldShowSidebar(): boolean {
     return !['/login', '/register'].includes(this.router.url);
+  }
+
+  switchLanguage(lang: string): void {
+    this.translate.use(lang);
   }
 }

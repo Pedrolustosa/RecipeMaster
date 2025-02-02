@@ -9,10 +9,8 @@ import { HttpClient } from '@angular/common/http';
 import { routes } from './app.routes';
 import { Chart, registerables } from 'chart.js';
 
-// Registrar todos os componentes do Chart.js
 Chart.register(...registerables);
 
-// Factory function para o TranslateHttpLoader
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

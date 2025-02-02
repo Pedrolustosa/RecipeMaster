@@ -1,106 +1,88 @@
-<div class="container-fluid">
+<div class="container py-3">
   <!-- Header Section -->
   <div class="row mb-4">
-    <div class="col">
-      <div class="d-flex justify-content-between align-items-center">
-        <div>
-          <h1 class="display-6 mb-0">{{ 'RECIPES.LIST.TITLE' | translate }}</h1>
-          <p class="text-muted mt-2">{{ 'RECIPES.LIST.SUBTITLE' | translate }}</p>
-        </div>
-        <div>
-          <button class="btn btn-primary shadow-sm-hover" routerLink="create">
-            <i class="fas fa-plus me-2"></i>
-            {{ 'RECIPES.LIST.ADD_RECIPE' | translate }}
-          </button>
-        </div>
+    <div class="col d-flex justify-content-between align-items-center">
+      <div>
+        <h1 class="display-5">{{ 'RECIPES.LIST.TITLE' | translate }}</h1>
+        <p class="lead text-muted">{{ 'RECIPES.LIST.SUBTITLE' | translate }}</p>
+      </div>
+      <div>
+        <button class="btn btn-primary shadow-sm-hover" routerLink="/recipes/create">
+          <i class="fas fa-plus me-2"></i>{{ 'RECIPES.LIST.ADD_RECIPE' | translate }}
+        </button>
       </div>
     </div>
   </div>
 
   <!-- Search Section -->
   <div class="row mb-4">
-    <div class="col-12 col-md-6">
+    <div class="col-md-6">
       <div class="input-group">
         <span class="input-group-text bg-white border-end-0">
           <i class="fas fa-search text-muted"></i>
         </span>
-        <input
-          type="text"
-          class="form-control border-start-0 ps-0"
-          [(ngModel)]="searchTerm"
-          [placeholder]="'RECIPES.LIST.SEARCH' | translate"
-        >
+        <input type="text"
+               class="form-control border-start-0 ps-0"
+               placeholder="{{ 'RECIPES.LIST.SEARCH' | translate }}"
+               [(ngModel)]="searchTerm"
+               (input)="onSearch()">
       </div>
     </div>
   </div>
 
   <!-- Recipe Cards -->
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    <div class="col" *ngFor="let recipe of recipes">
-      <div class="card h-100 shadow-sm border-0 hover-shadow">
-        <div class="card-header bg-light py-3">
-          <h5 class="card-title mb-0">{{ recipe.name }}</h5>
+    <div class="col" *ngFor="let recipe of filteredRecipes">
+      <div class="card h-100 custom-card hover-shadow">
+        <!-- Card Header: Recipe Name -->
+        <div class="card-header custom-card-header">
+          <h5 class="card-title mb-0">{{ recipe.recipeName }}</h5>
         </div>
+        <!-- Card Body: Production Details & Ingredients -->
         <div class="card-body">
           <div class="mb-3">
-            <p class="card-text">{{ recipe.description }}</p>
+            <p class="mb-1">
+              <strong>{{ 'RECIPES.LIST.DETAILS.QUANTITY' | translate }}:</strong> {{ recipe.quantity }}
+            </p>
+            <p class="mb-1">
+              <strong>{{ 'RECIPES.LIST.DETAILS.UNIT_COST' | translate }}:</strong> ${{ recipe.unitCost | number:'1.2-2' }}
+            </p>
+            <p class="mb-1">
+              <strong>{{ 'RECIPES.LIST.DETAILS.QUANTITY_PER_PRODUCTION' | translate }}:</strong> {{ recipe.quantityPerProduction }}
+            </p>
+            <p class="mb-0">
+              <strong>{{ 'RECIPES.LIST.DETAILS.PRODUCTION_COST' | translate }}:</strong> ${{ recipe.productionCost | number:'1.2-2' }}
+            </p>
           </div>
-
-          <div class="mb-3">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="badge bg-primary">{{ recipe.difficulty }}</span>
-              <span class="badge bg-success">R$ {{ recipe.totalCost | number:'1.2-2' }}</span>
-            </div>
-            
-            <div class="recipe-details">
-              <div class="detail-item">
-                <i class="fas fa-clock text-muted"></i>
-                <span>{{ 'RECIPES.LIST.DETAILS.PREP_TIME' | translate }}: {{ recipe.preparationTime }}min</span>
-              </div>
-              <div class="detail-item">
-                <i class="fas fa-fire text-muted"></i>
-                <span>{{ 'RECIPES.LIST.DETAILS.COOK_TIME' | translate }}: {{ recipe.cookingTime }}min</span>
-              </div>
-              <div class="detail-item">
-                <i class="fas fa-users text-muted"></i>
-                <span>{{ 'RECIPES.LIST.DETAILS.SERVES' | translate }}: {{ recipe.servings }}</span>
-              </div>
-              <div class="detail-item">
-                <i class="fas fa-dollar-sign text-muted"></i>
-                <span>{{ 'RECIPES.LIST.DETAILS.COST_PER_SERVING' | translate }}: R$ {{ recipe.yieldPerPortion | number:'1.2-2' }}</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="mb-3">
+          <div>
             <h6 class="fw-bold mb-2">
               <i class="fas fa-list me-2"></i>{{ 'RECIPES.LIST.DETAILS.INGREDIENTS' | translate }}
             </h6>
-            <ul class="list-unstyled mb-0 ingredient-list">
-              <li *ngFor="let ingredient of recipe.ingredients.slice(0, 3)" class="mb-1">
-                <i class="fas fa-circle-dot me-2 text-primary"></i>
-                {{ ingredient.ingredientName }}
-                <span class="badge bg-light text-dark ms-2">{{ ingredient.quantity }}</span>
+            <ul class="list-unstyled ingredient-list">
+              <li *ngFor="let ing of recipe.ingredients.slice(0, 3)" class="mb-1">
+                <i class="fas fa-circle text-primary me-1"></i>
+                {{ ing.ingredientName }}
+                <span class="badge bg-secondary">{{ ing.quantity }}</span>
               </li>
               <li *ngIf="recipe.ingredients.length > 3" class="text-muted">
-                <small>+ {{ recipe.ingredients.length - 3 }} {{ 'RECIPES.LIST.DETAILS.MORE_INGREDIENTS' | translate }}</small>
+                <small>+{{ recipe.ingredients.length - 3 }} {{ 'RECIPES.LIST.DETAILS.MORE_INGREDIENTS' | translate }}</small>
               </li>
             </ul>
           </div>
         </div>
-
-        <div class="card-footer bg-white border-top-0">
+        <!-- Card Footer: Actions -->
+        <div class="card-footer custom-card-footer">
           <div class="d-flex justify-content-between align-items-center">
             <div>
-              <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['edit', recipe.id]">
-                <i class="fas fa-edit me-1"></i> {{ 'RECIPES.LIST.ACTIONS.EDIT' | translate }}
+              <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/recipes/edit', recipe.id]">
+                <i class="fas fa-edit"></i>
               </button>
-              <button class="btn btn-sm btn-outline-danger me-2" (click)="setSelectedRecipe(recipe)" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                <i class="fas fa-trash me-1"></i> {{ 'RECIPES.LIST.ACTIONS.DELETE' | translate }}
+              <button class="btn btn-sm btn-outline-danger" (click)="setSelectedRecipe(recipe)" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
+                <i class="fas fa-trash"></i>
               </button>
             </div>
             <button class="btn btn-sm btn-outline-success" (click)="downloadRecipePDF(recipe)">
-              <i class="fas fa-file-pdf me-1"></i> {{ 'RECIPES.LIST.ACTIONS.DOWNLOAD_PDF' | translate }}
+              <i class="fas fa-file-pdf"></i>
             </button>
           </div>
         </div>
@@ -109,12 +91,12 @@
   </div>
 
   <!-- No Recipes Message -->
-  <div *ngIf="recipes.length === 0" class="text-center py-5">
+  <div *ngIf="filteredRecipes.length === 0" class="text-center py-5">
     <i class="fas fa-book fa-3x text-muted mb-3"></i>
     <h4>{{ 'RECIPES.LIST.NO_RECIPES.TITLE' | translate }}</h4>
     <p class="text-muted">{{ 'RECIPES.LIST.NO_RECIPES.MESSAGE' | translate }}</p>
-    <button class="btn btn-primary" routerLink="create">
-      <i class="fas fa-plus me-2"></i> {{ 'RECIPES.LIST.NO_RECIPES.ADD_RECIPE' | translate }}
+    <button class="btn btn-primary" routerLink="/recipes/create">
+      <i class="fas fa-plus me-2"></i>{{ 'RECIPES.LIST.NO_RECIPES.ADD_RECIPE' | translate }}
     </button>
   </div>
 
@@ -129,18 +111,18 @@
         <div class="modal-body py-4">
           <div class="text-center">
             <i class="fas fa-exclamation-triangle text-warning display-4 mb-3"></i>
-            <p class="mb-1">{{ 'RECIPES.LIST.DELETE_CONFIRM.MESSAGE' | translate }} <strong>{{ selectedRecipe?.name }}</strong>?</p>
+            <p class="mb-1">
+              {{ 'RECIPES.LIST.DELETE_CONFIRM.MESSAGE' | translate }} <strong>{{ selectedRecipe?.recipeName }}</strong>?
+            </p>
             <p class="text-muted small">{{ 'RECIPES.LIST.DELETE_CONFIRM.WARNING' | translate }}</p>
           </div>
         </div>
         <div class="modal-footer border-top-0">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-            <i class="fas fa-times me-2"></i>
-            {{ 'RECIPES.LIST.DELETE_CONFIRM.CANCEL' | translate }}
+            <i class="fas fa-times me-2"></i>{{ 'RECIPES.LIST.DELETE_CONFIRM.CANCEL' | translate }}
           </button>
           <button type="button" class="btn btn-danger" (click)="deleteRecipe()">
-            <i class="fas fa-trash me-2"></i>
-            {{ 'RECIPES.LIST.DELETE_CONFIRM.CONFIRM' | translate }}
+            <i class="fas fa-trash me-2"></i>{{ 'RECIPES.LIST.DELETE_CONFIRM.CONFIRM' | translate }}
           </button>
         </div>
       </div>

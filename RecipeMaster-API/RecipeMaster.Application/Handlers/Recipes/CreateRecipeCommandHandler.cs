@@ -23,6 +23,7 @@ public class CreateRecipeCommandHandler(
 
             var recipe = new Recipe(
                 ingredients: new List<RecipeIngredient>().AsReadOnly(),
+                recipeName: request.RecipeName,
                 quantity: request.Quantity,
                 unitCost: request.UnitCost,
                 quantityPerProduction: request.QuantityPerProduction,

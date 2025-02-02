@@ -13,6 +13,15 @@ export interface TokenResponse {
 }
 
 export interface User {
+    id: string;
     email: string;
     userName: string;
+    isActive: boolean;
+}
+
+export interface UpdateUserRequest {
+    id: string;
+    email: string;
+    userName: string;
+    isActive: boolean;
 }

@@ -123,9 +123,9 @@ public class RecipeRepository(RecipeMasterDbContext context, ILogger<RecipeRepos
         _logger.LogInformation("Attempting to calculate average recipe cost.");
         try
         {
-            var averageCost = await _context.Recipes.AverageAsync(r => r.ProductionCost);
+            var averageCost = await _context.Recipes.AverageAsync(r => (double)r.ProductionCost);
             _logger.LogInformation("Successfully calculated average recipe cost: {AverageCost}", averageCost);
-            return Math.Round(averageCost, 2);
+            return Math.Round((decimal)averageCost, 2);
         }
         catch (Exception ex)
         {
@@ -139,9 +139,9 @@ public class RecipeRepository(RecipeMasterDbContext context, ILogger<RecipeRepos
         _logger.LogInformation("Attempting to calculate total recipe cost.");
         try
         {
-            var totalCost = await _context.Recipes.SumAsync(r => r.ProductionCost);
+            var totalCost = await _context.Recipes.SumAsync(r => (double)r.ProductionCost);
             _logger.LogInformation("Successfully calculated total recipe cost: {TotalCost}", totalCost);
-            return Math.Round(totalCost, 2);
+            return Math.Round((decimal)totalCost, 2);
         }
         catch (Exception ex)
         {
@@ -149,6 +149,7 @@ public class RecipeRepository(RecipeMasterDbContext context, ILogger<RecipeRepos
             throw new RepositoryException("An error occurred while calculating the total recipe cost.", ex);
         }
     }
+
 
     public async Task<List<(string Name, int RecipeCount)>> GetMostUsedIngredientsAsync()
     {

@@ -23,10 +23,13 @@ namespace RecipeMaster.Infra.Persistence
         private static void SeedRoles(RoleManager<ApplicationRole> roleManager)
         {
             var roles = new[] { "Admin", "User" };
+
             foreach (var role in roles)
             {
                 if (!roleManager.RoleExistsAsync(role).Result)
+                {
                     roleManager.CreateAsync(new ApplicationRole { Name = role }).Wait();
+                }
             }
         }
 
@@ -49,15 +52,20 @@ namespace RecipeMaster.Infra.Persistence
                         Email = userData.Email,
                         EmailConfirmed = true
                     };
+
                     var result = userManager.CreateAsync(user, userData.Password).Result;
+
                     if (result.Succeeded)
+                    {
                         userManager.AddToRoleAsync(user, userData.Role).Wait();
+                    }
                 }
             }
         }
 
         private static void SeedIngredientsAndRecipes(RecipeMasterDbContext context)
         {
+            // Seed Ingredients
             var ingredients = new[]
             {
                 new Ingredient("Salt", "Fine table salt.", MeasurementUnit.Gram, new IngredientCost(0.05m),
@@ -125,23 +133,26 @@ namespace RecipeMaster.Infra.Persistence
             foreach (var ingredient in ingredients)
             {
                 if (!context.Ingredients.Any(i => i.Name == ingredient.Name))
+                {
                     context.Ingredients.Add(ingredient);
+                }
             }
 
             context.SaveChanges();
 
+            // Updated recipe dictionary: use the dictionary key as the actual recipe name
             var recipes = new Dictionary<string, Recipe>
             {
-                { "Vanilla Cake", new Recipe(new List<RecipeIngredient>().AsReadOnly(), 8, 1.88m, 8, 15.00m) },
-                { "Chocolate Chip Cookies", new Recipe(new List<RecipeIngredient>().AsReadOnly(), 12, 0.83m, 12, 10.00m) },
-                { "Spaghetti Bolognese", new Recipe(new List<RecipeIngredient>().AsReadOnly(), 4, 5.00m, 4, 20.00m) },
-                { "Tomato Basil Soup", new Recipe(new List<RecipeIngredient>().AsReadOnly(), 6, 2.00m, 6, 12.00m) },
-                { "Garlic Bread", new Recipe(new List<RecipeIngredient>().AsReadOnly(), 6, 1.00m, 6, 6.00m) },
-                { "Caesar Salad", new Recipe(new List<RecipeIngredient>().AsReadOnly(), 4, 2.00m, 4, 8.00m) },
-                { "Margherita Pizza", new Recipe(new List<RecipeIngredient>().AsReadOnly(), 8, 2.25m, 8, 18.00m) },
-                { "Pancakes", new Recipe(new List<RecipeIngredient>().AsReadOnly(), 4, 1.25m, 4, 5.00m) },
-                { "Lasagna", new Recipe(new List<RecipeIngredient>().AsReadOnly(), 8, 3.13m, 8, 25.00m) },
-                { "Brownies", new Recipe(new List<RecipeIngredient>().AsReadOnly(), 12, 1.00m, 12, 12.00m) }
+                { "Vanilla Cake", new Recipe(new List<RecipeIngredient>().AsReadOnly(), "Vanilla Cake", 8, 1.88m, 8, 15.00m) },
+                { "Chocolate Chip Cookies", new Recipe(new List<RecipeIngredient>().AsReadOnly(), "Chocolate Chip Cookies", 12, 0.83m, 12, 10.00m) },
+                { "Spaghetti Bolognese", new Recipe(new List<RecipeIngredient>().AsReadOnly(), "Spaghetti Bolognese", 4, 5.00m, 4, 20.00m) },
+                { "Tomato Basil Soup", new Recipe(new List<RecipeIngredient>().AsReadOnly(), "Tomato Basil Soup", 6, 2.00m, 6, 12.00m) },
+                { "Garlic Bread", new Recipe(new List<RecipeIngredient>().AsReadOnly(), "Garlic Bread", 6, 1.00m, 6, 6.00m) },
+                { "Caesar Salad", new Recipe(new List<RecipeIngredient>().AsReadOnly(), "Caesar Salad", 4, 2.00m, 4, 8.00m) },
+                { "Margherita Pizza", new Recipe(new List<RecipeIngredient>().AsReadOnly(), "Margherita Pizza", 8, 2.25m, 8, 18.00m) },
+                { "Pancakes", new Recipe(new List<RecipeIngredient>().AsReadOnly(), "Pancakes", 4, 1.25m, 4, 5.00m) },
+                { "Lasagna", new Recipe(new List<RecipeIngredient>().AsReadOnly(), "Lasagna", 8, 3.13m, 8, 25.00m) },
+                { "Brownies", new Recipe(new List<RecipeIngredient>().AsReadOnly(), "Brownies", 12, 1.00m, 12, 12.00m) }
             };
 
             foreach (var recipe in recipes.Values)
@@ -149,6 +160,7 @@ namespace RecipeMaster.Infra.Persistence
                 context.Recipes.Add(recipe);
             }
             context.SaveChanges();
+
             var ingredientDict = context.Ingredients.ToDictionary(i => i.Name, i => i.Id);
             var recipeIngredients = new[]
             {

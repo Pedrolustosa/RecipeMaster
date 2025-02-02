@@ -21,7 +21,6 @@ import { forkJoin } from 'rxjs';
 })
 export class DashboardComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
-
   totalRecipes: number = 0;
   totalIngredients: number = 0;
   totalRecipeCost: number = 0;
@@ -29,7 +28,6 @@ export class DashboardComponent implements OnInit {
   topExpensiveIngredients: IngredientCostDTO[] = [];
   mostUsedIngredients: IngredientUsageDTO[] = [];
 
-  // Cost Chart Configuration
   costChartData: ChartData<'bar'> = {
     labels: [],
     datasets: [{
@@ -62,7 +60,6 @@ export class DashboardComponent implements OnInit {
     }
   };
 
-  // Usage Chart Configuration
   usageChartData: ChartData<'bar'> = {
     labels: [],
     datasets: [{
@@ -160,7 +157,6 @@ export class DashboardComponent implements OnInit {
   }
 
   private updateCharts(): void {
-    // Atualizar dados do gráfico de custos
     this.costChartData = {
       ...this.costChartData,
       labels: this.topExpensiveIngredients.map(ing => ing.name),
@@ -170,7 +166,6 @@ export class DashboardComponent implements OnInit {
       }]
     };
 
-    // Atualizar dados do gráfico de uso
     this.usageChartData = {
       ...this.usageChartData,
       labels: this.mostUsedIngredients.map(ing => ing.name),
