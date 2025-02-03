@@ -28,8 +28,15 @@ public class RecipeMappingProfile : Profile
                 }).ToList()));
 
         CreateMap<UpdateRecipeCommand, Recipe>()
-            .ForMember(dest => dest.Ingredients, opt => opt.MapFrom(src =>
-                src.Ingredients.Select(i => new RecipeIngredient(src.Id, i.IngredientId, i.Quantity)).ToList()));
+            .ForMember(dest => dest.Ingredients, opt => opt.Ignore())
+            .AfterMap((src, dest) =>
+            {
+                dest.Ingredients.Clear();
+                foreach (var ingredientDto in src.Ingredients)
+                {
+                    dest.Ingredients.Add(new RecipeIngredient(src.Id, ingredientDto.IngredientId, ingredientDto.Quantity));
+                }
+            });
 
         CreateMap<RecipeIngredient, RecipeIngredientDTO>()
             .ReverseMap();

@@ -104,6 +104,7 @@ public class AuthService(UserManager<ApplicationUser> userManager,
 
         user.Email = model.Email;
         user.UserName = model.UserName;
+        user.IsActive = model.IsActive;
 
         var result = await _userManager.UpdateAsync(user);
         if (!result.Succeeded)

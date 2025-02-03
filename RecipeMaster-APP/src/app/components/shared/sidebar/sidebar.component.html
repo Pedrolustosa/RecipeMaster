@@ -10,18 +10,18 @@
     </button>
   </div>
 
-  <div class="user-profile">
-    <div class="avatar">
-      {{ getInitials(currentUser?.email) }}
-    </div>
-    <div class="user-info" *ngIf="isExpanded">
-      <span class="user-name">{{ currentUser?.email }}</span>
-    </div>
-  </div>
-
   <div class="nav-section">
     <div class="section-header" *ngIf="isExpanded">{{ 'SIDEBAR.MENU' | translate }}</div>
     <ul class="nav-links">
+      <li [routerLinkActive]="'active'" [routerLink]="['/profile']" [title]="!isExpanded ? ('SIDEBAR.VIEW_PROFILE' | translate) : ''">
+        <div class="nav-item">
+          <i class="fas fa-user"></i>
+          <div class="nav-content" *ngIf="isExpanded">
+            <span class="nav-label">{{ currentUser?.userName || currentUser?.email }}</span>
+            <span class="nav-description">{{ 'SIDEBAR.VIEW_PROFILE' | translate }}</span>
+          </div>
+        </div>
+      </li>
       <li *ngFor="let item of navItems" [class.active]="isCurrentRoute(item.route)" [routerLinkActive]="'active'"
         [routerLink]="[item.route]" [title]="!isExpanded ? (item.translationKey | translate) : ''">
         <div class="nav-item">
@@ -37,12 +37,9 @@
 
   <div class="sidebar-footer">
     <!-- Language Selector -->
-    <div class="language-selector mb-2">
-      <button class="btn btn-outline-secondary w-100" (click)="toggleLanguage()">
-        <i class="fas fa-language"></i>
-        <span *ngIf="isExpanded" class="ms-2">
-          {{ (translate.currentLang === 'pt' ? 'English' : 'Português') }}
-        </span>
+    <div class="language-switcher">
+      <button (click)="toggleLanguage()" class="btn btn-sm me-2" [class.active]="translate.currentLang === 'pt'">
+        <span class="flag-icon" [ngClass]="{'flag-icon-br': translate.currentLang === 'pt', 'flag-icon-us': translate.currentLang === 'en'}"></span>
       </button>
     </div>
     <a href="https://www.instagram.com/vivaconfeitariaa?igsh=NXNvbzJlbzljMzlj" target="_blank" class="social-link"

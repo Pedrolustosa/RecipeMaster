@@ -60,15 +60,6 @@ export class SidebarComponent implements OnInit {
     this.toggleSidebar.emit(this.isExpanded);
   }
 
-  getInitials(email: string | undefined): string {
-    if (!email) return '';
-    return email
-      .split('@')[0]
-      .split('.')
-      .map(part => part[0]?.toUpperCase() || '')
-      .join('');
-  }
-
   isCurrentRoute(route: string): boolean {
     return this.router.url.startsWith(route);
   }
@@ -78,10 +69,14 @@ export class SidebarComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  // Método para alternar entre português e inglês
   toggleLanguage(): void {
     const currentLang = this.translate.currentLang;
     const newLang = currentLang === 'pt' ? 'en' : 'pt';
     this.translate.use(newLang);
+  }
+
+  getInitials(text?: string): string {
+    if (!text) return '';
+    return text.charAt(0).toUpperCase();
   }
 }
