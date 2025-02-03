@@ -1,0 +1,50 @@
+.avatar-circle {
+  width: 100px;
+  height: 100px;
+  background-color: #007bff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: white;
+  margin: 0 auto;
+}
+
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+}
+
+.form-control:read-only {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+/* Status Toggle */
+.form-check.form-switch {
+  padding-left: 2.5em;
+}
+
+.form-check-input {
+  cursor: pointer;
+  width: 3em;
+}
+
+.form-check-input:checked {
+  background-color: #198754;
+  border-color: #198754;
+}
+
+.form-check-input:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.form-check-label {
+  cursor: pointer;
+  padding-left: 0.5em;
+}

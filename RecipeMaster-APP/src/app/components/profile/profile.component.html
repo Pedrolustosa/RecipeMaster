@@ -1,0 +1,55 @@
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h2>{{ 'PROFILE.TITLE' | translate }}</h2>
+          <button class="btn btn-outline-primary" (click)="toggleEdit()" [disabled]="isSaving">
+            <i class="fas" [class.fa-edit]="!isEditing" [class.fa-times]="isEditing"></i>
+            {{ (isEditing ? 'PROFILE.CANCEL' : 'PROFILE.EDIT') | translate }}
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="profile-avatar text-center mb-4">
+            <div class="avatar-circle">
+              {{ getInitials() }}
+            </div>
+          </div>
+
+          <form #profileForm="ngForm" (ngSubmit)="saveProfile()">
+            <div class="mb-3">
+              <label class="form-label">{{ 'PROFILE.USERNAME' | translate }}</label>
+              <input type="text" class="form-control" [(ngModel)]="userForm.userName" name="username" 
+                     [readonly]="!isEditing" required minlength="3">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">{{ 'PROFILE.EMAIL' | translate }}</label>
+              <input type="email" class="form-control" [(ngModel)]="userForm.email" name="email" 
+                     [readonly]="!isEditing" required email>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">{{ 'PROFILE.STATUS' | translate }}</label>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch" 
+                       [(ngModel)]="userForm.isActive" name="isActive" 
+                       [disabled]="!isEditing">
+                <label class="form-check-label">
+                  {{ (userForm.isActive ? 'PROFILE.ACTIVE' : 'PROFILE.INACTIVE') | translate }}
+                </label>
+              </div>
+            </div>
+
+            <div class="text-center mt-4" *ngIf="isEditing">
+              <button type="submit" class="btn btn-primary" [disabled]="!profileForm.form.valid || isSaving">
+                <i class="fas" [class.fa-save]="!isSaving" [class.fa-spinner]="isSaving" [class.fa-spin]="isSaving"></i>
+                {{ 'PROFILE.SAVE' | translate }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
