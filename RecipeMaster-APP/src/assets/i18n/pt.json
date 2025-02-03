@@ -14,6 +14,7 @@
         "COLLAPSE_MENU": "Recolher menu",
         "EXPAND_MENU": "Expandir menu",
         "MENU": "Menu",
+        "VIEW_PROFILE": "Ver perfil",
         "NAV": {
             "DASHBOARD": "Painel",
             "DASHBOARD_DESC": "Visão geral do sistema",
@@ -24,6 +25,29 @@
         },
         "INSTAGRAM": "Siga-nos no Instagram",
         "LOGOUT": "Sair"
+    },
+    "PROFILE": {
+        "TITLE": "Perfil",
+        "EDIT": "Editar",
+        "USER": "Usuário",
+        "EMAIL": "E-mail",
+        "PASSWORD": "Senha",
+        "CONFIRM_PASSWORD": "Confirmar senha",
+        "SAVE": "Salvar",
+        "CANCEL": "Cancelar",
+        "STATUS": "Status da Conta",
+        "ACTIVE": "Ativa",
+        "INACTIVE": "Inativa",
+        "TOGGLE_STATUS": "Alterar Status",
+        "LOAD_DATA": "Carregando dados...",
+        "SUCCESS": {
+            "UPDATE": "Perfil atualizado com sucesso",
+            "DELETE": "Perfil excluído com sucesso"
+        },
+        "ERROR": {
+            "UPDATE": "Falha ao atualizar o perfil",
+            "DELETE": "Falha ao excluir o perfil"
+        }
     },
     "DASHBOARD": {
         "TITLE": "Painel",
@@ -107,7 +131,7 @@
                         "HELP": "Forneça uma descrição detalhada do ingrediente, incluindo características como marca, tipo ou qualidade."
                     },
                     "UNIT": {
-                        "HELP": "Escolha a unidade apropriada (por exemplo, Grama, Quilograma, Litro, Mililitro)."
+                        "HELP": "Escolha a unidade apropriada (por exemplo, Grama, Quilograma, Litro)."
                     },
                     "COST": {
                         "HELP": "Insira o custo por unidade; este valor será usado para calcular os custos das receitas."
@@ -249,32 +273,26 @@
             "TITLE": "Receitas",
             "SUBTITLE": "Gerencie suas receitas",
             "ADD_RECIPE": "Adicionar Receita",
-            "SEARCH": "Pesquisar receitas...",
+            "SEARCH": "Buscar receitas...",
             "DETAILS": {
-                "RECIPE_NAME": "Nome da Receita",
+                "PRODUCTION_DETAILS": "Detalhes de Produção",
                 "QUANTITY": "Quantidade",
                 "UNIT_COST": "Custo Unitário",
                 "QUANTITY_PER_PRODUCTION": "Quantidade por Produção",
                 "PRODUCTION_COST": "Custo de Produção",
                 "INGREDIENTS": "Ingredientes",
-                "MORE_INGREDIENTS": "mais ingredientes"
-            },
-            "MESSAGES": {
-                "LOAD_ERROR": "Erro ao carregar as receitas",
-                "DELETE_SUCCESS": "Receita excluída com sucesso",
-                "DELETE_ERROR": "Erro ao excluir a receita"
-            },
-            "NO_RECIPES": {
-                "TITLE": "Nenhuma Receita Encontrada",
-                "MESSAGE": "Você ainda não possui nenhuma receita cadastrada.",
-                "ADD_RECIPE": "Adicionar Nova Receita"
+                "INSTRUCTIONS": "Instruções",
+                "MORE_INGREDIENTS": "Mais ingredientes..."
             },
             "DELETE_CONFIRM": {
-                "TITLE": "Confirme a Exclusão",
-                "MESSAGE": "Tem certeza de que deseja excluir a receita",
-                "WARNING": "Esta ação não poderá ser desfeita",
-                "CANCEL": "Cancelar",
-                "CONFIRM": "Sim, Excluir"
+                "TITLE": "Excluir Receita",
+                "MESSAGE": "Tem certeza que deseja excluir esta receita?"
+            },
+            "MESSAGES": {
+                "LOAD_ERROR": "Falha ao carregar receitas",
+                "DELETE_SUCCESS": "Receita excluída com sucesso",
+                "DELETE_ERROR": "Falha ao excluir receita",
+                "PDF_SUCCESS": "PDF gerado com sucesso"
             }
         },
         "CREATE": {

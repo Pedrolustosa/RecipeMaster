@@ -100,10 +100,10 @@ export class AuthService {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
       return {
-        id: payload.sub, // user identifier
+        id: payload.nameid || payload.sub,
         email: payload.email,
-        userName: payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
-        isActive: payload.isActive ? payload.isActive === "true" || payload.isActive === true : true
+        userName: payload.unique_name,
+        isActive: payload.isActive
       };
     } catch (error) {
       console.error('Error parsing user from token:', error);
@@ -123,11 +123,26 @@ export class AuthService {
     return this.http.get<User>(`${this.API_URL}/user/username/${username}`);
   }
 
-  updateUser(model: UpdateUserRequest): Observable<any> {
-    return this.http.put(`${this.API_URL}/user/${model.id}`, model);
+  updateUser(id: string, userData: UpdateUserRequest): Observable<void> {
+    return this.http.put<void>(`${this.API_URL}/user/${id}`, userData).pipe(
+      tap(() => {
+        // Atualiza o usuário atual se for o mesmo que está sendo editado
+        if (this.currentUserValue?.id === id) {
+          const updatedUser = { ...this.currentUserValue, ...userData };
+          this.currentUserSubject.next(updatedUser);
+        }
+      })
+    );
   }
 
-  deactivateUser(id: string): Observable<any> {
-    return this.http.delete(`${this.API_URL}/user/${id}`);
+  deactivateUser(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.API_URL}/user/${id}`).pipe(
+      tap(() => {
+        // Se o usuário atual for desativado, faz logout
+        if (this.currentUserValue?.id === id) {
+          this.logout();
+        }
+      })
+    );
   }
 }

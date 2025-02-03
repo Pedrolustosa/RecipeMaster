@@ -13,6 +13,7 @@
   "SIDEBAR": {
     "COLLAPSE_MENU": "Collapse menu",
     "EXPAND_MENU": "Expand menu",
+    "VIEW_PROFILE": "View Profile",
     "MENU": "Menu",
     "NAV": {
       "DASHBOARD": "Dashboard",
@@ -24,6 +25,29 @@
     },
     "INSTAGRAM": "Follow us on Instagram",
     "LOGOUT": "Logout"
+  },
+  "PROFILE": {
+    "TITLE": "Profile",
+    "EDIT": "Edit",
+    "USER": "User",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Password confirm",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "STATUS": "Account Status",
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive",
+    "TOGGLE_STATUS": "Toggle Status",
+    "LOAD_DATA": "Loading data...",
+    "SUCCESS": {
+      "UPDATE": "Profile updated successfully",
+      "DELETE": "Profile deleted successfully"
+    },
+    "ERROR": {
+      "UPDATE": "Failed to update profile",
+      "DELETE": "Failed to delete profile"
+    }
   },
   "DASHBOARD": {
     "TITLE": "Dashboard",
@@ -107,7 +131,7 @@
             "HELP": "Provide a detailed description of the ingredient, including characteristics such as brand, type, or quality."
           },
           "UNIT": {
-            "HELP": "Choose the appropriate unit (e.g., Gram, Kilogram, Liter, Milliliter)."
+            "HELP": "Choose the appropriate unit (e.g., Gram, Kilogram, Liter)."
           },
           "COST": {
             "HELP": "Enter the cost per unit; this value will be used to calculate recipe costs."
@@ -251,30 +275,24 @@
       "ADD_RECIPE": "Add Recipe",
       "SEARCH": "Search recipes...",
       "DETAILS": {
-        "RECIPE_NAME": "Recipe Name",
+        "PRODUCTION_DETAILS": "Production Details",
         "QUANTITY": "Quantity",
         "UNIT_COST": "Unit Cost",
         "QUANTITY_PER_PRODUCTION": "Quantity per Production",
         "PRODUCTION_COST": "Production Cost",
         "INGREDIENTS": "Ingredients",
-        "MORE_INGREDIENTS": "more ingredients"
-      },
-      "MESSAGES": {
-        "LOAD_ERROR": "Error loading recipes",
-        "DELETE_SUCCESS": "Recipe deleted successfully",
-        "DELETE_ERROR": "Error deleting recipe"
-      },
-      "NO_RECIPES": {
-        "TITLE": "No Recipes Found",
-        "MESSAGE": "You don't have any recipes registered yet.",
-        "ADD_RECIPE": "Add New Recipe"
+        "INSTRUCTIONS": "Instructions",
+        "MORE_INGREDIENTS": "More ingredients..."
       },
       "DELETE_CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure you want to delete the recipe",
-        "WARNING": "This action cannot be undone",
-        "CANCEL": "Cancel",
-        "CONFIRM": "Yes, Delete"
+        "TITLE": "Delete Recipe",
+        "MESSAGE": "Are you sure you want to delete this recipe?"
+      },
+      "MESSAGES": {
+        "LOAD_ERROR": "Failed to load recipes",
+        "DELETE_SUCCESS": "Recipe deleted successfully",
+        "DELETE_ERROR": "Failed to delete recipe",
+        "PDF_SUCCESS": "PDF generated successfully"
       }
     },
     "CREATE": {

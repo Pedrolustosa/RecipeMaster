@@ -74,16 +74,18 @@
         <div class="card-footer custom-card-footer">
           <div class="d-flex justify-content-between align-items-center">
             <div>
-              <button class="btn btn-sm btn-outline-primary me-2" [routerLink]="['/recipes/edit', recipe.id]">
-                <i class="fas fa-edit"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger" (click)="setSelectedRecipe(recipe)" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal">
-                <i class="fas fa-trash"></i>
-              </button>
+              <div class="d-flex gap-2">
+                <button class="btn btn-sm btn-outline-primary" [routerLink]="['/recipes/edit', recipe.id]">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" (click)="confirmDelete(recipe)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" (click)="downloadRecipePDF(recipe)">
+                  <i class="fas fa-file-pdf"></i>
+                </button>
+              </div>
             </div>
-            <button class="btn btn-sm btn-outline-success" (click)="downloadRecipePDF(recipe)">
-              <i class="fas fa-file-pdf"></i>
-            </button>
           </div>
         </div>
       </div>
