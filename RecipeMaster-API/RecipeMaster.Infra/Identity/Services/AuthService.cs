@@ -1,6 +1,6 @@
 ﻿using System.Text;
-using System.Security.Claims;
 using RecipeMaster.Core.JWT;
+using System.Security.Claims;
 using RecipeMaster.Core.Entities;
 using RecipeMaster.Core.Exceptions;
 using Microsoft.AspNetCore.Identity;

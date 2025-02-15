@@ -1,11 +1,11 @@
 ﻿using Serilog;
 using RecipeMaster.Core.JWT;
 using RecipeMaster.Infra.Identity;
-using RecipeMaster.Core.Interfaces;
 using Microsoft.Extensions.Options;
 using RecipeMaster.Infra.Repositories;
 using RecipeMaster.Application.Services;
 using Microsoft.Extensions.Configuration;
+using RecipeMaster.Application.Interfaces;
 using RecipeMaster.Infra.Identity.Services;
 using Microsoft.Extensions.DependencyInjection;
 using RecipeMaster.Core.Interfaces.Repositories;
@@ -27,6 +27,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IIngredientService, IngredientService>();
         services.AddScoped<IRecipeService, RecipeService>();
+        services.AddScoped<IDashboardService, DashboardService>();
         services.AddScoped<IAuthService, AuthService>();
         return services;
     }

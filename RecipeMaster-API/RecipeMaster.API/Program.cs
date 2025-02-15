@@ -23,11 +23,11 @@ builder.Services.AddAutoMapperSetup();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddJwtSetup(builder.Configuration);
 
-builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+// builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
+//     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
-//    options.UseInMemoryDatabase("RecipeMasterDb"));
+builder.Services.AddDbContext<RecipeMasterDbContext>(options =>
+    options.UseInMemoryDatabase("RecipeMasterDb"));
 
 builder.Services.AddCors(options =>
 {

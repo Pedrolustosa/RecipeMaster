@@ -1,9 +1,9 @@
 ﻿using RecipeMaster.Core.Entities;
 using Microsoft.Extensions.Logging;
+using RecipeMaster.Core.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using RecipeMaster.Infra.Persistence;
 using RecipeMaster.Core.Interfaces.Repositories;
-using RecipeMaster.Core.Exceptions;
 
 namespace RecipeMaster.Infra.Repositories;
 

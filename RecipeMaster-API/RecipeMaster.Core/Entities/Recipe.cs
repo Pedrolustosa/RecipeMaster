@@ -22,7 +22,6 @@ public class Recipe
         decimal productionCost)
     {
         Id = Guid.NewGuid();
-        // Aqui garantimos que a propriedade Ingredients seja inicializada de forma consistente
         Ingredients = new List<RecipeIngredient>(ingredients);
         RecipeName = recipeName;
         Quantity = quantity;

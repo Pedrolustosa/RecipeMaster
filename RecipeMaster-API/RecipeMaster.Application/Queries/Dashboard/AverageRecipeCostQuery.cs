@@ -1,13 +1,7 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RecipeMaster.Application.Queries.Dashboard
+namespace RecipeMaster.Application.Queries.Dashboard;
+
+public class AverageRecipeCostQuery : IRequest<decimal>
 {
-    public class AverageRecipeCostQuery : IRequest<decimal>
-    {
-    }
 }
