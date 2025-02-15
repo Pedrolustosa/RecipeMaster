@@ -8,18 +8,11 @@ using RecipeMaster.Application.Services.Interfaces;
 
 namespace RecipeMaster.Application.Services;
 
-public class RecipeService : IRecipeService
+public class RecipeService(IMediator mediator, IMapper mapper, ILogger<RecipeService> logger) : IRecipeService
 {
-    private readonly IMapper _mapper;
-    private readonly IMediator _mediator;
-    private readonly ILogger<RecipeService> _logger;
-
-    public RecipeService(IMediator mediator, IMapper mapper, ILogger<RecipeService> logger)
-    {
-        _mediator = mediator;
-        _mapper = mapper;
-        _logger = logger;
-    }
+    private readonly IMapper _mapper = mapper;
+    private readonly IMediator _mediator = mediator;
+    private readonly ILogger<RecipeService> _logger = logger;
 
     public async Task<IEnumerable<RecipeDTO>> GetAllAsync()
     {

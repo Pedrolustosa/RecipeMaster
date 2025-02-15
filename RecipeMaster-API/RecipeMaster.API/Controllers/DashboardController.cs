@@ -1,24 +1,23 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using RecipeMaster.Application.Queries.Dashboard;
+﻿using Microsoft.AspNetCore.Mvc;
 using RecipeMaster.Core.Exceptions;
+using Microsoft.AspNetCore.Authorization;
+using RecipeMaster.Application.Interfaces;
 
 namespace RecipeMaster.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
 [Authorize]
-public class DashboardController(IMediator mediator) : ControllerBase
+public class DashboardController(IDashboardService dashboardService) : ControllerBase
 {
-    private readonly IMediator _mediator = mediator;
+    private readonly IDashboardService _dashboardService = dashboardService;
 
     [HttpGet("total-recipes")]
     public async Task<IActionResult> GetTotalRecipes()
     {
         try
         {
-            var result = await _mediator.Send(new TotalRecipesQuery());
+            var result = await _dashboardService.GetTotalRecipesAsync();
             return Ok(result);
         }
         catch (Exception ex)
@@ -32,7 +31,7 @@ public class DashboardController(IMediator mediator) : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(new TotalIngredientsQuery());
+            var result = await _dashboardService.GetTotalIngredientsAsync();
             return Ok(result);
         }
         catch (Exception ex)
@@ -46,7 +45,7 @@ public class DashboardController(IMediator mediator) : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(new AverageRecipeCostQuery());
+            var result = await _dashboardService.GetAverageRecipeCostAsync();
             return Ok(result);
         }
         catch (Exception ex)
@@ -60,7 +59,7 @@ public class DashboardController(IMediator mediator) : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(new TotalRecipeCostQuery());
+            var result = await _dashboardService.GetTotalRecipeCostAsync();
             return Ok(result);
         }
         catch (Exception ex)
@@ -74,7 +73,7 @@ public class DashboardController(IMediator mediator) : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(new MostExpensiveIngredientsQuery());
+            var result = await _dashboardService.GetMostExpensiveIngredientsAsync();
             return Ok(result);
         }
         catch (Exception ex)
@@ -88,7 +87,7 @@ public class DashboardController(IMediator mediator) : ControllerBase
     {
         try
         {
-            var result = await _mediator.Send(new MostUsedIngredientsQuery());
+            var result = await _dashboardService.GetMostUsedIngredientsAsync();
             return Ok(result);
         }
         catch (Exception ex)
