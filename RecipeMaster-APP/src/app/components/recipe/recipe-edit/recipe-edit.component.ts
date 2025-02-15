@@ -42,9 +42,7 @@ export class RecipeEditComponent implements OnInit {
     private toastr: ToastrService,
     private spinner: NgxSpinnerService,
     private translate: TranslateService
-  ) {
-    this.initFieldInstructions();
-  }
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -54,18 +52,6 @@ export class RecipeEditComponent implements OnInit {
         this.loadRecipe();
       });
     });
-  }
-
-  private initFieldInstructions(): void {
-    this.fieldInstructions = {
-      recipeName: 'Enter a unique and descriptive name for your recipe (e.g., "Creamy Chocolate Cake", "Wild Mushroom Risotto")',
-      quantity: 'Enter the total produced quantity (e.g., 100 units)',
-      unitCost: 'Enter the cost per unit (e.g., $5.00)',
-      quantityPerProduction: 'Enter the quantity produced per production cycle (e.g., 20 units)',
-      productionCost: 'Enter the total production cost (e.g., $500.00)',
-      ingredients: 'Select the ingredients required for the recipe',
-      recipeIngredients: 'Specify the quantity (in grams) for each ingredient'
-    };
   }
 
   private initForm(): void {
