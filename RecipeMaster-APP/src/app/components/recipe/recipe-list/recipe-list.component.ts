@@ -117,88 +117,100 @@ export class RecipeListComponent implements OnInit {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.width;
     const pageHeight = doc.internal.pageSize.height;
-    let yPosition = 20;
-    const lineHeight = 7;
     const margin = 20;
-
-    doc.setFillColor(252, 248, 244);
+    const lineHeight = 7;
+    let yPosition = 20;
+  
+    const colors = {
+      background: { r: 252, g: 248, b: 244 },
+      border: { r: 205, g: 164, b: 133 },
+      header: { r: 205, g: 164, b: 133 },
+      boxBackground: { r: 255, g: 253, b: 250 },
+      textPrimary: { r: 139, g: 69, b: 19 },
+      footerText: { r: 128, g: 128, b: 128 },
+    };
+  
+    doc.setFillColor(colors.background.r, colors.background.g, colors.background.b);
     doc.rect(0, 0, pageWidth, pageHeight, 'F');
-
-    doc.setDrawColor(205, 164, 133);
+  
+    doc.setDrawColor(colors.border.r, colors.border.g, colors.border.b);
     doc.setLineWidth(0.5);
     doc.rect(10, 10, pageWidth - 20, pageHeight - 20, 'S');
-
-    doc.setFillColor(205, 164, 133);
+  
+    doc.setFillColor(colors.header.r, colors.header.g, colors.header.b);
     doc.rect(0, 0, pageWidth, 40, 'F');
-    
+  
     doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
     doc.setFontSize(24);
-    doc.setFont('helvetica', 'bold');
     doc.text(recipe.recipeName, pageWidth / 2, 25, { align: 'center' });
-
-    doc.setFontSize(12);
+  
     doc.setFont('helvetica', 'italic');
-    doc.text('RecipeMaster', pageWidth / 2, 35, { align: 'center' });
-
-    yPosition = 60;
-
-    doc.setTextColor(139, 69, 19);
-    doc.setFontSize(16);
-    doc.setFont('helvetica', 'bold');
-    doc.text('* ' + this.translate.instant('RECIPES.LIST.DETAILS.PRODUCTION_DETAILS'), margin, yPosition);
-    yPosition += lineHeight * 2;
-
-    doc.setFillColor(255, 253, 250);
-    doc.setDrawColor(205, 164, 133);
-    doc.roundedRect(margin - 5, yPosition - 5, pageWidth - (2 * margin) + 10, 40, 3, 3, 'FD');
-    
     doc.setFontSize(12);
+    doc.text('RecipeMaster', pageWidth / 2, 35, { align: 'center' });
+  
+    yPosition = 60;
+    doc.setTextColor(colors.textPrimary.r, colors.textPrimary.g, colors.textPrimary.b);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(16);
+    const productionTitle = `* ${this.translate.instant('RECIPES.LIST.DETAILS.PRODUCTION_DETAILS')}`;
+    doc.text(productionTitle, margin, yPosition);
+    yPosition += lineHeight * 2;
+  
+    doc.setFillColor(colors.boxBackground.r, colors.boxBackground.g, colors.boxBackground.b);
+    doc.setDrawColor(colors.border.r, colors.border.g, colors.border.b);
+    const productionBoxHeight = 40;
+    doc.roundedRect(margin - 5, yPosition - 5, pageWidth - (2 * margin) + 10, productionBoxHeight, 3, 3, 'FD');
+  
     doc.setFont('helvetica', 'normal');
+    doc.setFontSize(12);
     const details = [
       `* ${this.translate.instant('RECIPES.LIST.DETAILS.QUANTITY')}: ${recipe.quantity}`,
       `$ ${this.translate.instant('RECIPES.LIST.DETAILS.UNIT_COST')}: ${recipe.unitCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`,
       `* ${this.translate.instant('RECIPES.LIST.DETAILS.QUANTITY_PER_PRODUCTION')}: ${recipe.quantityPerProduction}`,
       `$ ${this.translate.instant('RECIPES.LIST.DETAILS.PRODUCTION_COST')}: ${recipe.productionCost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
     ];
-
+  
     details.forEach(detail => {
       doc.text(detail, margin, yPosition);
       yPosition += lineHeight;
     });
     yPosition += lineHeight * 2;
-
+  
     if (recipe.ingredients && recipe.ingredients.length > 0) {
-      doc.setTextColor(139, 69, 19);
-      doc.setFontSize(16);
+      doc.setTextColor(colors.textPrimary.r, colors.textPrimary.g, colors.textPrimary.b);
       doc.setFont('helvetica', 'bold');
-      doc.text('* ' + this.translate.instant('RECIPES.LIST.DETAILS.INGREDIENTS'), margin, yPosition);
+      doc.setFontSize(16);
+      const ingredientsTitle = `* ${this.translate.instant('RECIPES.LIST.DETAILS.INGREDIENTS')}`;
+      doc.text(ingredientsTitle, margin, yPosition);
       yPosition += lineHeight * 2;
-
+  
       const ingredientBoxHeight = recipe.ingredients.length * lineHeight + 10;
-      doc.setFillColor(255, 253, 250);
+      doc.setFillColor(colors.boxBackground.r, colors.boxBackground.g, colors.boxBackground.b);
       doc.roundedRect(margin - 5, yPosition - 5, pageWidth - (2 * margin) + 10, ingredientBoxHeight, 3, 3, 'FD');
-
-      doc.setTextColor(0);
-      doc.setFontSize(12);
+  
+      doc.setTextColor(0, 0, 0);
       doc.setFont('helvetica', 'normal');
+      doc.setFontSize(12);
       recipe.ingredients.forEach(ingredient => {
         doc.text(`- ${ingredient.ingredientName}: ${ingredient.quantity}`, margin, yPosition);
         yPosition += lineHeight;
       });
     }
-
+  
     doc.setFontSize(8);
-    doc.setTextColor(128, 128, 128);
-    doc.text('Gerado por RecipeMaster', pageWidth / 2, pageHeight - 15, { align: 'center' });
+    doc.setTextColor(colors.footerText.r, colors.footerText.g, colors.footerText.b);
+    const footerText = 'RecipeMaster';
+    doc.text(footerText, pageWidth / 2, pageHeight - 15, { align: 'center' });
     const currentDate = new Date().toLocaleDateString('pt-BR');
     doc.text(currentDate, pageWidth - margin, pageHeight - 15, { align: 'right' });
-
+  
     const fileName = `${recipe.recipeName.replace(/\s+/g, '_')}.pdf`;
     doc.save(fileName);
-    
+  
     this.toastr.success(
       this.translate.instant('RECIPES.LIST.MESSAGES.PDF_SUCCESS'),
       this.translate.instant('COMMON.SUCCESS')
     );
-  }
+  }  
 }
