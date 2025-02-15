@@ -29,7 +29,7 @@
   "PROFILE": {
     "TITLE": "Profile",
     "EDIT": "Edit",
-    "USER": "User",
+    "USERNAME": "Username",
     "EMAIL": "Email",
     "PASSWORD": "Password",
     "CONFIRM_PASSWORD": "Password confirm",
@@ -286,7 +286,10 @@
       },
       "DELETE_CONFIRM": {
         "TITLE": "Delete Recipe",
-        "MESSAGE": "Are you sure you want to delete this recipe?"
+        "MESSAGE": "Are you sure you want to delete this recipe?",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Yes, Delete",
+        "WARNING": "This action is irreversible"
       },
       "MESSAGES": {
         "LOAD_ERROR": "Failed to load recipes",
