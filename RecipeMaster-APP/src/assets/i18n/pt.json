@@ -29,7 +29,7 @@
     "PROFILE": {
         "TITLE": "Perfil",
         "EDIT": "Editar",
-        "USER": "Usuário",
+        "USERNAME": "Usuário",
         "EMAIL": "E-mail",
         "PASSWORD": "Senha",
         "CONFIRM_PASSWORD": "Confirmar senha",
@@ -286,7 +286,10 @@
             },
             "DELETE_CONFIRM": {
                 "TITLE": "Excluir Receita",
-                "MESSAGE": "Tem certeza que deseja excluir esta receita?"
+                "MESSAGE": "Tem certeza que deseja excluir esta receita?",
+                "CANCEL": "Cancelar",
+                "CONFIRM": "Sim, Excluir",
+                "WARNING": "Esta ação é irreversível"
             },
             "MESSAGES": {
                 "LOAD_ERROR": "Falha ao carregar receitas",
