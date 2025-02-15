@@ -9,7 +9,7 @@
 [![SQL Server](https://img.shields.io/badge/SQL%20Server-2022-CC2927?style=flat-square&logo=microsoftsqlserver)](https://www.microsoft.com/sql-server)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
-[![Status](https://img.shields.io/badge/Status-In%20Complete-green?style=flat-square)]()
+[![Status](https://img.shields.io/badge/Status-Complete-green?style=flat-square)]()
 
 </div>
 
