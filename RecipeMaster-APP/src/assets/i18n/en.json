@@ -171,6 +171,15 @@
       },
       "HELP": {
         "CONTACT_SUPPORT": "If you need help, contact our support at support@recipemaster.com"
+      },
+      "FIELD_INSTRUCTIONS": { 
+        "RECIPE_NAME": "Enter a unique and descriptive name for your recipe (e.g., 'Creamy Chocolate Cake', 'Wild Mushroom Risotto')",
+        "QUANTITY": "Enter the total produced quantity (e.g., 100 units)",
+        "UNIT_COST": "Enter the cost per unit (e.g., $5.00)",
+        "QUANTITY_PER_PRODUCTION": "Enter the quantity produced per production cycle (e.g., 20 units)",
+        "PRODUCTION_COST": "Enter the total production cost (e.g., $500.00)",
+        "INGREDIENTS": "Select the ingredients required for the recipe",
+        "RECIPE_INGREDIENTS": "Specify the quantity (in grams) for each ingredient"
       }
     },
     "EDIT": {
@@ -240,10 +249,20 @@
         "UPDATE_COST": "Update the price if there are any changes.",
         "MAINTAIN_STOCK": "Regularly update stock quantities.",
         "CHECK_STORAGE": "Verify storage instructions for perishable items."
+      },
+      "FIELD_INSTRUCTIONS": { 
+        "RECIPE_NAME": "Enter a unique and descriptive name for your recipe (e.g., 'Creamy Chocolate Cake', 'Wild Mushroom Risotto')",
+        "QUANTITY": "Enter the total produced quantity (e.g., 100 units)",
+        "UNIT_COST": "Enter the cost per unit (e.g., $5.00)",
+        "QUANTITY_PER_PRODUCTION": "Enter the quantity produced per production cycle (e.g., 20 units)",
+        "PRODUCTION_COST": "Enter the total production cost (e.g., $500.00)",
+        "INGREDIENTS": "Select the ingredients required for the recipe",
+        "RECIPE_INGREDIENTS": "Specify the quantity (in grams) for each ingredient"
       }
     },
     "LIST": {
       "TITLE": "Ingredients",
+      "NO_INGREDIENTS": "No ingredients found.",
       "ADD_BUTTON": "Add Ingredient",
       "SEARCH_PLACEHOLDER": "Search ingredients...",
       "MESSAGES": {
@@ -274,6 +293,11 @@
       "SUBTITLE": "Manage your recipes",
       "ADD_RECIPE": "Add Recipe",
       "SEARCH": "Search recipes...",
+      "NO_RECIPES": {
+        "TITLE": "No recipes found.",
+        "MESSAGE": "No recipes found.",
+        "ADD_RECIPE": "Add a new recipe"
+      },
       "DETAILS": {
         "PRODUCTION_DETAILS": "Production Details",
         "QUANTITY": "Quantity",
@@ -343,6 +367,15 @@
       },
       "HELP": {
         "CONTACT_SUPPORT": "If you need help, contact our support at support@recipemaster.com"
+      },
+      "FIELD_INSTRUCTIONS": {
+        "RECIPE_NAME": "Enter a unique and descriptive name for your recipe (e.g., 'Creamy Chocolate Cake', 'Wild Mushroom Risotto')",
+        "QUANTITY": "Enter the total quantity produced (for example, 100 units)",
+        "UNIT_COST": "Enter the unit cost (for example, $5.00)",
+        "QUANTITY_PER_PRODUCTION": "Enter the quantity produced per production cycle (for example, 20 units)",
+        "PRODUCTION_COST": "Enter the total production cost (for example, $500.00)",
+        "INGREDIENTS": "Select the necessary ingredients for the recipe",
+        "RECIPE_INGREDIENTS": "Specify the quantity (in grams) for each ingredient"
       }
     },
     "EDIT": {
@@ -401,6 +434,15 @@
       "HELP": {
         "CONTACT_SUPPORT": "If you need help, contact our support at support@recipemaster.com"
       },
+      "FIELD_INSTRUCTIONS": {
+        "RECIPE_NAME": "Enter a unique and descriptive name for your recipe (e.g., 'Creamy Chocolate Cake', 'Wild Mushroom Risotto')",
+        "QUANTITY": "Enter the total quantity produced (for example, 100 units)",
+        "UNIT_COST": "Enter the unit cost (for example, $5.00)",
+        "QUANTITY_PER_PRODUCTION": "Enter the quantity produced per production cycle (for example, 20 units)",
+        "PRODUCTION_COST": "Enter the total production cost (for example, $500.00)",
+        "INGREDIENTS": "Select the necessary ingredients for the recipe",
+        "RECIPE_INGREDIENTS": "Specify the quantity (in grams) for each ingredient"
+      },
       "TIPS": {
         "TITLE": "Editing Tips",
         "REVIEW_NAME": "Review the recipe name for clarity.",
@@ -411,7 +453,9 @@
       }
     },
     "MESSAGES": {
-      "RECIPE_MUST_HAVE_AT_LEAST_ONE_INGREDIENT": "Recipe must have at least one ingredient"
+      "RECIPE_MUST_HAVE_AT_LEAST_ONE_INGREDIENT": "Recipe must have at least one ingredient",
+      "ERROR": "Error creating recipe. Please try again.",
+      "LOAD_INGREDIENTS_ERROR": "Error loading ingredients. Please try again."
     }
   },
   "AUTH": {

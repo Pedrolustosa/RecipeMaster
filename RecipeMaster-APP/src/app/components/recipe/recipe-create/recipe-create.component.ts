@@ -43,20 +43,7 @@ export class RecipeCreateComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.initFieldInstructions();
     this.loadIngredients();
-  }
-
-  private initFieldInstructions(): void {
-    this.fieldInstructions = {
-      recipeName: 'Enter a unique and descriptive name for your recipe (e.g., "Creamy Chocolate Cake", "Wild Mushroom Risotto")',
-      quantity: 'Enter the total produced quantity (e.g., 100 units)',
-      unitCost: 'Enter the cost per unit (e.g., $5.00)',
-      quantityPerProduction: 'Enter the quantity produced per production cycle (e.g., 20 units)',
-      productionCost: 'Enter the total production cost (e.g., $500.00)',
-      ingredients: 'Select the ingredients required for the recipe',
-      recipeIngredients: 'Specify the quantity (in grams) for each ingredient'
-    };
   }
 
   private initForm(): void {
