@@ -230,7 +230,7 @@
           "ORIGIN_COUNTRY_MINLENGTH": "País de origem deve ter pelo menos 2 caracteres",
           "ORIGIN_COUNTRY_MAXLENGTH": "País de origem não pode exceder 100 caracteres",
           "ORIGIN_COUNTRY_INSTRUCTIONS": "Informe o país de origem.",
-          "IS_PERISHABLE": "Períspico",
+          "IS_PERISHABLE": "Perecível",
           "IS_PERISHABLE_INSTRUCTIONS": "Indique se o ingrediente é período pico.",
           "STORAGE_INSTRUCTIONS": "Instruções de Armazenamento",
           "STORAGE_INSTRUCTIONS_REQUIRED": "Instruções de armazenamento são obrigatórias para itens período pico",
